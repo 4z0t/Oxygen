@@ -1,0 +1,6 @@
+
+
+TriggerManager = ClassSimple
+{
+
+}
