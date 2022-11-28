@@ -149,6 +149,7 @@ end
 ---@field onStartFunc fun():ObjectiveTarget?
 ---@field onProgressFunc fun()
 ---@field next string | string[]
+---@field expansionTimer integer
 
 ---@class ObjectiveBuilder
 ---@field name string
@@ -166,6 +167,7 @@ end
 ---@field _onProgressFunc fun()
 ---@field _onStartFunc fun():ObjectiveTarget?
 ---@field _next string | string[]
+---@field _expansionTimer integer
 ---@overload fun():ObjectiveBuilder
 ObjectiveBuilder = ClassSimple
 {
@@ -344,6 +346,15 @@ ObjectiveBuilder = ClassSimple
         return self
     end,
 
+    ---Sets expansion timer for an objective, works if corresponding option is on
+    ---@param self ObjectiveBuilder
+    ---@param seconds integer
+    ---@return ObjectiveBuilder
+    ExpansionTimer = function (self, seconds)
+        self._expansionTimer = seconds
+        return self
+    end,
+
     ---Sets function which will be called each time objective progresses
     ---@param self ObjectiveBuilder
     ---@param onProgressFunc fun()
@@ -400,7 +411,8 @@ ObjectiveBuilder = ClassSimple
             onStartFunc = self._onStartFunc,
             onSuccessFunc = self._onSuccessFunc,
             onFailFunc = self._onFailFunc,
-            onProgressFunc = self._onProgressFunc
+            onProgressFunc = self._onProgressFunc,
+            expansionTimer = self._expansionTimer
         }
     end
 }

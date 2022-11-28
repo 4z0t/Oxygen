@@ -92,10 +92,11 @@ ObjectiveManager = ClassSimple
                 target
             )
         end
+
+        local nextObj = objTable.next
         do
             local onSuccessFunc = objTable.onSuccessFunc
             local onFailFunc = objTable.onFailFunc
-            local nextObj = objTable.next
             obj:AddResultCallback(
                 function(success)
                     if success then
@@ -111,10 +112,19 @@ ObjectiveManager = ClassSimple
                 end
             )
         end
+
         if objTable.onProgressFunc then
             obj:AddProgressCallback(objTable.onProgressFunc)
         end
+
         self._activeObjectives[objTable.name] = obj
+
+        --Expansion timer
+        if ScenarioInfo.Options.Expansion and objTable.expansionTimer ~= nil and nextObj then
+            ScenarioFramework.CreateTimerTrigger(function()
+                self:Start(nextObj)
+            end, objTable.expansionTimer)
+        end
     end,
 
     ---Checks if all assigned objectives of given type are complete
