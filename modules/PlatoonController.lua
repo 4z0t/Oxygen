@@ -49,6 +49,22 @@ PlatoonController = ClassSimple
     end,
 
 
+    ---Creates platoon froom given units of aiBrain
+    ---@param self PlatoonController
+    ---@param units Unit[]
+    ---@param aiBrain AIBrain
+    ---@param squad PlatoonSquads?
+    ---@param formation FormationType?
+    ---@return PlatoonController
+    FromUnits = function(self, units, aiBrain, squad, formation)
+        self.platoon = aiBrain:MakePlatoon("", "")
+        aiBrain:AssignUnitsToPlatoon(self.platoon, units, squad or "None", formation or "NoFormation")
+        return self
+    end,
+
+
+
+
 
 
 
