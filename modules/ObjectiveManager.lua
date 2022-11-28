@@ -102,7 +102,7 @@ ObjectiveManager = ClassSimple
                     if success then
                         ForkThread(onSuccessFunc)
                         if nextObj then
-                            ForkThread(self.Start, self, nextObj)
+                            self:Start(nextObj)
                         end
                     else
                         if onFailFunc then
