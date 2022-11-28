@@ -54,9 +54,7 @@ PlatoonController = ClassSimple
     ---@param formation FormationType
     ---@return PlatoonController
     FromUnitGroup = function(self, armyName, unitGroup, formation)
-        formation = formation or 'NoFormation'
-        self:Platoon(ScenarioUtils.CreateArmyGroupAsPlatoon(armyName, unitGroup, formation))
-        return self
+        return self:Platoon(ScenarioUtils.CreateArmyGroupAsPlatoon(armyName, unitGroup, formation or 'NoFormation'))
     end,
 
 
