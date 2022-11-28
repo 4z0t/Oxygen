@@ -45,6 +45,14 @@ UnitsController = ClassSimple
         return self
     end,
 
+    ---Assignes units to units controller from given platoon
+    ---@param self UnitsController
+    ---@param platoon Platoon
+    ---@return UnitsController
+    FromPlatoon =function (self, platoon)
+        return self:Units(platoon:GetPlatoonUnits())
+    end,
+
     ---Orders units to move along the chain
     ---@param self UnitsController
     ---@param chain MarkerChain
@@ -144,7 +152,7 @@ UnitsController = ClassSimple
     ---@param self UnitsController
     ---@param marker Marker
     ---@return UnitsController
-    AttackMoveToPosition = function(self, marker)
+    AttackMoveToMarker = function(self, marker)
         IssueAggressiveMove(self.units, ScenarioUtils.MarkerToPosition(marker))
         return self
     end,
