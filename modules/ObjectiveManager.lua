@@ -150,7 +150,7 @@ ObjectiveManager = ClassSimple
     ---@param units Unit[]?
     EndGame = function(self, success, callback, safety, units)
 
-        if safety then
+        if safety and units then
             ScenarioFramework.EndOperationSafety(units)
         end
         if callback then
