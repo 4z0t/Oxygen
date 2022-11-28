@@ -157,6 +157,15 @@ UnitsController = ClassSimple
         return self
     end,
 
+    ---Orders units to reclaim given unit
+    ---@param self UnitsController
+    ---@param unit Unit
+    ---@return UnitsController
+    ReclaimUnit = function(self, unit)
+        IssueReclaim(self.units, unit)
+        return self
+    end,
+
 
 
 

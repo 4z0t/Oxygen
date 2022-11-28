@@ -28,6 +28,13 @@ PlatoonController = ClassSimple
         return self
     end,
 
+    ---Returns the platoon
+    ---@param self PlatoonController
+    ---@return Platoon
+    GetPlatoon = function(self)
+        return self.platoon
+    end,
+
 
     ---Creates platoon from unit group defined in map and uses it
     ---@param self PlatoonController
@@ -41,7 +48,7 @@ PlatoonController = ClassSimple
         return self
     end,
 
-    
+
 
 
 
