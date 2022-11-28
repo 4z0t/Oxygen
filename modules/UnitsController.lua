@@ -9,7 +9,7 @@ UnitsController = ClassSimple
 {
     ---Initialize the units controller
     ---@param self UnitsController
-    ---@param units Unit[]
+    ---@param units Unit[]?
     __init = function(self, units)
         if units then
             self:Units(units)
