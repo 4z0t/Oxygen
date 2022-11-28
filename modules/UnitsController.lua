@@ -36,7 +36,7 @@ UnitsController = ClassSimple
 
     ---Applies given function to units
     ---@param self UnitsController
-    ---@param fn fun(Unit)
+    ---@param fn fun(unit:Unit)
     ---@return UnitsController
     ApplyToUnits = function(self, fn)
         for _, unit in self.units do
@@ -161,6 +161,10 @@ UnitsController = ClassSimple
 
 
 
-
-
+    ---Clears units controller
+    ---@param self UnitsController
+    Clear = function(self)
+        self.units = nil
+        self.chains = nil
+    end
 }
