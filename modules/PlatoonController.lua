@@ -18,6 +18,17 @@ PlatoonController = ClassSimple
         end
     end,
 
+    ---Applies given function to units of platoon
+    ---@param self PlatoonController
+    ---@param fn fun(unit:Unit)
+    ---@return PlatoonController
+    ApplyToUnits = function(self, fn)
+        for _, unit in self.platoon:GetPlatoonUnits() do
+            fn(unit)
+        end
+        return self
+    end,
+
     ---Assigns platoon to be used by the controller
     ---@param self PlatoonController
     ---@param platoon Platoon
