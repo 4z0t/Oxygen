@@ -34,6 +34,16 @@ UnitsController = ClassSimple
         return self
     end,
 
+    ---Applies given function to units
+    ---@param self UnitsController
+    ---@param fn fun(Unit)
+    ---@return UnitsController
+    ApplyToUnits = function(self, fn)
+        for _, unit in self.units do
+            fn(unit)
+        end
+        return self
+    end,
 
     ---Orders units to move along the chain
     ---@param self UnitsController
@@ -111,13 +121,38 @@ UnitsController = ClassSimple
     ---@param self any
     ---@param chain any
     ---@return UnitsController
-    RandomPatrolRoute = function(self, chain)
+    PickRandomPatrolRoute = function(self, chain)
         ScenarioFramework.GroupPatrolRoute(self.units,
             ScenarioPlatoonAI.GetRandomPatrolRoute(ScenarioUtils.ChainToPositions(chain)))
         return self
     end,
 
-    
+    ---Scatters units on different random routes based on a given chain
+    ---@param self UnitsController
+    ---@param chain MarkerChain
+    ---@return UnitsController
+    ScatterRandomPatrolRoute = function(self, chain)
+        for _, unit in self.units do
+            ScenarioFramework.GroupPatrolRoute({ unit },
+                ScenarioPlatoonAI.GetRandomPatrolRoute(ScenarioUtils.ChainToPositions(chain)))
+        end
+        return self
+    end,
+
+
+    ---Orders units to attack-move to given marker
+    ---@param self UnitsController
+    ---@param marker Marker
+    ---@return UnitsController
+    AttackMoveToPosition = function(self, marker)
+        IssueAggressiveMove(self.units, ScenarioUtils.MarkerToPosition(marker))
+        return self
+    end,
+
+
+
+
+
 
 
 
