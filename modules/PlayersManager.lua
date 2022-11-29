@@ -101,6 +101,8 @@ local Utils = import("Utils.lua")
 ---@field name string?
 ---@field delay number?
 
+---@class CommonPlayersData
+---@field enhancements FactionEnhancementMap?
 
 ---@class PlayersManager
 ---@field _players table
@@ -109,7 +111,7 @@ PlayersManager = ClassSimple
 {
     ---Inits players with given options
     ---@param self PlayersManager
-    ---@param players PlayerData[]
+    ---@param players PlayerData[]|CommonPlayersData
     ---@return PlayersManager
     Init = function(self, players)
         self._players = {}
@@ -128,6 +130,8 @@ PlayersManager = ClassSimple
                 end
                 if players[i].enhancements then
                     enhancements = players[i].enhancements[faction]
+                elseif players.enhancements then
+                    enhancements = players.enhancements[faction]
                 end
                 self._players[strArmy] = {
                     color = players[i].color,
