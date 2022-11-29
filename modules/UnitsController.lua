@@ -44,6 +44,16 @@ UnitsController = ClassSimple
         return self
     end,
 
+    ---Creates units for army defined on the map
+    ---@param self UnitsController
+    ---@param army ArmyName
+    ---@param name UnitGroup
+    ---@return UnitsController
+    FromArmyUnits = function(self, army, name)
+        self:Units(ScenarioUtils.CreateArmyGroup(army, name))
+        return self
+    end,
+
     ---Applies given function to units
     ---@param self UnitsController
     ---@param fn fun(unit:Unit)
