@@ -34,6 +34,26 @@ UnitsController = ClassSimple
         return self
     end,
 
+    ---Adds a unit to the controller
+    ---@param self UnitsController
+    ---@param unit Unit
+    ---@return UnitsController
+    AddUnit = function(self, unit)
+        table.insert(self.units, unit)
+        return self
+    end,
+
+    ---Adds units to the controller
+    ---@param self UnitsController
+    ---@param units Unit[]
+    ---@return UnitsController
+    AddUnits = function(self, units)
+        for _, unit in units do
+            table.insert(self.units, unit)
+        end
+        return self
+    end,
+
     ---Creates unit for army defined on the map
     ---@param self UnitsController
     ---@param army ArmyName
