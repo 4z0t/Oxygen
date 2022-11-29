@@ -130,7 +130,7 @@ ObjectiveManager = ClassSimple
     ---Returns active objective by its name
     ---@param self ObjectiveManager
     ---@param name string
-    ---@return Objective
+    ---@return Objective|boolean
     Get = function(self, name)
         return self._activeObjectives[name]
     end,
