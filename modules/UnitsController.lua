@@ -56,11 +56,11 @@ UnitsController = ClassSimple
 
     ---Applies given function to units
     ---@param self UnitsController
-    ---@param fn fun(unit:Unit)
+    ---@param fn fun(unit:Unit, id: integer)
     ---@return UnitsController
     ApplyToUnits = function(self, fn)
-        for _, unit in self.units do
-            fn(unit)
+        for id, unit in self.units do
+            fn(unit, id)
         end
         return self
     end,
