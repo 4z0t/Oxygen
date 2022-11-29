@@ -163,6 +163,7 @@ UnitsController = ClassSimple
 
     ---Orders units to patrol along a random chain
     ---@param self UnitsController
+    ---@return UnitsController
     PickRandomPatrolChain = function(self)
         return self:PatrolChain(self:GetRandomChain())
     end,

@@ -64,6 +64,7 @@ ObjectiveManager = ClassSimple
             WaitSeconds(objTable.startDelay)
         end
         local target = objTable.onStartFunc()
+        --merging target table with returnede one for more flexibility
         if target then
             target = table.merged(objTable.target, target)
         else
