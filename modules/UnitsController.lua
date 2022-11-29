@@ -39,6 +39,7 @@ UnitsController = ClassSimple
     ---@param unit Unit
     ---@return UnitsController
     AddUnit = function(self, unit)
+        self.units = self.units or {}
         table.insert(self.units, unit)
         return self
     end,
@@ -48,6 +49,7 @@ UnitsController = ClassSimple
     ---@param units Unit[]
     ---@return UnitsController
     AddUnits = function(self, units)
+        self.units = self.units or {}
         for _, unit in units do
             table.insert(self.units, unit)
         end
