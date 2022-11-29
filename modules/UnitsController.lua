@@ -39,7 +39,7 @@ UnitsController = ClassSimple
     ---@param army ArmyName
     ---@param name UnitGroup
     ---@return UnitsController
-    FromArmyUnit = function(self, army, name)
+    FromMapArmyUnit = function(self, army, name)
         self:Unit(ScenarioUtils.CreateArmyUnit(army, name))
         return self
     end,
@@ -49,9 +49,18 @@ UnitsController = ClassSimple
     ---@param army ArmyName
     ---@param name UnitGroup
     ---@return UnitsController
-    FromArmyUnits = function(self, army, name)
+    FromMapArmyUnits = function(self, army, name)
         self:Units(ScenarioUtils.CreateArmyGroup(army, name))
         return self
+    end,
+
+    ---Assigns units from army units with given categories
+    ---@param self UnitsController
+    ---@param aiBrain AIBrain
+    ---@param categories EntityCategory
+    ---@return UnitsController
+    FromArmyUnits = function(self, aiBrain, categories)
+        return self:Units(aiBrain:GetListOfUnits(categories, false))
     end,
 
     ---Applies given function to units
