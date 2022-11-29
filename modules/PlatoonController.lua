@@ -58,7 +58,7 @@ PlatoonController = ClassSimple
     end,
 
 
-    ---Creates platoon froom given units of aiBrain
+    ---Creates platoon from given units of aiBrain
     ---@param self PlatoonController
     ---@param units Unit[]
     ---@param aiBrain AIBrain

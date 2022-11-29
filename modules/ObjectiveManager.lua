@@ -127,6 +127,14 @@ ObjectiveManager = ClassSimple
         end
     end,
 
+    ---Returns active objective by its name
+    ---@param self ObjectiveManager
+    ---@param name string
+    ---@return Objective
+    Get = function(self, name)
+        return self._activeObjectives[name]
+    end,
+
     ---Checks if all assigned objectives of given type are complete
     ---@param self ObjectiveManager
     ---@param objType ObjectiveType
