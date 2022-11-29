@@ -22,5 +22,10 @@ _G.Oxygen = {
 
     OpAIBuilder = import("OpAIBuilder.lua").OpAIBuilder,
 
-    BuildConditions = import("BuildConditions.lua")
+    BuildConditions = import("BuildConditions.lua"),
+
+    UnitsController = import("UnitsController.lua").UnitsController,
+    PlatoonController = import("PlatoonController.lua").PlatoonController,
+
+    Game = import("GameManager.lua"),
 }
