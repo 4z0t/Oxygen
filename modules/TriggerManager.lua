@@ -10,6 +10,9 @@ local assert = assert
 ---@field private _activeThread thread|false
 Runnable = ClassSimple
 {
+    ---Initializes Runnable with passed thread function
+    ---@param self Runnable
+    ---@param threadFunc ThreadFunction
     __init = function(self, threadFunc)
         assert(type(threadFunc) == "function", "Function must be passed into constructor for Runnable")
 
@@ -39,8 +42,39 @@ Runnable = ClassSimple
 ---@class BasicTrigger : Runnable
 BasicTrigger = Class(Runnable) {}
 
+---@alias UnitCallback fun(unit: Unit):nil
 
 
+
+
+---@class IUnitTrigger
+---@field _callback UnitCallback
+---@field _type string
+IUnitTrigger = ClassSimple
+{
+    _type = false,
+    ---comment
+    ---@param self IUnitTrigger
+    ---@param callback UnitCallback
+    __init = function(self, callback)
+        self._callback = callback
+    end,
+
+    ---Adds to units a trigger callback
+    ---@param self IUnitTrigger
+    ---@param units Unit[]
+    Add = function(self, units)
+        error "Not implemented method IUnitTrigger.Add"
+    end,
+
+    ---Removes from units trigger callback
+    ---@param self IUnitTrigger
+    ---@param units Unit[]
+    Remove = function(self, units)
+        error "Not implemented method IUnitTrigger.Remove"
+    end
+
+}
 
 
 
