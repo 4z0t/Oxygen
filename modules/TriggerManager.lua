@@ -43,6 +43,14 @@ Runnable = ClassSimple
 BasicTrigger = Class(Runnable) {}
 
 
+---Callback function with delay
+---@param callback ThreadFunction
+---@param delay number
+---@param ... any
+local function DelayedCallbackThreadFunction(callback, delay, ...)
+    WaitSeconds(delay)
+    callback(unpack(arg))
+end
 
 ---@class TimerTrigger : BasicTrigger
 ---@field _delay number
@@ -64,15 +72,10 @@ TimerTrigger = Class(BasicTrigger)
     Run = function(self, ...)
         assert(self._delay and self._delay > 0, "Delay for TimerTrigger must be specified in seconds!")
 
-        local delay = self._delay
         local callback = self._threadFunc
+        self._threadFunc = DelayedCallbackThreadFunction
 
-        self._threadFunc = function(...)
-            WaitSeconds(delay)
-            callback(unpack(arg))
-        end
-
-        return BasicTrigger.Run(self, unpack(arg))
+        return BasicTrigger.Run(self, callback, self._delay, unpack(arg))
     end,
 }
 
