@@ -170,5 +170,5 @@ function GetUnits(army, category, area)
     elseif type(army) == "number" then
         return ArmyBrains[army]:GetListOfUnits(category, false)
     end
-
+    error "Unknown army type!"
 end
