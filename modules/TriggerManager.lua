@@ -100,18 +100,73 @@ IUnitTrigger = ClassSimple
 }
 
 
+---@class UnitStartCaptureTrigger : IUnitTrigger
 UnitStartCaptureTrigger = Class(IUnitTrigger) { _type = 'OnStartCapture' }
+---@class UnitStopCaptureTrigger : IUnitTrigger
 UnitStopCaptureTrigger = Class(IUnitTrigger) { _type = 'OnStopCapture' }
+---@class UnitStartBeingCapturedTrigger : IUnitTrigger
 UnitStartBeingCapturedTrigger = Class(IUnitTrigger) { _type = 'OnStartBeingCaptured' }
+---@class UnitStopBeingCapturedTrigger : IUnitTrigger
 UnitStopBeingCapturedTrigger = Class(IUnitTrigger) { _type = 'OnStopBeingCaptured' }
+---@class UnitFailedBeingCapturedTrigger : IUnitTrigger
 UnitFailedBeingCapturedTrigger = Class(IUnitTrigger) { _type = 'OnFailedBeingCaptured' }
+---@class UnitFailedCaptureTrigger : IUnitTrigger
 UnitFailedCaptureTrigger = Class(IUnitTrigger) { _type = 'OnFailedCapture' }
+---@class UnitStopBeingBuiltTrigger : IUnitTrigger
 UnitStopBeingBuiltTrigger = Class(IUnitTrigger) { _type = 'OnStopBeingBuilt' }
+---@class UnitGivenTrigger : IUnitTrigger
 UnitGivenTrigger = Class(IUnitTrigger) { _type = 'OnGiven' }
+---@class UnitVeteranTrigger : IUnitTrigger
 UnitVeteranTrigger = Class(IUnitTrigger) { _type = 'OnVeteran' }
+---@class UnitFailedToBuildTrigger : IUnitTrigger
 UnitFailedToBuildTrigger = Class(IUnitTrigger) { _type = 'OnFailedToBuild' }
+---@class UnitDeathTrigger : IUnitTrigger
 UnitDeathTrigger = Class(IUnitTrigger) { _type = 'OnKilled' }
+---@class UnitDestroyedTrigger : IUnitTrigger
 UnitDestroyedTrigger = Class(IUnitTrigger) { _type = { 'OnReclaimed', 'OnCaptured', 'OnKilled' } }
+
+
+---@class UnitDamagedTrigger : IUnitTrigger
+UnitDamagedTrigger = Class(IUnitTrigger) { _type = 'OnDamaged',
+    ---Adds to units damaged callback
+    ---@param self UnitDamagedTrigger
+    ---@param units Unit[]
+    ---@param amount? number
+    ---@param repeatNum? number
+    Add = function(self, units, amount, repeatNum)
+        for _, unit in units do
+            unit:AddOnDamagedCallback(self._callback, amount, repeatNum)
+        end
+    end,
+}
+
+---@class UnitBuildTrigger : IUnitTrigger
+UnitBuildTrigger = Class(IUnitTrigger) { _type = 'OnUnitBuilt',
+    ---Adds to units damaged callback
+    ---@param self UnitBuildTrigger
+    ---@param units Unit[]
+    ---@param category EntityCategory
+    Add = function(self, units, category)
+        for _, unit in units do
+            unit:AddOnUnitBuiltCallback(self._callback, category)
+        end
+    end,
+}
+
+---@class UnitStartBuildTrigger : IUnitTrigger
+UnitStartBuildTrigger = Class(IUnitTrigger) { _type = 'OnStartBuild',
+    ---Adds to units damaged callback
+    ---@param self UnitStartBuildTrigger
+    ---@param units Unit[]
+    ---@param category EntityCategory
+    Add = function(self, units, category)
+        for _, unit in units do
+            unit:AddOnStartBuildCallback(self._callback, category)
+        end
+    end,
+}
+
+
 
 
 
