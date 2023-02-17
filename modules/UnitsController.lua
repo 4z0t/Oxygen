@@ -62,7 +62,9 @@ UnitsController = ClassSimple
     ---@param name UnitGroup
     ---@return UnitsController
     FromMapArmyUnit = function(self, army, name)
-        self:Unit(ScenarioUtils.CreateArmyUnit(army, name))
+        local unit = ScenarioUtils.CreateArmyUnit(army, name)
+        if not unit then WARN("Unit of " .. army .. " named " .. name .. " not found!") end
+        self:Unit(unit)
         return self
     end,
 
@@ -227,27 +229,29 @@ UnitsController = ClassSimple
         IssueMove(self.units, ScenarioUtils.MarkerToPosition(marker))
         return self
     end,
-    
+
     ---Orders units to selfdestruct
     ---@param self UnitsController
     ---@return UnitsController
-    Kill = function (self)
+    Kill = function(self)
         IssueKillSelf(self.units)
         return self
-    end
+    end,
 
+    ---Clears all commands issued before
+    ---@param self UnitsController
+    ---@return UnitsController
+    ClearCommands = function (self)
+        IssueClearCommands(self.units)
+        return self
+    end,
 
-
-
-
-
-
-
-
-
-
-
-
+    ---Immediately kills units
+    ---@param self UnitsController
+    ---@return UnitsController
+    ImmediatelyKill = function (self)
+        return self:ClearCommands():Kill()
+    end,
 
     ---Clears units controller
     ---@param self UnitsController
