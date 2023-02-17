@@ -219,6 +219,23 @@ UnitsController = ClassSimple
     end,
 
 
+    ---Orders units to move to given marker
+    ---@param self UnitsController
+    ---@param marker Marker
+    ---@return UnitsController
+    MoveToMarker = function(self, marker)
+        IssueMove(self.units, ScenarioUtils.MarkerToPosition(marker))
+        return self
+    end,
+    
+    ---Orders units to selfdestruct
+    ---@param self UnitsController
+    ---@return UnitsController
+    Kill = function (self)
+        IssueKillSelf(self.units)
+        return self
+    end
+
 
 
 
