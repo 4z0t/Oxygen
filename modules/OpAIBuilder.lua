@@ -1,3 +1,6 @@
+local BC = import("BuildConditions.lua")
+
+
 ---@alias OpAIName
 --- | "EngineerAttack"
 --- | "AirScout"
