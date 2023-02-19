@@ -148,6 +148,9 @@ OpAIBuilder = ClassSimple
     ---@param buildCondition BuildCondition
     ---@return OpAIBuilder
     BuildCondition = function(self, buildCondition)
+        if self._unitGroup then
+            buildCondition = BC.RemoveDefaultBrain(buildCondition)
+        end
         self._buildCondition = buildCondition
         return self
     end,
@@ -163,13 +166,6 @@ OpAIBuilder = ClassSimple
     ---@param value number
     ---@return OpAIBuilder
     HumansCategoryCondition = function(self, category, compareOp, value)
-        if self._unitGroup then
-            return self:BuildCondition(
-                BC.RemoveDefaultBrain(
-                    BC.HumansCategoryCondition(category, compareOp, value)
-                )
-            )
-        end
         return self:BuildCondition(
             BC.HumansCategoryCondition(category, compareOp, value)
         )
