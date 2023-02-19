@@ -10,15 +10,18 @@ local BMBC = '/lua/editor/BaseManagerBuildConditions.lua'
 local BMPT = '/lua/ai/opai/BaseManagerPlatoonThreads.lua'
 
 
+---@class ConditionFuncAndArgs
+---@field func fun(...):boolean
+---@field args ...
+
 ---@class BuildStructuresCondition
----@field BuildCondition BuildCondition
+---@field BuildConditions BuildCondition[]
 ---@field Priority number
 ---@field DifficultySeparate boolean
 
 
 ---@class BuildStructuresFunctionCondition
----@field func fun(...):boolean
----@field args ...
+---@field conditions ConditionFuncAndArgs[]
 ---@field difficultySeparate boolean
 ---@field priority number
 
@@ -88,41 +91,61 @@ AdvancedBaseManager = Class(BaseManager)
         if conditions.Priority == nil then
             error("AdvancedBaseManager.AddBuildStructures: Priority must be a number, not nil")
         end
-        local bc = conditions.BuildCondition
-        if bc == nil then
+        local bcs = conditions.BuildConditions
+        if bcs == nil then
             error("AdvancedBaseManager.AddBuildStructures: BuildCondition must be a reference to a function: {<MODULE PATH>,<FUNCTION NAME>,{<ARGS>}")
         end
-        if bc[1] == nil or bc[2] == nil then
-            error("AdvancedBaseManager.AddBuildStructures: BuildCondition must contain a reference to a function!")
-        end
-        bc = BC.RemoveDefaultBrain(bc)
-        local func = import(bc[1])[ bc[2] ]
-        if func == nil then
-            error("AdvancedBaseManager.AddBuildStructures: (" .. bc[1] .. ") " .. bc[2] .. " does not exist!")
+        ---@type ConditionFuncAndArgs[]
+        local conditionsAndArgs = {}
+        for _, bc in bcs do
+            if bc[1] == nil or bc[2] == nil then
+                error("AdvancedBaseManager.AddBuildStructures: BuildCondition must contain a reference to a function!")
+            end
+            bc = BC.RemoveDefaultBrain(bc)
+            local func = import(bc[1])[ bc[2] ]
+            if func == nil then
+                error("AdvancedBaseManager.AddBuildStructures: (" .. bc[1] .. ") " .. bc[2] .. " does not exist!")
+            end
+            table.insert(conditionsAndArgs,
+                {
+                    func = func,
+                    args = bc[3],
+                })
         end
         self.BuildStructuresConditions[groupName] = {
             priority = conditions.Priority,
-            func = func,
-            args = bc[3],
+            conditions = conditionsAndArgs,
             difficultySeparate = conditions.DifficultySeparate,
         }
+    end,
+
+    ---comment
+    ---@param self AdvancedBaseManager
+    ---@param conditions ConditionFuncAndArgs[]
+    ---@return boolean
+    CheckConditions = function(self, conditions)
+        for _, condition in ipairs(conditions) do
+            if condition.func(self.AIBrain, unpack(condition.args)) then
+                return true
+            end
+        end
+        return false
     end,
 
     ---Thread function to check build structures conditions
     ---@param self AdvancedBaseManager
     CheckBuildStructuresConditions = function(self)
-        local aiBrain = self.AIBrain
-        local conditions = self.BuildStructuresConditions
+        local buildConditions = self.BuildStructuresConditions
         while true do
             if self.Active then
-                for groupName, condition in conditions do
-                    if condition.func(aiBrain, unpack(condition.args)) then
-                        if condition.difficultySeparate then
-                            self:AddBuildGroupDifficulty(groupName, condition.priority, false, false)
+                for groupName, buildCondition in buildConditions do
+                    if self:CheckConditions(buildCondition.conditions) then
+                        if buildCondition.difficultySeparate then
+                            self:AddBuildGroupDifficulty(groupName, buildCondition.priority, false, false)
                         else
-                            self:AddBuildGroup(groupName, condition.priority, false, false)
+                            self:AddBuildGroup(groupName, buildCondition.priority, false, false)
                         end
-                        conditions[groupName] = nil
+                        buildConditions[groupName] = nil
                     end
                 end
             end
