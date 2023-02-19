@@ -1,3 +1,5 @@
+local unpack = unpack
+
 local BaseManager = import('/lua/ai/opai/basemanager.lua').BaseManager
 local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 local Factions = import('/lua/factions.lua').Factions
@@ -10,7 +12,7 @@ local BMBC = '/lua/editor/BaseManagerBuildConditions.lua'
 local BMPT = '/lua/ai/opai/BaseManagerPlatoonThreads.lua'
 
 
----@alias ConditionType "OR" | "AND"
+---@alias ConditionType "ANY" | "ALL"
 
 ---@class ConditionFuncAndArgs
 ---@field func fun(...):boolean
@@ -130,15 +132,15 @@ AdvancedBaseManager = Class(BaseManager)
     ---@param conditionType ConditionType
     ---@return boolean
     CheckConditions = function(self, conditions, conditionType)
-        if conditionType == "OR" then
-            for _, condition in ipairs(conditions) do
+        if conditionType == "ANY" then
+            for _, condition in conditions do
                 if condition.func(self.AIBrain, unpack(condition.args)) then
                     return true
                 end
             end
             return false
         end
-        for _, condition in ipairs(conditions) do
+        for _, condition in conditions do
             if not condition.func(self.AIBrain, unpack(condition.args)) then
                 return false
             end
