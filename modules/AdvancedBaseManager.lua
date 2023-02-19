@@ -10,17 +10,21 @@ local BMBC = '/lua/editor/BaseManagerBuildConditions.lua'
 local BMPT = '/lua/ai/opai/BaseManagerPlatoonThreads.lua'
 
 
+---@alias ConditionType "OR" | "AND"
+
 ---@class ConditionFuncAndArgs
 ---@field func fun(...):boolean
 ---@field args ...
 
 ---@class BuildStructuresCondition
+---@field Type ConditionType
 ---@field BuildConditions BuildCondition[]
 ---@field Priority number
 ---@field DifficultySeparate boolean
 
 
 ---@class BuildStructuresFunctionCondition
+---@field type ConditionType
 ---@field conditions ConditionFuncAndArgs[]
 ---@field difficultySeparate boolean
 ---@field priority number
@@ -113,6 +117,7 @@ AdvancedBaseManager = Class(BaseManager)
                 })
         end
         self.BuildStructuresConditions[groupName] = {
+            type = conditions.Type or "OR",
             priority = conditions.Priority,
             conditions = conditionsAndArgs,
             difficultySeparate = conditions.DifficultySeparate,
@@ -122,14 +127,23 @@ AdvancedBaseManager = Class(BaseManager)
     ---comment
     ---@param self AdvancedBaseManager
     ---@param conditions ConditionFuncAndArgs[]
+    ---@param conditionType ConditionType
     ---@return boolean
-    CheckConditions = function(self, conditions)
+    CheckConditions = function(self, conditions, conditionType)
+        if conditionType == "OR" then
+            for _, condition in ipairs(conditions) do
+                if condition.func(self.AIBrain, unpack(condition.args)) then
+                    return true
+                end
+            end
+            return false
+        end
         for _, condition in ipairs(conditions) do
-            if condition.func(self.AIBrain, unpack(condition.args)) then
-                return true
+            if not condition.func(self.AIBrain, unpack(condition.args)) then
+                return false
             end
         end
-        return false
+        return true
     end,
 
     ---Thread function to check build structures conditions
@@ -139,7 +153,7 @@ AdvancedBaseManager = Class(BaseManager)
         while true do
             if self.Active then
                 for groupName, buildCondition in buildConditions do
-                    if self:CheckConditions(buildCondition.conditions) then
+                    if self:CheckConditions(buildCondition.conditions, buildCondition.type) then
                         if buildCondition.difficultySeparate then
                             self:AddBuildGroupDifficulty(groupName, buildCondition.priority, false, false)
                         else
