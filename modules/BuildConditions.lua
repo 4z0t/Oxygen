@@ -35,7 +35,7 @@ end
 ---@return BuildCondition
 function ArmiesBuiltOrActiveCategoryCondition(armies, category, compareOp, value)
     return {
-        '/lua/editor/otherarmyunitcountbuildconditions.lua',
+        '/mods/Oxygen/modules/BrainsConditions.lua',
         "FocusBrainBeingBuiltOrActiveCategoryCompare",
         { "default_brain", armies, value, category, compareOp }
     }
