@@ -73,7 +73,7 @@ local BC = import("BuildConditions.lua")
 ---@field _formation FormationType
 ---@field _childrenState table<string, boolean>
 ---@field _remove string|string[]
----@field _buildCondition OpAIBuildConditionTable
+---@field _buildCondition BuildCondition
 ---@field _reactive boolean
 ---@field _unitGroup UnitGroup
 OpAIBuilder = ClassSimple
@@ -145,7 +145,7 @@ OpAIBuilder = ClassSimple
 
     ---Sets build condition of OpAI
     ---@param self OpAIBuilder
-    ---@param buildCondition OpAIBuildConditionTable
+    ---@param buildCondition BuildCondition
     ---@return OpAIBuilder
     BuildCondition = function(self, buildCondition)
         self._buildCondition = buildCondition
@@ -164,19 +164,15 @@ OpAIBuilder = ClassSimple
     ---@return OpAIBuilder
     HumansCategoryCondition = function(self, category, compareOp, value)
         if self._unitGroup then
-            return self:BuildCondition
-            {
-                name      = '/lua/editor/otherarmyunitcountbuildconditions.lua',
-                func      = "BrainsCompareNumCategory",
-                condition = { { 'HumanPlayers' }, value, category, compareOp }
-            }
+            return self:BuildCondition(
+                BC.RemoveDefaultBrain(
+                    BC.HumansCategoryCondition(category, compareOp, value)
+                )
+            )
         end
-        return self:BuildCondition
-        {
-            name      = '/lua/editor/otherarmyunitcountbuildconditions.lua',
-            func      = "BrainsCompareNumCategory",
-            condition = { 'default_brain', { 'HumanPlayers' }, value, category, compareOp }
-        }
+        return self:BuildCondition(
+            BC.HumansCategoryCondition(category, compareOp, value)
+        )
     end,
 
 

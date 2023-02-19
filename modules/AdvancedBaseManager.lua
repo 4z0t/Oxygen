@@ -4,7 +4,7 @@ local Factions = import('/lua/factions.lua').Factions
 local BuildingTemplates = import('/lua/BuildingTemplates.lua').BuildingTemplates
 local RebuildStructuresTemplate = import('/lua/BuildingTemplates.lua').RebuildStructuresTemplate
 local StructureUpgradeTemplates = import('/lua/upgradetemplates.lua').StructureUpgradeTemplates
-
+local BC = import("BuildConditions.lua")
 
 local BMBC = '/lua/editor/BaseManagerBuildConditions.lua'
 local BMPT = '/lua/ai/opai/BaseManagerPlatoonThreads.lua'
@@ -95,6 +95,7 @@ AdvancedBaseManager = Class(BaseManager)
         if bc[1] == nil or bc[2] == nil then
             error("AdvancedBaseManager.AddBuildStructures: BuildCondition must contain a reference to a function!")
         end
+        bc = BC.RemoveDefaultBrain(bc)
         local func = import(bc[1])[ bc[2] ]
         if func == nil then
             error("AdvancedBaseManager.AddBuildStructures: (" .. bc[1] .. ") " .. bc[2] .. " does not exist!")
@@ -160,9 +161,9 @@ AdvancedBaseManager = Class(BaseManager)
                 if buildCondition then
                     data.BuildCondition = {
                         {
-                            buildCondition.name,
-                            buildCondition.func,
-                            buildCondition.condition
+                            buildCondition[1],
+                            buildCondition[2],
+                            buildCondition[3]
                         }
                     }
                 end
@@ -190,9 +191,9 @@ AdvancedBaseManager = Class(BaseManager)
                 end
                 if opAItable.buildCondition then
                     opAI:AddBuildCondition(
-                        opAItable.buildCondition.name,
-                        opAItable.buildCondition.func,
-                        opAItable.buildCondition.condition
+                        opAItable.buildCondition[1],
+                        opAItable.buildCondition[2],
+                        opAItable.buildCondition[3]
                     )
                 end
                 if opAItable.remove then
@@ -504,7 +505,7 @@ AdvancedBaseManager = Class(BaseManager)
             }
         end
     end,
-    
+
     ---@param self AdvancedBaseManager
     LoadDefaultBaseTMLs = function(self)
         if not self.MultiFaction then

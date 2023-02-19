@@ -1,4 +1,5 @@
 local Utils = import("Utils.lua")
+local BC = import("BuildConditions.lua")
 
 
 ---@class PlatoonTemplateName : string
@@ -272,7 +273,7 @@ PlatoonBuilder = ClassSimple
 
     ---
     ---@param self PlatoonTemplateBuilder
-    ---@param condition {[1]: FileName,[2]: FunctionName, [3]:any }
+    ---@param condition BuildCondition
     ---@return PlatoonTemplateBuilder
     AddCondition = function(self, condition)
         if not self._conditions then
@@ -313,12 +314,7 @@ PlatoonBuilder = ClassSimple
     ---@param value number
     ---@return PlatoonTemplateBuilder
     AddArmiesCategoryCondition = function(self, armies, category, compareOp, value)
-        return self:AddCondition
-        {
-            '/lua/editor/otherarmyunitcountbuildconditions.lua',
-            "BrainsCompareNumCategory",
-            { 'default_brain', armies, value, category, compareOp }
-        }
+        return self:AddCondition(BC.ArmiesCategoryCondition(armies, category,compareOp, value))
     end,
 
     ---comment

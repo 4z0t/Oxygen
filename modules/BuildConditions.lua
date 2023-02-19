@@ -7,7 +7,7 @@ function ArmiesCategoryCondition(armies, category, compareOp, value)
     return {
         '/lua/editor/otherarmyunitcountbuildconditions.lua',
         "BrainsCompareNumCategory",
-        { armies, value, category, compareOp }
+        { "default_brain", armies, value, category, compareOp }
     }
 end
 
@@ -37,7 +37,7 @@ function ArmiesBuiltOrActiveCategoryCondition(armies, category, compareOp, value
     return {
         '/lua/editor/otherarmyunitcountbuildconditions.lua',
         "FocusBrainBeingBuiltOrActiveCategoryCompare",
-        { armies, value, category, compareOp }
+        { "default_brain", armies, value, category, compareOp }
     }
 end
 
@@ -56,4 +56,13 @@ end
 ---@return BuildCondition
 function HumansBuiltOrActiveCategoryCondition(category, compareOp, value)
     return ArmyBuiltOrActiveCategoryCondition("HumanPlayers", category, compareOp, value)
+end
+
+---@param condition BuildCondition
+---@return BuildCondition
+function RemoveDefaultBrain(condition)
+    if condition[3][1] == "default_brain" then
+        table.remove(condition[3], 1)
+    end
+    return condition
 end
