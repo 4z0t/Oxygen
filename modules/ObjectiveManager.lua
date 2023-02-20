@@ -16,20 +16,33 @@ local useActionInFunc = {
 ObjectiveManager = ClassSimple
 {
 
+
+    ---@param self ObjectiveManager
+    __init = function(self)
+        self._objectives = {}
+        self._activeObjectives = {}
+    end,
+
+
     ---Inits ObjectiveManager with table of given objectives
     ---@param self ObjectiveManager
     ---@param objectives table<string, ObjectiveTable>
     ---@return ObjectiveManager
     Init = function(self, objectives)
-        self._objectives = {}
-        self._activeObjectives = {}
         for _, obj in objectives do
-            self._objectives[obj.name] = obj
+            self:Add(obj)
         end
         return self
     end,
+
+    ---Adds objective table into ObjectiveManager for further use
+    ---@param self ObjectiveManager
+    ---@param obj ObjectiveTable
     Add = function(self, obj)
-        return self
+        if self._objectives[obj.name] then
+            error("Objective " .. obj.name .. " already presents in Objectives Manager!")
+        end
+        self._objectives[obj.name] = obj
     end,
 
     _Validate = function(self)
