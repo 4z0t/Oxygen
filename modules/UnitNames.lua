@@ -86,8 +86,6 @@
 --- |    "T1 Cybran Artillery"
 --- |    "T1 Cybran Arty"
 --- |
---- |    "Hunter"
---- |    "Cybran LAB"
 --- |
 --- |    "Mantis"
 --- |
@@ -105,6 +103,15 @@
 --- |    "Snoop"
 --- |    "Spirit"
 --- |    "Selen"
+--- |    
+--- |    "Mech Marine"
+--- |    "UEF LAB"
+--- |    "Flare"
+--- |    "Aeon LAB"
+--- |    "Hunter"
+--- |    "Cybran LAB"
+--- |    
+--- |    
 --- |    
 
 
@@ -269,10 +276,7 @@ local idsToNames = {
         "T1 Cybran Artillery",
         "T1 Cybran Arty"
     },
-    ["URL0106"] = {
-        "Hunter",
-        "Cybran LAB"
-    },
+    
     ["URL0107"] = {
         "Mantis",
 
@@ -316,6 +320,19 @@ local idsToNames = {
         "Selen"
     },
 
+--- labs
+    ["UEL0106"] = {
+        "Mech Marine",
+        "UEF LAB"
+    },
+    ["URL0106"] = {
+        "Hunter",
+        "Cybran LAB"
+    },
+    ["UAL0106"] = {
+        "Flare",
+        "Aeon LAB"
+    },
 
 
 
