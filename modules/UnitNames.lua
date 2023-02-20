@@ -92,7 +92,6 @@
 --- |    "Mantis"
 --- |
 --- |
---- |    "Mole"
 --- |
 --- |    "Fire Beetle"
 --- |    "Beetle"
@@ -101,6 +100,12 @@
 --- |    "T3 Cybran MAA"
 --- |    "Rhino"
 --- |    "Cybran RAS SACU"
+--- |
+--- |    "Mole"
+--- |    "Snoop"
+--- |    "Spirit"
+--- |    "Selen"
+--- |    
 
 
 ---@type table<UnitId, UnitName[]>
@@ -272,9 +277,6 @@ local idsToNames = {
         "Mantis",
 
     },
-    ["URL0101"] = {
-        "Mole"
-    },
     ["XRL0302"] = {
         "Fire Beetle",
         "Beetle",
@@ -300,6 +302,20 @@ local idsToNames = {
     -- [""] = {},
     -- [""] = {},
     -- [""] = {},
+    -- t1 land scouts
+    ["UEL0101"] = {
+        "Snoop"
+    },
+     ["URL0101"] = {
+        "Mole"
+    },
+    ["UAL0101"] = {
+        "Spirit"
+    },
+    ["XSL0101"] = {
+        "Selen"
+    },
+
 
 
 
