@@ -50,11 +50,12 @@ VisionHandler = ClassSimple
 ---@param lifetime? number
 ---@return VisionHandler
 function VisionAtLocation(location, radius, armyBrain, lifetime)
-
     local viz = ScenarioFramework.CreateVisibleAreaLocation(radius, location, lifetime or 0, armyBrain)
-    visionMarkers[location] = VisionHandler(viz)
-
-    return visionMarkers[location]
+    local handler = VisionHandler(viz)
+    if not lifetime then
+        visionMarkers[location] = handler
+    end
+    return handler
 end
 
 ---@param location Marker
