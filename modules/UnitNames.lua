@@ -302,10 +302,7 @@ local idsToNames = {
     ["URL0301_RAS"] = {
         "Cybran RAS SACU"
     },
-    -- [""] = {},
-    -- [""] = {},
-    -- [""] = {},
-    -- [""] = {},
+
     -- t1 land scouts
     ["UEL0101"] = {
         "Snoop"

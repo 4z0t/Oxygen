@@ -72,6 +72,18 @@ PlatoonController = ClassSimple
     end,
 
 
+    ---Orders to platoon to attack with transports with specified landing and attack chains
+    ---@param self PlatoonController
+    ---@param landingChain MarkerChain
+    ---@param attackChain MarkerChain
+    ---@param instant? boolean @makes platoon units to be in transport instantly
+    ---@param moveChain? MarkerChain @move chain for units to start with
+    ---@return PlatoonController
+    AttackWithTransports = function(self, landingChain, attackChain, instant, moveChain)
+        ScenarioFramework.PlatoonAttackWithTransports(self.platoon, landingChain, attackChain, instant, moveChain)
+        return self
+    end
+
 
 
 
