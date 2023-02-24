@@ -40,16 +40,22 @@ local BC = import("BuildConditions.lua")
 ---@field BuildClose boolean
 ---@field BuildStructures StructureType[]
 
----@class PlatoonDataTable
----@field PatrolChains MarkerChain[]?
----@field PatrolChain MarkerChain?
+
+
+---@class LandAssaultWithTransports_PlatoonDataTable
+---@field TransportChain MarkerChain?
+---@field AssaultChains MarkerChain[]?
 ---@field AttackChain MarkerChain?
 ---@field LandingChain MarkerChain?
----@field MovePath MarkerChain?
----@field TransportReturn Marker?
----@field LandingList MarkerChain?
+---@field LandingList Marker[]? @List of possible locations for transports to unload units
+---@field RandomPatrol boolean?
+---@field TransportReturn Marker? @Location for transports to return to (they will attack with land units if this isn't set)
+---@field PatrolChain MarkerChain?
+
+---@class PlatoonDataTable : LandAssaultWithTransports_PlatoonDataTable
+---@field PatrolChains MarkerChain[]?
+---@field PatrolChain MarkerChain?
 ---@field LocationChain MarkerChain?
----@field MoveRoute MarkerChain?
 ---@field CategoryList EntityCategory[]?
 ---@field Location Marker?
 ---@field High boolean?

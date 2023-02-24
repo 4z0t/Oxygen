@@ -9,6 +9,7 @@ local StructureUpgradeTemplates = import('/lua/upgradetemplates.lua').StructureU
 local BC = import("BuildConditions.lua")
 
 local BMBC = '/lua/editor/BaseManagerBuildConditions.lua'
+local ABMBC = '/mods/Oxygen/modules/AdvancedBaseManagerBuildConditions.lua'
 local BMPT = '/lua/ai/opai/BaseManagerPlatoonThreads.lua'
 
 
@@ -34,6 +35,7 @@ local BMPT = '/lua/ai/opai/BaseManagerPlatoonThreads.lua'
 ---@class AdvancedBaseManager : BaseManager
 ---@field BuildStructuresConditions table<UnitGroup, BuildStructuresFunctionCondition>
 ---@field MultiFaction boolean
+---@field TransportsNeeded integer
 AdvancedBaseManager = Class(BaseManager)
 {
 
@@ -55,6 +57,7 @@ AdvancedBaseManager = Class(BaseManager)
     Create = function(self)
         BaseManager.Create(self)
         self.BuildStructuresConditions = {}
+        self.TransportsNeeded = 0
     end,
 
     ---Initializes AdvancedBaseManager
@@ -69,6 +72,7 @@ AdvancedBaseManager = Class(BaseManager)
     Initialize = function(self, brain, baseName, markerName, radius, levelTable, multiFaction, diffultySeparate)
         self.MultiFaction = multiFaction
         BaseManager.Initialize(self, brain, baseName, markerName, radius, levelTable, diffultySeparate)
+        self:LoadTransportPlatoonTemplate()
         self:ForkThread(self.CheckBuildStructuresConditions)
     end,
 
@@ -167,6 +171,14 @@ AdvancedBaseManager = Class(BaseManager)
             end
             WaitSeconds(Random(3, 5))
         end
+    end,
+
+
+    ---Sets Transporting of AdvancedBaseManager to provided value
+    ---@param self AdvancedBaseManager
+    ---@param value boolean
+    SetBuildTransports = function(self, value)
+        self.FunctionalityStates.Transporting = value
     end,
 
 
@@ -701,4 +713,54 @@ AdvancedBaseManager = Class(BaseManager)
 
         return template
     end,
+
+
+    ---@param self AdvancedBaseManager
+    LoadTransportPlatoonTemplate = function(self)
+        -- if not self.MultiFaction then
+        --     return BaseManager.LoadDefaultBaseNukes(self)
+        -- end
+        local name = self.BaseName
+        for faction = 1, 4 do
+            local factionName = Factions[faction].Key
+            self.AIBrain:PBMAddPlatoon {
+                BuilderName = 'BaseManager_TransportPlatoon_' .. name .. factionName,
+                PlatoonTemplate = self:CreateTransportPlatoonTemplate(2, faction),
+                Priority = 400,
+                PlatoonType = 'Air',
+                RequiresConstruction = true,
+                LocationType = name,
+                PlatoonAIFunction = { '/lua/ScenarioPlatoonAI.lua', 'TransportPool' },
+                BuildConditions = {
+                    { ABMBC, 'NeedTransports', { name } },
+                    { ABMBC, 'TransportsEnabled', { name } },
+                },
+                PlatoonData = {
+                    BaseName = name,
+                },
+                InstanceCount = 3,
+            }
+        end
+    end,
+
+    CreateTransportPlatoonTemplate = function(self, techLevel, faction)
+        faction = faction or self.AIBrain:GetFactionIndex()
+        local template = {
+            'TransportTemplate',
+            'NoPlan',
+            { 'uea', 1, 1, 'Attack', 'None' },
+        }
+        if techLevel == 1 then
+            template[3][1] = template[3][1] .. '0107'
+        elseif techLevel == 2 then
+            template[3][1] = template[3][1] .. '0104'
+        else
+            template[3][1] = "xea0306"
+        end
+        template = ScenarioUtils.FactionConvert(template, faction)
+        return template
+    end,
+
+
+
 }

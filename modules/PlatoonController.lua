@@ -1,7 +1,7 @@
 local ScenarioFramework = import('/lua/ScenarioFramework.lua')
 local ScenarioPlatoonAI = import('/lua/ScenarioPlatoonAI.lua')
 local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
-
+local PlatoonAIsLand = import("PlatoonAIs/Land.lua")
 
 
 ---@class PlatoonController
@@ -94,6 +94,18 @@ PlatoonController = ClassSimple
     ---@return PlatoonController
     AttackWithTransports = function(self, landingChain, attackChain, instant, moveChain)
         ScenarioFramework.PlatoonAttackWithTransports(self.platoon, landingChain, attackChain, instant, moveChain)
+        return self
+    end,
+
+    ---Orders to platoon to attack with transports with specified landing and attack chains and then returns transports into pool
+    ---@param self PlatoonController
+    ---@param landingChain MarkerChain
+    ---@param attackChain MarkerChain
+    ---@param instant? boolean @makes platoon units to be in transport instantly
+    ---@param moveChain? MarkerChain @move chain for units to start with
+    ---@return PlatoonController
+    AttackWithTransportsReturnToPool = function(self, landingChain, attackChain, instant, moveChain)
+        PlatoonAIsLand.AttackWithTransportsReturnToPool(self.platoon, landingChain, attackChain, instant, moveChain)
         return self
     end
 
