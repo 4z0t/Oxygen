@@ -63,9 +63,10 @@ UnitsController = ClassSimple
     ---@return UnitsController
     FromMapArmyUnit = function(self, army, name)
         local unit = ScenarioUtils.CreateArmyUnit(army, name)
-        if not unit then WARN("Unit of " .. army .. " named " .. name .. " not found!") end
-        self:Unit(unit)
-        return self
+
+        if not unit then error("Unit of " .. army .. " named " .. name .. " not found!") end
+
+        return self:Unit(unit)
     end,
 
     ---Creates units for army defined on the map
@@ -74,8 +75,11 @@ UnitsController = ClassSimple
     ---@param name UnitGroup
     ---@return UnitsController
     FromMapArmyUnits = function(self, army, name)
-        self:Units(ScenarioUtils.CreateArmyGroup(army, name))
-        return self
+        local units = ScenarioUtils.CreateArmyGroup(army, name)
+
+        if not units then error("Units of " .. army .. " named " .. name .. " not found!") end
+
+        return self:Units(units)
     end,
 
     ---Assigns units from army units with given categories
@@ -241,7 +245,7 @@ UnitsController = ClassSimple
     ---Clears all commands issued before
     ---@param self UnitsController
     ---@return UnitsController
-    ClearCommands = function (self)
+    ClearCommands = function(self)
         IssueClearCommands(self.units)
         return self
     end,
@@ -249,7 +253,7 @@ UnitsController = ClassSimple
     ---Immediately kills units
     ---@param self UnitsController
     ---@return UnitsController
-    ImmediatelyKill = function (self)
+    ImmediatelyKill = function(self)
         return self:ClearCommands():Kill()
     end,
 
