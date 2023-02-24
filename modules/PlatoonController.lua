@@ -51,10 +51,23 @@ PlatoonController = ClassSimple
     ---@param self PlatoonController
     ---@param armyName ArmyName
     ---@param unitGroup UnitGroup
-    ---@param formation FormationType
+    ---@param formation? FormationType
     ---@return PlatoonController
     FromUnitGroup = function(self, armyName, unitGroup, formation)
         return self:Platoon(ScenarioUtils.CreateArmyGroupAsPlatoon(armyName, unitGroup, formation or 'NoFormation'))
+    end,
+
+    ---Creates platoon from unit group defined in map and uses it
+    ---@param self PlatoonController
+    ---@param armyName ArmyName
+    ---@param unitGroup UnitGroup
+    ---@param formation? FormationType
+    ---@param veterancy? integer
+    ---@return PlatoonController
+    FromUnitGroupVeteran = function(self, armyName, unitGroup, formation, veterancy)
+        return self:Platoon(
+            ScenarioUtils.CreateArmyGroupAsPlatoonVeteran(armyName, unitGroup, formation or 'NoFormation', veterancy)
+        )
     end,
 
 
