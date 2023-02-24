@@ -1,3 +1,9 @@
+if not table.random then
+    function table.random(array)
+        return array[Random(1, table.getn(array))]
+    end
+end
+
 ---Oxygen is Framework for creating coop missions for Supreme Commander FAF.
 ---Less code -- more Oxygen
 _G.Oxygen = {
