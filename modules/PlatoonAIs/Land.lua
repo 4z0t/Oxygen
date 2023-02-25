@@ -4,6 +4,7 @@ local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 
 
 function PlatoonAttackWithTransportsThreadReturnToPool(platoon, landingChain, attackChain, instant, moveChain)
+    ---@type AIBrain
     local aiBrain = platoon:GetBrain()
     local allUnits = platoon:GetPlatoonUnits()
     local startPos = platoon:GetPlatoonPosition()

@@ -745,7 +745,7 @@ AdvancedBaseManager = Class(BaseManager)
                     PlatoonData = {
                         BaseName = name,
                     },
-                    InstanceCount = 1,
+                    InstanceCount = 2,
                 }
             end
         end
