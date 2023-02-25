@@ -94,25 +94,30 @@ local Utils = import("Utils.lua")
 ---@field Aeon (AeonEnhancement | ACUEnhancementCommon)[]?
 ---@field Seraphim (SeraphimEnhancement | ACUEnhancementCommon)[]?
 
----@class PlayerData
+
+
+---@class PlayerSpawnData
 ---@field units FactionUnitMap
 ---@field color Color?
 ---@field enhancements FactionEnhancementMap?
 ---@field name string?
 ---@field delay number?
+---@field faction string
+
+---@alias PlayersData table<ArmyName,PlayerSpawnData>
 
 ---@class CommonPlayersData
 ---@field enhancements FactionEnhancementMap?
 
 ---@class PlayersManager
----@field _players table
+---@field _players PlayersData
 ---@overload fun():PlayersManager
 PlayersManager = ClassSimple
 {
     ---Inits players with given options
     ---@param self PlayersManager
-    ---@param players PlayerData[]|CommonPlayersData
-    ---@return PlayersManager
+    ---@param players PlayerSpawnData[]|CommonPlayersData
+    ---@return PlayersData
     Init = function(self, players)
         self._players = {}
         local tblArmy = ListArmies()
@@ -138,12 +143,13 @@ PlayersManager = ClassSimple
                     unit = unit,
                     enhancements = enhancements,
                     name = players[i].name,
-                    delay = players[i].delay
+                    delay = players[i].delay,
+                    faction = faction
                 }
                 i = i + 1
             end
         end
-        return self
+        return self._players
     end,
 
     ---Spawns players' ACUs and returns list of them
