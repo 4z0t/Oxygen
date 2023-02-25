@@ -728,24 +728,26 @@ AdvancedBaseManager = Class(BaseManager)
         -- end
         local name = self.BaseName
         for faction = 1, 4 do
-            local factionName = Factions[faction].Key
-            self.AIBrain:PBMAddPlatoon {
-                BuilderName = 'BaseManager_TransportPlatoon_' .. name .. factionName,
-                PlatoonTemplate = self:CreateTransportPlatoonTemplate(2, faction),
-                Priority = 400,
-                PlatoonType = 'Air',
-                RequiresConstruction = true,
-                LocationType = name,
-                PlatoonAIFunction = { '/lua/ScenarioPlatoonAI.lua', 'TransportPool' },
-                BuildConditions = {
-                    { ABMBC, 'NeedTransports', { name } },
-                    { ABMBC, 'TransportsEnabled', { name } },
-                },
-                PlatoonData = {
-                    BaseName = name,
-                },
-                InstanceCount = 2,
-            }
+            for tech = 1, 2 do
+                local factionName = Factions[faction].Key
+                self.AIBrain:PBMAddPlatoon {
+                    BuilderName = 'BaseManager_TransportPlatoon_' .. name .. factionName .. tech,
+                    PlatoonTemplate = self:CreateTransportPlatoonTemplate(tech, faction),
+                    Priority = 200 * tech,
+                    PlatoonType = 'Air',
+                    RequiresConstruction = true,
+                    LocationType = name,
+                    PlatoonAIFunction = { '/lua/ScenarioPlatoonAI.lua', 'TransportPool' },
+                    BuildConditions = {
+                        { ABMBC, 'NeedTransports', { name } },
+                        { ABMBC, 'TransportsEnabled', { name } },
+                    },
+                    PlatoonData = {
+                        BaseName = name,
+                    },
+                    InstanceCount = 1,
+                }
+            end
         end
     end,
 
