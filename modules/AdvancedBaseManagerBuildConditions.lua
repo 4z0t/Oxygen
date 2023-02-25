@@ -40,12 +40,15 @@ function NeedTransports(aiBrain, baseName)
 
     local counter = 0
     for _, transport in globalPool:GetPlatoonUnits() do
-        aiBrain:AssignUnitsToPlatoon(transportPool, { transport }, 'Scout', "None")
-        IssueMove({ transport }, bManager.Position)
+        if not transport.Dead then
 
-        counter = counter + 1
-        if counter + count >= bManager.TransportsNeeded then return false end
+            aiBrain:AssignUnitsToPlatoon(transportPool, { transport }, 'Scout', "None")
+            IssueMove({ transport }, bManager.Position)
 
+            counter = counter + 1
+            if counter + count >= bManager.TransportsNeeded then return false end
+
+        end
     end
 
     return true
