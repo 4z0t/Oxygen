@@ -41,6 +41,53 @@ function TransportPool(platoon)
     aiBrain:AssignUnitsToPlatoon(poolName, platoon:GetPlatoonUnits(), 'Scout', 'GrowthFormation')
 end
 
+---@param platoon Platoon
+---@param data table
+function ReturnTransportsToPool(platoon, data)
+    ---@type AIBrain
+    local aiBrain = platoon:GetBrain()
+    local transports = platoon:GetSquadUnits('Scout')
+
+    if table.empty(transports) then return end
+
+
+    local poolName = 'TransportPool'
+    local baseName = data.BaseName
+    if baseName then
+        poolName = baseName .. '_TransportPool'
+    end
+    LOG(poolName)
+
+    aiBrain:AssignUnitsToPlatoon(poolName, transports, 'Scout', 'None')
+
+
+    -- If a route or chain was given, reverse it on return
+    if data.TransportRoute then
+        for i = table.getn(data.TransportRoute), 1, -1 do
+            if type(data.TransportRoute[i]) == 'string' then
+                IssueMove(transports, ScenarioUtils.MarkerToPosition(data.TransportRoute[i]))
+            else
+                IssueMove(transports, data.TransportRoute[i])
+            end
+        end
+        -- If a route chain was given, reverse the route on return
+    elseif data.TransportChain then
+        local transPositionChain = ScenarioUtils.ChainToPositions(data.TransportChain)
+        for i = table.getn(transPositionChain), 1, -1 do
+            IssueMove(transports, transPositionChain[i])
+        end
+    end
+
+    -- Return to Transport Return position
+    if data.TransportReturn then
+        if type(data.TransportReturn) == 'string' then
+            IssueMove(transports, ScenarioUtils.MarkerToPosition(data.TransportReturn))
+        else
+            IssueMove(transports, data.TransportReturn)
+        end
+    end
+end
+
 --- Utility Function
 --- Function that gets the correct number of transports for a platoon
 ---@param platoon Platoon
@@ -61,7 +108,7 @@ function GetTransportsThread(platoon)
         if baseName then
             poolName = baseName .. '_TransportPool'
         end
-        
+
         local pool = GetPlatoonUniquelyNamedOrMake(aiBrain, poolName)
 
         while transportsNeeded do
