@@ -8,8 +8,15 @@ function TransportsEnabled(aiBrain, baseName)
     return bManager.FunctionalityStates.Transporting
 end
 
-
 -- use base manager transport pool!
+-- transport attack function must have timeout during which units await transport
+
+
+
+
+
+
+
 
 ---@param aiBrain AIBrain
 ---@param baseName string
@@ -20,20 +27,26 @@ function NeedTransports(aiBrain, baseName)
     if not bManager then return false end
 
 
-
-    -- for _, platoon in aiBrain:GetPlatoonsList() do
-    --     local platoonBaseName = platoon.PlatoonData.BaseName
-    --     if platoonBaseName and platoonBaseName == baseName then
-    --         for _, unit in platoon:GetPlatoonUnits() do
-    --             if EntityCategoryContains(categories.TRANSPORTATION, unit) then
-    --                 count = count + 1
-    --             end
-    --         end
-    --     end
-    -- end
-    local transportPool = aiBrain:GetPlatoonUniquelyNamed "TransportPool"
+    local transportPool = aiBrain:GetPlatoonUniquelyNamed(baseName .. "_TransportPool")
     if not transportPool then return true end
 
     local count = table.getn(transportPool:GetPlatoonUnits())
-    return bManager.TransportsNeeded > count
+
+    if count >= bManager.TransportsNeeded then return false end
+
+    local globalPool = aiBrain:GetPlatoonUniquelyNamed("TransportPool")
+    if not globalPool then return true end
+
+
+    local counter = 0
+    for _, transport in globalPool:GetPlatoonUnits() do
+        aiBrain:AssignUnitsToPlatoon(transportPool, { transport }, 'Scout', "None")
+        IssueMove({ transport }, bManager.Position)
+
+        counter = counter + 1
+        if counter + count >= bManager.TransportsNeeded then return false end
+
+    end
+
+    return true
 end

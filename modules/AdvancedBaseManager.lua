@@ -189,6 +189,12 @@ AdvancedBaseManager = Class(BaseManager)
         local location = self.BaseName
         local aiBrain = self.AIBrain
         for _, platoon in platoons do
+
+            --keeping track of platoon's basename
+            if platoon.PlatoonData then
+                platoon.PlatoonData.BaseName = platoon.PlatoonData.BaseName or location
+            end
+
             if platoon.LocationType ~= location then
                 local prevLocation = platoon.LocationType
                 platoon.LocationType = location
@@ -738,7 +744,7 @@ AdvancedBaseManager = Class(BaseManager)
                 PlatoonData = {
                     BaseName = name,
                 },
-                InstanceCount = 3,
+                InstanceCount = 2,
             }
         end
     end,

@@ -3,7 +3,7 @@ local ScenarioPlatoonAI = import('/lua/ScenarioPlatoonAI.lua')
 local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 
 
-function PlatoonAttackWithTransportsThread(platoon, landingChain, attackChain, instant, moveChain)
+function PlatoonAttackWithTransportsThreadReturnToPool(platoon, landingChain, attackChain, instant, moveChain)
     local aiBrain = platoon:GetBrain()
     local allUnits = platoon:GetPlatoonUnits()
     local startPos = platoon:GetPlatoonPosition()
@@ -73,8 +73,5 @@ end
 ---@param instant? boolean
 ---@param moveChain? MarkerChain
 function AttackWithTransportsReturnToPool(platoon, landingChain, attackChain, instant, moveChain)
-    ForkThread(PlatoonAttackWithTransportsThread, platoon, landingChain, attackChain, instant, moveChain)
+    ForkThread(PlatoonAttackWithTransportsThreadReturnToPool, platoon, landingChain, attackChain, instant, moveChain)
 end
-
-
-
