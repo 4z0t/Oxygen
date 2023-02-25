@@ -56,7 +56,6 @@ function ReturnTransportsToPool(platoon, data)
     if baseName then
         poolName = baseName .. '_TransportPool'
     end
-    LOG(poolName)
 
     aiBrain:AssignUnitsToPlatoon(poolName, transports, 'Scout', 'None')
 
