@@ -8,12 +8,6 @@ function TransportsEnabled(aiBrain, baseName)
     return bManager.FunctionalityStates.Transporting
 end
 
--- use base manager transport pool!
--- transport attack function must have timeout during which units await transport
-
-
-
-
 
 
 
@@ -41,11 +35,11 @@ function NeedTransports(aiBrain, baseName)
     local counter = 0
 
     for _, transport in globalPool:GetPlatoonUnits() do
-            aiBrain:AssignUnitsToPlatoon(transportPool, { transport }, 'Scout', "None")
-            IssueMove({ transport }, bManager.Position)
+        aiBrain:AssignUnitsToPlatoon(transportPool, { transport }, 'Scout', "None")
+        IssueMove({ transport }, bManager.Position)
 
-            counter = counter + 1
-            if counter + count >= bManager.TransportsNeeded then return false end
+        counter = counter + 1
+        if counter + count >= bManager.TransportsNeeded then return false end
     end
 
     return true

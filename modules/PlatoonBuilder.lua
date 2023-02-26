@@ -40,19 +40,28 @@ local BC = import("BuildConditions.lua")
 ---@field BuildClose boolean
 ---@field BuildStructures StructureType[]
 
+---@class Transporting_PlatoonDataTable
+---@field TransportReturn Marker? @Location for transports to return to (they will attack with land units if this isn't set)
+---@field UseTransports boolean?
+---@field TransportRoute  Marker[]? 
+---@field TransportChain MarkerChain?
+---@field LandingLocation Marker
 
 
----@class LandAssaultWithTransports_PlatoonDataTable
+---@class StartBaseEngineerThread_PlatoonDataTable: Transporting_PlatoonDataTable
+
+
+
+---@class LandAssaultWithTransports_PlatoonDataTable:Transporting_PlatoonDataTable
 ---@field TransportChain MarkerChain?
 ---@field AssaultChains MarkerChain[]?
 ---@field AttackChain MarkerChain?
 ---@field LandingChain MarkerChain?
 ---@field LandingList Marker[]? @List of possible locations for transports to unload units
 ---@field RandomPatrol boolean?
----@field TransportReturn Marker? @Location for transports to return to (they will attack with land units if this isn't set)
 ---@field PatrolChain MarkerChain?
 
----@class PlatoonDataTable : LandAssaultWithTransports_PlatoonDataTable
+---@class PlatoonDataTable : LandAssaultWithTransports_PlatoonDataTable, StartBaseEngineerThread_PlatoonDataTable
 ---@field PatrolChains MarkerChain[]?
 ---@field PatrolChain MarkerChain?
 ---@field LocationChain MarkerChain?
@@ -320,7 +329,7 @@ PlatoonBuilder = ClassSimple
     ---@param value number
     ---@return PlatoonTemplateBuilder
     AddArmiesCategoryCondition = function(self, armies, category, compareOp, value)
-        return self:AddCondition(BC.ArmiesCategoryCondition(armies, category,compareOp, value))
+        return self:AddCondition(BC.ArmiesCategoryCondition(armies, category, compareOp, value))
     end,
 
     ---comment
