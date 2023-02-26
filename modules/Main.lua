@@ -43,7 +43,7 @@ _G.Oxygen = {
     },
 
     ---returns map folder
-    ---@return string
+    ---@return FileName
     MapFolder = function()
         return ScenarioInfo.map:gsub("[^/]*%.scmap$", "")
     end
