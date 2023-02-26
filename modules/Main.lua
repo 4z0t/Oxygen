@@ -40,5 +40,11 @@ _G.Oxygen = {
         Missiles = "/mods/Oxygen/modules/PlatoonAIs/Missiles.lua",
         Air = "",
         Naval = "",
-    }
+    },
+
+    ---returns map folder
+    ---@return string
+    MapFolder = function()
+        return ScenarioInfo.map:gsub("[^/]*%.scmap$", "")
+    end
 }
