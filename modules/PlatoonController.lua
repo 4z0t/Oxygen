@@ -57,6 +57,8 @@ PlatoonController = ClassSimple
         return self:Platoon(ScenarioUtils.CreateArmyGroupAsPlatoon(armyName, unitGroup, formation or 'NoFormation'))
     end,
 
+
+
     ---Creates platoon from unit group defined in map and uses it
     ---@param self PlatoonController
     ---@param armyName ArmyName
@@ -85,6 +87,63 @@ PlatoonController = ClassSimple
     end,
 
 
+    ---Adds units to platoon
+    ---@param self PlatoonController
+    ---@param units Unit[]
+    ---@param squad? PlatoonSquads
+    ---@param formation? FormationType
+    ---@return PlatoonController
+    AddUnits = function(self, units, squad, formation)
+        assert(self.platoon, "No platoon for PlatoonController specified yet")
+
+        ---@type AIBrain
+        local aiBrain = self.platoon:GetBrain()
+        aiBrain:AssignUnitsToPlatoon(self.platoon, units, squad or "None", formation or "NoFormation")
+        return self
+    end,
+
+
+    AddUnit = function(self, unit, squad, formation)
+        return self:AddUnits({ unit }, squad, formation)
+    end,
+
+
+
+
+
+    ---Orders platoon to move along the chain
+    ---@param self PlatoonController
+    ---@param chain MarkerChain
+    ---@param squad? PlatoonSquads
+    ---@return PlatoonController
+    MoveChain = function(self, chain, squad)
+        ScenarioFramework.PlatoonMoveChain(self.platoon, chain, squad)
+        return self
+    end,
+
+    ---Orders platoon to patrol along the chain
+    ---@param self PlatoonController
+    ---@param chain MarkerChain
+    ---@param squad? PlatoonSquads
+    ---@return PlatoonController
+    PatrolChain = function(self, chain, squad)
+        ScenarioFramework.PlatoonPatrolChain(self.platoon, chain, squad)
+        return self
+    end,
+
+    ---Orders platoon to attack-move along the chain
+    ---@param self PlatoonController
+    ---@param chain MarkerChain
+    ---@param squad? PlatoonSquads
+    ---@return PlatoonController
+    AttackChain = function(self, chain, squad)
+        ScenarioFramework.PlatoonAttackChain(self.platoon, chain, squad)
+        return self
+    end,
+
+
+
+
     ---Orders to platoon to attack with transports with specified landing and attack chains
     ---@param self PlatoonController
     ---@param landingChain MarkerChain
@@ -107,7 +166,10 @@ PlatoonController = ClassSimple
     AttackWithTransportsReturnToPool = function(self, landingChain, attackChain, instant, moveChain)
         PlatoonAIsLand.AttackWithTransportsReturnToPool(self.platoon, landingChain, attackChain, instant, moveChain)
         return self
-    end
+    end,
+
+
+
 
 
 

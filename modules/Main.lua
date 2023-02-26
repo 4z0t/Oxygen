@@ -34,4 +34,11 @@ _G.Oxygen = {
     PlatoonController = import("PlatoonController.lua").PlatoonController,
 
     Game = import("GameManager.lua"),
+
+    PlatoonAI = {
+        Land = "/mods/Oxygen/modules/PlatoonAIs/Land.lua",
+        Missiles = "/mods/Oxygen/modules/PlatoonAIs/Missiles.lua",
+        Air = "",
+        Naval = "",
+    }
 }
