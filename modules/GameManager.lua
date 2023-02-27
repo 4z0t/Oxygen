@@ -4,9 +4,12 @@ local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 
 Armies = import("ArmyManager.lua")
 
+---Sets playable area. if voFlag is true game informs about expansion with voice over (defaults to true)
+---@type fun(area: Area | Rectangle, voFlag?: boolean)
 SetPlayableArea = ScenarioFramework.SetPlayableArea
 
 CreateVisibleAreaAtLocation = ScenarioFramework.CreateVisibleAreaLocation
+
 
 
 ---returns human units of specified category in area

@@ -3,6 +3,9 @@ local Utils = import("Utils.lua")
 local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 
 
+---Sets shared unit cap for Human players
+---@type fun(cap:integer)
+SetSharedUnitCap = ScenarioFramework.SetSharedUnitCap
 
 Initialize = ScenarioUtils.InitializeScenarioArmies
 
