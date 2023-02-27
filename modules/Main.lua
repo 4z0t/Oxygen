@@ -4,6 +4,10 @@ if not table.random then
     end
 end
 
+---@type FileName
+local mapFolder
+
+
 ---Oxygen is Framework for creating coop missions for Supreme Commander FAF.
 ---Less code -- more Oxygen
 _G.Oxygen = {
@@ -42,9 +46,11 @@ _G.Oxygen = {
         Naval = "",
     },
 
-    ---returns map folder
+    ---adds map folder path to given path of file of scenrio, if nil returns map folder
+    ---@param path? string
     ---@return FileName
-    MapFolder = function()
-        return ScenarioInfo.map:gsub("[^/]*%.scmap$", "")
+    MapFolder = function(path)
+        mapFolder = mapFolder or ScenarioInfo.map:gsub("[^/]*%.scmap$", "")
+        return mapFolder .. (path or "")
     end
 }
