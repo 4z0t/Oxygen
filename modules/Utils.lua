@@ -54,5 +54,8 @@ end
 ---@return integer
 ---@return integer
 function UnpackColor(color)
+    if color:len() == 6 then
+        return GetAlpha(color), GetRed(color), GetGreen(color)
+    end
     return GetRed(color), GetGreen(color), GetBlue(color)
 end
