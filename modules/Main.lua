@@ -45,6 +45,9 @@ _G.Oxygen = {
         Air = "",
         Naval = "",
     },
+    
+    ---@type table<string, AIBrain>
+    Brains = {},
 
     ---adds map folder path to given path of file of scenrio, if nil returns map folder
     ---@param path? string
