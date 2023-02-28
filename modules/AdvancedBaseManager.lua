@@ -114,7 +114,7 @@ AdvancedBaseManager = Class(BaseManager)
             bc = BC.RemoveDefaultBrain(bc)
             local func = import(bc[1])[ bc[2] ]
 
-            assert(func ~ nil,
+            assert(func ~= nil,
                 "AdvancedBaseManager.AddBuildStructures: (" .. bc[1] .. ") " .. bc[2] .. " does not exist!")
 
             table.insert(conditionsAndArgs,
