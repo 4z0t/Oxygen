@@ -769,7 +769,54 @@ AdvancedBaseManager = Class(BaseManager)
         template = ScenarioUtils.FactionConvert(template, faction)
         return template
     end,
+}
 
 
+---class of advanced base manager with PlatoonNukeAI in use
+---@class NukeBaseManger : AdvancedBaseManager
+NukeBaseManger = Class(AdvancedBaseManager)
+{
 
+    ---@param self NukeBaseManger
+    LoadDefaultBaseNukes = function(self)
+        local name = self.BaseName
+        if not self.MultiFaction then
+            self.AIBrain:PBMAddPlatoon {
+                BuilderName = 'BaseManager_NukePlatoon_' .. name,
+                PlatoonTemplate = self:CreateNukePlatoonTemplate(),
+                Priority = 400,
+                PlatoonType = 'Any',
+                RequiresConstruction = false,
+                LocationType = name,
+                PlatoonAIFunction = { Oxygen.PlatoonAI.Missiles, 'PlatoonNukeAI' },
+                BuildConditions = {
+                    { BMBC, 'BaseActive', { name } },
+                    { BMBC, 'NukesEnabled', { name } },
+                },
+                PlatoonData = {
+                    BaseName = name,
+                },
+            }
+            return
+        end
+        for faction = 1, 4 do
+            local factionName = Factions[faction].Key
+            self.AIBrain:PBMAddPlatoon {
+                BuilderName = 'BaseManager_NukePlatoon_' .. name .. factionName,
+                PlatoonTemplate = self:CreateNukePlatoonTemplate(faction),
+                Priority = 400,
+                PlatoonType = 'Any',
+                RequiresConstruction = false,
+                LocationType = name,
+                PlatoonAIFunction = { Oxygen.PlatoonAI.Missiles, 'PlatoonNukeAI' },
+                BuildConditions = {
+                    { BMBC, 'BaseActive', { name } },
+                    { BMBC, 'NukesEnabled', { name } },
+                },
+                PlatoonData = {
+                    BaseName = name,
+                },
+            }
+        end
+    end,
 }
