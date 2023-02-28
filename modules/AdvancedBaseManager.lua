@@ -94,28 +94,29 @@ AdvancedBaseManager = Class(BaseManager)
     ---@param groupName UnitGroup
     ---@param conditions BuildStructuresCondition
     AddBuildStructures = function(self, groupName, conditions)
-        if self.BuildStructuresConditions[groupName] then
-            error("AdvancedBaseManager.AddBuildStructures: given UnitGroup " ..
-                groupName .. " already presents in conditions")
-        end
-        if conditions.Priority == nil then
-            error("AdvancedBaseManager.AddBuildStructures: Priority must be a number, not nil")
-        end
+        assert(self.BuildStructuresConditions[groupName] == nil,
+            "AdvancedBaseManager.AddBuildStructures: given UnitGroup " .. groupName .. " already presents in conditions")
+
+        assert(conditions.Priority, "AdvancedBaseManager.AddBuildStructures: Priority must be a number, not nil")
+
         local bcs = conditions.BuildConditions
-        if bcs == nil then
-            error("AdvancedBaseManager.AddBuildStructures: BuildCondition must be a reference to a function: {<MODULE PATH>,<FUNCTION NAME>,{<ARGS>}")
-        end
+
+        assert(bcs,
+            "AdvancedBaseManager.AddBuildStructures: BuildConditions must be a references to a functions: {<MODULE PATH>,<FUNCTION NAME>,{<ARGS>}")
+
         ---@type ConditionFuncAndArgs[]
         local conditionsAndArgs = {}
         for _, bc in bcs do
-            if bc[1] == nil or bc[2] == nil then
-                error("AdvancedBaseManager.AddBuildStructures: BuildCondition must contain a reference to a function!")
-            end
+
+            assert(bc[1] and bc[2],
+                "AdvancedBaseManager.AddBuildStructures: BuildCondition must contain a reference to a function!")
+
             bc = BC.RemoveDefaultBrain(bc)
             local func = import(bc[1])[ bc[2] ]
-            if func == nil then
-                error("AdvancedBaseManager.AddBuildStructures: (" .. bc[1] .. ") " .. bc[2] .. " does not exist!")
-            end
+
+            assert(func ~ nil,
+                "AdvancedBaseManager.AddBuildStructures: (" .. bc[1] .. ") " .. bc[2] .. " does not exist!")
+
             table.insert(conditionsAndArgs,
                 {
                     func = func,
