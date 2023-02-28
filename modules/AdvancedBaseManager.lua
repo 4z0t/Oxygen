@@ -282,50 +282,50 @@ AdvancedBaseManager = Class(BaseManager)
         local list = baseTemplates.List
         local unitNames = baseTemplates.UnitNames
         local buildCounter = baseTemplates.BuildCounter
-        if not tblUnit then
-            error('*AI DEBUG - Group: ' .. groupName, 2)
-        else
-            for factionIndex = 1, 4 do
-                -- Convert building to the proper type to be built if needed (ex: T2 and T3 factories to T1)
-                for i, unit in tblUnit do
-                    for k, unitId in RebuildStructuresTemplate[factionIndex] do
-                        if unit.type == unitId[1] then
-                            table.insert(self.UpgradeTable, { FinalUnit = unit.type, UnitName = i, })
-                            unit.buildtype = unitId[2]
-                            break
-                        end
-                    end
-                    if not unit.buildtype then
-                        unit.buildtype = unit.type
+
+        assert(tblUnit, '*AI DEBUG - Group: ' .. groupName)
+
+        for factionIndex = 1, 4 do
+            -- Convert building to the proper type to be built if needed (ex: T2 and T3 factories to T1)
+            for i, unit in tblUnit do
+                for k, unitId in RebuildStructuresTemplate[factionIndex] do
+                    if unit.type == unitId[1] then
+                        table.insert(self.UpgradeTable, { FinalUnit = unit.type, UnitName = i, })
+                        unit.buildtype = unitId[2]
+                        break
                     end
                 end
-                for i, unit in tblUnit do
-                    self:StoreStructureName(i, unit, unitNames)
-                    for j, buildList in BuildingTemplates[factionIndex] do -- BuildList[1] is type ("T1LandFactory"); buildList[2] is unitId (ueb0101)
-                        local unitPos = { unit.Position[1], unit.Position[3], 0 }
-                        if unit.buildtype == buildList[2] and buildList[1] ~= 'T3Sonar' then -- If unit to be built is the same id as the buildList unit it needs to be added
-                            self:StoreBuildCounter(buildCounter, buildList[1], buildList[2], unitPos, i)
+                if not unit.buildtype then
+                    unit.buildtype = unit.type
+                end
+            end
+            for i, unit in tblUnit do
+                self:StoreStructureName(i, unit, unitNames)
+                for j, buildList in BuildingTemplates[factionIndex] do -- BuildList[1] is type ("T1LandFactory"); buildList[2] is unitId (ueb0101)
+                    local unitPos = { unit.Position[1], unit.Position[3], 0 }
+                    if unit.buildtype == buildList[2] and buildList[1] ~= 'T3Sonar' then -- If unit to be built is the same id as the buildList unit it needs to be added
+                        self:StoreBuildCounter(buildCounter, buildList[1], buildList[2], unitPos, i)
 
-                            local inserted = false
-                            for k, section in template do -- Check each section of the template for the right type
-                                if section[1][1] == buildList[1] then
-                                    table.insert(section, unitPos) -- Add position of new unit if found
-                                    list[unit.buildtype].AmountWanted = list[unit.buildtype].AmountWanted + 1 -- Increment num wanted if found
-                                    inserted = true
-                                    break
-                                end
+                        local inserted = false
+                        for k, section in template do -- Check each section of the template for the right type
+                            if section[1][1] == buildList[1] then
+                                table.insert(section, unitPos) -- Add position of new unit if found
+                                list[unit.buildtype].AmountWanted = list[unit.buildtype].AmountWanted + 1 -- Increment num wanted if found
+                                inserted = true
+                                break
                             end
-                            if not inserted then -- If section doesn't exist create new one
-                                table.insert(template, { { buildList[1] }, unitPos }) -- add new build type to list with new unit
-                                list[unit.buildtype] = { StructureType = buildList[1], StructureCategory = unit.buildtype,
-                                    AmountNeeded = 0, AmountWanted = 1, CloseToBuilder = nil } -- add new section of build list with new unit type information
-                            end
-                            break
                         end
+                        if not inserted then -- If section doesn't exist create new one
+                            table.insert(template, { { buildList[1] }, unitPos }) -- add new build type to list with new unit
+                            list[unit.buildtype] = { StructureType = buildList[1], StructureCategory = unit.buildtype,
+                                AmountNeeded = 0, AmountWanted = 1, CloseToBuilder = nil } -- add new section of build list with new unit type information
+                        end
+                        break
                     end
                 end
             end
         end
+
     end,
 
     ---@param self AdvancedBaseManager
