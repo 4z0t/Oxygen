@@ -43,8 +43,8 @@ _G.Oxygen = {
     PlatoonAI = {
         Land = "/mods/Oxygen/modules/PlatoonAIs/Land.lua",
         Missiles = "/mods/Oxygen/modules/PlatoonAIs/Missiles.lua",
-        Air = "",
-        Naval = "",
+        Air = "/mods/Oxygen/modules/PlatoonAIs/Air.lua",
+        Naval = "/mods/Oxygen/modules/PlatoonAIs/Naval.lua",
     },
 
     ---@type table<string, AIBrain>
