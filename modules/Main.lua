@@ -50,10 +50,10 @@ _G.Oxygen = {
     ---@type table<string, AIBrain>
     Brains = {},
 
-    ---adds script folder path to given path of file of scenario, if nil returns script folder
+    ---adds scenario folder path to given path of file, if nil returns scenario folder
     ---@param path? string
     ---@return FileName
-    Folder = function(path)
+    ScenarioFolder = function(path)
         mapFolder = mapFolder or ScenarioInfo.script:gsub("[^/]*%.lua$", "")
         return mapFolder .. (path or "")
     end
