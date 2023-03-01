@@ -19,9 +19,11 @@ function TransportPool(platoon)
 
     local poolName = 'TransportPool'
 
-    local baseName = data.BaseName
-    if baseName then
-        poolName = baseName .. '_TransportPool'
+    do
+        local baseName = data.BaseName
+        if baseName then
+            poolName = baseName .. '_TransportPool'
+        end
     end
 
     GetPlatoonUniquelyNamedOrMake(aiBrain, poolName)
@@ -52,9 +54,12 @@ function ReturnTransportsToPool(platoon, data)
 
 
     local poolName = 'TransportPool'
-    local baseName = data.BaseName
-    if baseName then
-        poolName = baseName .. '_TransportPool'
+    
+    do
+        local baseName = data.BaseName
+        if baseName then
+            poolName = baseName .. '_TransportPool'
+        end
     end
 
     aiBrain:AssignUnitsToPlatoon(poolName, transports, 'Scout', 'None')
@@ -99,9 +104,9 @@ function GetTransportsThread(platoon)
 
     local neededTable = GetNumTransports(platoon)
     local transportsNeeded = neededTable.Small > 0 or neededTable.Medium > 0 or neededTable.Large > 0
-    
+
     if not transportsNeeded then return 0 end
-    
+
     local numTransports = 0
     local transSlotTable = {}
 
