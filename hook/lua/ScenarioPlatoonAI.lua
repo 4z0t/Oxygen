@@ -54,7 +54,7 @@ function ReturnTransportsToPool(platoon, data)
 
 
     local poolName = 'TransportPool'
-    
+
     do
         local baseName = data.BaseName
         if baseName then
@@ -244,5 +244,5 @@ function GetTransportsThread(platoon)
             end
         end
     end
-
+    return numTransports
 end
