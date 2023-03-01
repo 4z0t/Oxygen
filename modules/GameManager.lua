@@ -14,7 +14,7 @@ CreateVisibleAreaAtLocation = ScenarioFramework.CreateVisibleAreaLocation
 
 ---returns human units of specified category in area
 ---@param category EntityCategory
----@param area (Area|Rectangle)?
+---@param area? (Area|Rectangle)
 ---@return Unit[]
 function GetHumanUnits(category, area)
     local result = {}
