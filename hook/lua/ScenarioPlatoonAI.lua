@@ -78,13 +78,14 @@ function ReturnTransportsToPool(platoon, data)
     end
 
     -- Return to Transport Return position
-    if data.TransportReturn then
-        if type(data.TransportReturn) == 'string' then
-            IssueMove(transports, ScenarioUtils.MarkerToPosition(data.TransportReturn))
-        else
-            IssueMove(transports, data.TransportReturn)
-        end
+    if not data.TransportReturn then return end
+    
+    if type(data.TransportReturn) == 'string' then
+        IssueMove(transports, ScenarioUtils.MarkerToPosition(data.TransportReturn))
+    else
+        IssueMove(transports, data.TransportReturn)
     end
+
 end
 
 --- Utility Function
@@ -113,10 +114,11 @@ function GetTransportsThread(platoon)
         while transportsNeeded do
             neededTable = GetNumTransports(platoon)
             -- Make sure more are needed
-            local tempNeeded = {}
-            tempNeeded.Small = neededTable.Small
-            tempNeeded.Medium = neededTable.Medium
-            tempNeeded.Large = neededTable.Large
+            local tempNeeded = {
+                Small = neededTable.Small,
+                Medium = neededTable.Medium,
+                Large = neededTable.Large
+            }
             -- Find out how many units are needed currently
             for _, v in platoon:GetPlatoonUnits() do
                 if not v.Dead then
@@ -188,10 +190,11 @@ function GetTransportsThread(platoon)
                             if not transSlotTable[id] then
                                 transSlotTable[id] = GetNumTransportSlots(sortedList[i].Unit)
                             end
-                            local tempSlots = {}
-                            tempSlots.Small = transSlotTable[id].Small
-                            tempSlots.Medium = transSlotTable[id].Medium
-                            tempSlots.Large = transSlotTable[id].Large
+                            local tempSlots = {
+                                Small = transSlotTable[id].Small,
+                                Medium = transSlotTable[id].Medium,
+                                Large = transSlotTable[id].Large
+                            }
                             -- Update number of slots needed
                             while tempNeeded.Large > 0 and tempSlots.Large > 0 do
                                 tempNeeded.Large = tempNeeded.Large - 1
