@@ -47,6 +47,11 @@ _G.Oxygen = {
         Naval = "/mods/Oxygen/modules/PlatoonAIs/Naval.lua",
     },
 
+    ---Use this table for intellisence support:
+    ---```lua
+    ---Oxygen.Brains.Aeon = ArmyBrains[2]
+    ---...
+    ---```
     ---@type table<string, AIBrain>
     Brains = {},
 
