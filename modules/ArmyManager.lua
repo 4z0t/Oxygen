@@ -175,3 +175,10 @@ function GetUnits(army, category, area)
     end
     error "Unknown army type!"
 end
+
+function CreateArmyGroup(strArmy, groupName, useDifficulty)
+    if useDifficulty then
+        groupName = groupName .. '_D' .. ScenarioInfo.Options.Difficulty
+    end
+    return ScenarioUtils.CreateArmyGroup(strArmy, groupName, false)
+end
