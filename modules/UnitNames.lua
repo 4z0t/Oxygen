@@ -110,6 +110,52 @@
 --- |    "Aeon LAB"
 --- |    "Hunter"
 --- |    "Cybran LAB"
+--- |     "Striker"
+--- | "Mantis"
+--- | "T1 Cybran Tank"
+--- | "Striker"
+--- | "T1 UEF Tank"
+--- | "Aurora"
+--- | "T1 Aeon Tank"
+--- | "Thaam"
+--- | "T1 Sera Tank"
+--- | "Lobo"
+--- | "T1 UEF Artillery"
+--- | "Pillar"
+--- | "T2 UEF Tank"
+--- | "T2 UEF MAA"
+--- | "Sky Boxer"
+--- | "Parashield"
+--- | "T2 UEF Mobile Shield"
+--- | "T2 UEF MML"
+--- | "Flapjack"
+--- | "Titan"
+--- | "T3 UEF Bot"
+--- | "Cougar"
+--- | "T3 UEF MAA"
+--- | "Percival"
+--- | "T3 UEF Armored Bot"
+--- | "T2 UEF Field Engineer"
+--- | "Sparky"
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
 --- |
 --- |
 --- |
@@ -277,10 +323,7 @@ local idsToNames = {
         "T1 Cybran Arty"
     },
 
-    ["URL0107"] = {
-        "Mantis",
 
-    },
     ["XRL0302"] = {
         "Fire Beetle",
         "Beetle",
@@ -332,6 +375,70 @@ local idsToNames = {
     },
 
 
+    --- t1 tanks
+
+    ["URL0107"] = {
+        "Mantis",
+        "T1 Cybran Tank"
+    },
+    ["UEL0201"] = {
+        "Striker",
+        "T1 UEF Tank"
+    },
+    ["UAL0201"] = {
+        "Aurora",
+        "T1 Aeon Tank"
+    },
+    ["XSL0201"] = {
+        "Thaam",
+        "T1 Sera Tank"
+    },
+
+
+
+    ["UEL0103"] = {
+        "Lobo",
+        "T1 UEF Artillery"
+    },
+    ["UEL0202"] = {
+        "Pillar",
+        "T2 UEF Tank"
+    },
+    ["UEL0205"] = {
+        "T2 UEF MAA",
+        "Sky Boxer"
+    },
+    ["UEL0307"] = {
+        "Parashield",
+        "T2 UEF Mobile Shield"
+    },
+    ["UEL0111"] = {
+        "T2 UEF MML",
+        "Flapjack"
+    },
+    ["UEL0303"] = {
+        "Titan",
+        "T3 UEF Bot"
+    },
+    ["DELK002"] = {
+        "Cougar",
+        "T3 UEF MAA"
+    },
+    ["XEL0305"] = {
+        "Percival",
+        "T3 UEF Armored Bot"
+    },
+    ["XEL0209"] = {
+        "T2 UEF Field Engineer",
+        "Sparky",
+    },
+    -- [""]={},
+    -- [""]={},
+
+    --- t1 maas
+
+    --- t1 arty
+
 
 
 
@@ -353,7 +460,7 @@ local function Init()
         local id = _id:lower()
         for _, name in names do
             name = name:lower()
-            
+
             assert(namesToIds[name] == nil, debug.traceback("Attempt to assign same name twice " .. name))
 
             namesToIds[name] = id
