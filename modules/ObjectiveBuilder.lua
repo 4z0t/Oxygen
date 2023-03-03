@@ -15,6 +15,7 @@ local EmptyFunc = function() end
 --- | "Unknown"
 --- | "Basic"
 --- | "ArmyStatCompare"
+--- | "Damage"
 
 ---@alias ObjectiveAction
 --- | "kill"
@@ -28,10 +29,12 @@ local EmptyFunc = function() end
 --- | "locate"
 --- | "group"
 --- | "killorcapture"
+--- | "damage"
 
 
 local actionToFunction =
 {
+    ["damage"] = "Damage",
     ["kill"] = "Kill",
     ["capture"] = "Capture",
     ["build"] = "CategoriesInArea",
@@ -130,6 +133,8 @@ end
 ---@field CompareOp CompareOp?
 ---@field Value integer?
 ---@field Category EntityCategory?
+---@field Amount number? @For "Damage"
+---@field RepeatNum integer? @For "Damage"
 
 
 
