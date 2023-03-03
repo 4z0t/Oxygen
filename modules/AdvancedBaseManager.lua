@@ -124,7 +124,7 @@ AdvancedBaseManager = Class(BaseManager)
                 })
         end
         self.BuildStructuresConditions[groupName] = {
-            type = conditions.Type or "OR",
+            type = conditions.Type or "ANY",
             priority = conditions.Priority,
             conditions = conditionsAndArgs,
             difficultySeparate = conditions.DifficultySeparate,

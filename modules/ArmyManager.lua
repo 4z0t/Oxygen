@@ -176,6 +176,13 @@ function GetUnits(army, category, area)
     error "Unknown army type!"
 end
 
+
+
+---Creates army group defined on the map
+---@param strArmy string
+---@param groupName string
+---@param useDifficulty? boolean @flag for using difficulty based army group division
+---@return Unit[]|nil
 function CreateArmyGroup(strArmy, groupName, useDifficulty)
     if useDifficulty then
         groupName = groupName .. '_D' .. ScenarioInfo.Options.Difficulty
