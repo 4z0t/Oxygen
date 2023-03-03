@@ -118,10 +118,8 @@ ObjectiveManager = ClassSimple
                         if nextObj then
                             self:Start(nextObj)
                         end
-                    else
-                        if onFailFunc then
-                            ForkThread(onFailFunc, unpack(arg))
-                        end
+                    elseif onFailFunc then
+                        ForkThread(onFailFunc, unpack(arg))
                     end
                 end
             )

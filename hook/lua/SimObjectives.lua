@@ -17,15 +17,15 @@ function Damage(Type, Complete, Title, Description, Target)
 
     -- Call ManualResult
     objective.ManualResult = function(self, result)
-        objective.Active = false
-        objective:OnResult(result)
+        self.Active = false
+        self:OnResult(result)
         local resultStr
         if result then
             resultStr = 'complete'
         else
             resultStr = 'failed'
         end
-        UpdateObjective(Title, 'complete', resultStr, objective.Tag)
+        UpdateObjective(Title, 'complete', resultStr, self.Tag)
     end
 
 
@@ -48,14 +48,13 @@ function Damage(Type, Complete, Title, Description, Target)
 
     for _, unit in Target.Units do
         if not unit.Dead then
-            -- Mark the units unless MarkUnits == false
-            if Target.MarkUnits == nil or Target.MarkUnits then
+            if Target.MarkUnits then
                 import("/lua/objectivearrow.lua").ObjectiveArrow { AttachTo = unit }
             end
             if Target.FlashVisible then
                 FlashViz(unit)
             end
-            CreateTriggers(unit, objective, true) -- Reclaiming is same as killing for our purposes
+            CreateTriggers(unit, objective)
         end
     end
 
