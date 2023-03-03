@@ -750,6 +750,29 @@ AdvancedBaseManager = Class(BaseManager)
                     InstanceCount = 2,
                 }
             end
+            if faction == 1 then
+                self.AIBrain:PBMAddPlatoon {
+                    BuilderName = 'BaseManager_TransportPlatoon_' .. name .. "UEF3",
+                    PlatoonTemplate = {
+                        'TransportTemplate',
+                        'NoPlan',
+                        { "xea0306", 1, 1, 'Attack', 'None' },
+                    },
+                    Priority = 600,
+                    PlatoonType = 'Air',
+                    RequiresConstruction = true,
+                    LocationType = name,
+                    PlatoonAIFunction = { '/lua/ScenarioPlatoonAI.lua', 'TransportPool' },
+                    BuildConditions = {
+                        { ABMBC, 'NeedTransports', { name } },
+                        { ABMBC, 'TransportsEnabled', { name } },
+                    },
+                    PlatoonData = {
+                        BaseName = name,
+                    },
+                    InstanceCount = 2,
+                }
+            end
         end
     end,
 
@@ -764,8 +787,6 @@ AdvancedBaseManager = Class(BaseManager)
             template[3][1] = template[3][1] .. '0107'
         elseif techLevel == 2 then
             template[3][1] = template[3][1] .. '0104'
-        else
-            template[3][1] = "xea0306"
         end
         template = ScenarioUtils.FactionConvert(template, faction)
         return template
