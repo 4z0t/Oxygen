@@ -176,8 +176,6 @@ function GetUnits(army, category, area)
     error "Unknown army type!"
 end
 
-
-
 ---Creates army group defined on the map
 ---@param strArmy string
 ---@param groupName string
@@ -188,4 +186,16 @@ function CreateArmyGroup(strArmy, groupName, useDifficulty)
         groupName = groupName .. '_D' .. ScenarioInfo.Options.Difficulty
     end
     return ScenarioUtils.CreateArmyGroup(strArmy, groupName, false)
+end
+
+---creates unit of army which is defined on map
+---@param strArmy string
+---@param unitName string
+---@return Unit
+function CreateUnit(strArmy, unitName)
+    local unit = ScenarioUtils.CreateArmyUnit(strArmy, unitName)
+
+    assert(unit, "Couldn't find '" .. unitName .. "' of army " .. strArmy)
+
+    return unit
 end
