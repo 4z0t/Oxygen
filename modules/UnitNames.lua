@@ -103,16 +103,16 @@
 --- |    "Snoop"
 --- |    "Spirit"
 --- |    "Selen"
---- |    
+--- |
 --- |    "Mech Marine"
 --- |    "UEF LAB"
 --- |    "Flare"
 --- |    "Aeon LAB"
 --- |    "Hunter"
 --- |    "Cybran LAB"
---- |    
---- |    
---- |    
+--- |
+--- |
+--- |
 
 
 ---@type table<UnitId, UnitName[]>
@@ -276,7 +276,7 @@ local idsToNames = {
         "T1 Cybran Artillery",
         "T1 Cybran Arty"
     },
-    
+
     ["URL0107"] = {
         "Mantis",
 
@@ -307,7 +307,7 @@ local idsToNames = {
     ["UEL0101"] = {
         "Snoop"
     },
-     ["URL0101"] = {
+    ["URL0101"] = {
         "Mole"
     },
     ["UAL0101"] = {
@@ -317,7 +317,7 @@ local idsToNames = {
         "Selen"
     },
 
---- labs
+    --- labs
     ["UEL0106"] = {
         "Mech Marine",
         "UEF LAB"
@@ -353,11 +353,10 @@ local function Init()
         local id = _id:lower()
         for _, name in names do
             name = name:lower()
-            if namesToIds[name] ~= nil then
-                error(debug.traceback("Attempt to assign same name twice " .. name))
-            else
-                namesToIds[name] = id
-            end
+            
+            assert(namesToIds[name] == nil, debug.traceback("Attempt to assign same name twice " .. name))
+
+            namesToIds[name] = id
         end
         namesToIds[id] = id
     end

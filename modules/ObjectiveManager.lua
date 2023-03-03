@@ -39,9 +39,8 @@ ObjectiveManager = ClassSimple
     ---@param self ObjectiveManager
     ---@param obj ObjectiveTable
     Add = function(self, obj)
-        if self._objectives[obj.name] then
-            error("Objective " .. obj.name .. " already presents in Objectives Manager!")
-        end
+        assert(self._objectives[obj.name] == nil, "Objective " .. obj.name .. " already presents in Objectives Manager!")
+
         self._objectives[obj.name] = obj
     end,
 

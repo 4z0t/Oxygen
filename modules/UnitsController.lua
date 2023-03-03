@@ -64,7 +64,7 @@ UnitsController = ClassSimple
     FromMapArmyUnit = function(self, army, name)
         local unit = ScenarioUtils.CreateArmyUnit(army, name)
 
-        if not unit then error("Unit of " .. army .. " named " .. name .. " not found!") end
+        assert(unit, "Unit of " .. army .. " named " .. name .. " not found!")
 
         return self:Unit(unit)
     end,
@@ -77,7 +77,7 @@ UnitsController = ClassSimple
     FromMapArmyUnits = function(self, army, name)
         local units = ScenarioUtils.CreateArmyGroup(army, name)
 
-        if not units then error("Units of " .. army .. " named " .. name .. " not found!") end
+        assert(units, "Units of " .. army .. " named " .. name .. " not found!")
 
         return self:Units(units)
     end,

@@ -270,9 +270,8 @@ PlatoonBuilder = ClassSimple
     ---@param formationType FormationType
     ---@return PlatoonTemplateBuilder
     AddUnit = function(self, unitId, quantity, orderType, formationType)
-        if self._template == nil then
-            error "PlatoonTemplate wasnt initialized"
-        end
+        assert(self._template, "PlatoonTemplate wasnt initialized")
+
         table.insert(self._template, { unitId, 1, quantity, orderType, formationType })
         return self
     end,
