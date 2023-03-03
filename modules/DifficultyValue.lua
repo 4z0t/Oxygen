@@ -1,4 +1,40 @@
+---@alias DifficultyStrings
+--- |"Hard"
+--- |"Medium"
+--- |"Easy"
+
+---@alias DifficultyData (DifficultyStrings[])|DifficultyStrings
+---@alias DifficultyLevel 1|2|3
+
+
+local diffDataToLevel =
+{
+    ["Hard"] = 3,
+    ["Medium"] = 2,
+    ["Easy"] = 1,
+}
+
 local difficulty
+
+---returns difficulty level based on difficulty data
+---@param diffData DifficultyData
+---@return DifficultyLevel
+function ParseDifficulty(diffData)
+    difficulty = difficulty or ScenarioInfo.Options.Difficulty or 1
+
+
+    if type(diffData) == "string" then
+        return diffDataToLevel[diffData]
+    end
+
+    for _, diffString in diffData do
+        if diffDataToLevel[diffString] == difficulty then
+            return difficulty
+        end
+    end
+
+    return 0 -- didnt match any
+end
 
 local diffucltyValuesRegister = {}
 

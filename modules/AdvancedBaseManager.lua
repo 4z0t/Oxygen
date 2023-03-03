@@ -190,19 +190,20 @@ AdvancedBaseManager = Class(BaseManager)
         local location = self.BaseName
         local aiBrain = self.AIBrain
         for _, platoon in platoons do
+            if platoon.Difficulty == ScenarioInfo.Options.Difficulty then
+                --keeping track of platoon's basename
+                if platoon.PlatoonData then
+                    platoon.PlatoonData.BaseName = platoon.PlatoonData.BaseName or location
+                end
 
-            --keeping track of platoon's basename
-            if platoon.PlatoonData then
-                platoon.PlatoonData.BaseName = platoon.PlatoonData.BaseName or location
-            end
-
-            if platoon.LocationType ~= location then
-                local prevLocation = platoon.LocationType
-                platoon.LocationType = location
-                aiBrain:PBMAddPlatoon(platoon)
-                platoon.LocationType = prevLocation
-            else
-                aiBrain:PBMAddPlatoon(platoon)
+                if platoon.LocationType ~= location then
+                    local prevLocation = platoon.LocationType
+                    platoon.LocationType = location
+                    aiBrain:PBMAddPlatoon(platoon)
+                    platoon.LocationType = prevLocation
+                else
+                    aiBrain:PBMAddPlatoon(platoon)
+                end
             end
         end
     end,

@@ -43,7 +43,7 @@ local BC = import("BuildConditions.lua")
 ---@class Transporting_PlatoonDataTable
 ---@field TransportReturn Marker? @Location for transports to return to (they will attack with land units if this isn't set)
 ---@field UseTransports boolean?
----@field TransportRoute  Marker[]? 
+---@field TransportRoute  Marker[]?
 ---@field TransportChain MarkerChain?
 ---@field LandingLocation Marker
 
@@ -97,6 +97,7 @@ local BC = import("BuildConditions.lua")
 ---@field public PlatoonData PlatoonDataTable
 ---@field public BuildConditions BuildCondition?
 ---@field public BuildTimeOut integer
+---@field public Difficulty DifficultyLevel
 
 -- Platoon Spec
 -- {
@@ -130,6 +131,7 @@ local BC = import("BuildConditions.lua")
 ---@field _data PlatoonDataTable
 ---@field _conditions BuildCondition
 ---@field _buildTimeout integer
+---@field _difficulty DifficultyLevel
 PlatoonBuilder = ClassSimple
 {
     ---Uses given UnitGroup for all new Platoons
@@ -177,6 +179,7 @@ PlatoonBuilder = ClassSimple
         self._instanceCount = nil
         self._data = nil
         self._buildTimeout = nil
+        self._difficulty = nil
     end,
 
     ---Starts creation of new Platoon
@@ -341,6 +344,25 @@ PlatoonBuilder = ClassSimple
         return self
     end,
 
+    ---Makes platoon to be built only on listed difficulty
+    ---@param self PlatoonTemplateBuilder
+    ---@param difficulty DifficultyStrings
+    ---@return PlatoonTemplateBuilder
+    Difficulty = function(self, difficulty)
+        self._difficulty = Oxygen.DifficultyValue.ParseDifficulty(difficulty)
+        return self
+    end,
+
+    ---Makes platoon to be built only on listed difficulties
+    ---@param self PlatoonTemplateBuilder
+    ---@param difficulties DifficultyStrings[]
+    ---@return PlatoonTemplateBuilder
+    Difficulties = function(self, difficulties)
+        self._difficulty = Oxygen.DifficultyValue.ParseDifficulty(difficulties)
+        return self
+    end,
+
+
     _Verify = function(self)
         if self._name ~= nil and
             self._location ~= nil and
@@ -373,7 +395,8 @@ PlatoonBuilder = ClassSimple
             InstanceCount        = self._instanceCount,
             PlatoonData          = self._data or self._useData,
             RequiresConstruction = true,
-            BuildTimeOut         = self._buildTimeout
+            BuildTimeOut         = self._buildTimeout,
+            Difficulty           = self._difficulty or ScenarioInfo.Options.Difficulty
 
         }
         return result
