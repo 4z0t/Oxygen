@@ -112,15 +112,15 @@ ObjectiveManager = ClassSimple
             local onSuccessFunc = objTable.onSuccessFunc
             local onFailFunc = objTable.onFailFunc
             obj:AddResultCallback(
-                function(success)
+                function(success, ...)
                     if success then
-                        ForkThread(onSuccessFunc)
+                        ForkThread(onSuccessFunc, unpack(arg))
                         if nextObj then
                             self:Start(nextObj)
                         end
                     else
                         if onFailFunc then
-                            ForkThread(onFailFunc)
+                            ForkThread(onFailFunc, unpack(arg))
                         end
                     end
                 end
