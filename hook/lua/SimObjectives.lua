@@ -8,10 +8,7 @@ function Damage(Type, Complete, Title, Description, Target)
     Target.damaged = 0
     Target.total = table.getn(Target.Units)
 
-
-
-    local image = GetActionIcon('kill')
-    local objective = AddObjective(Type, Complete, Title, Description, image, Target)
+    local objective = AddObjective(Type, Complete, Title, Description, GetActionIcon 'kill', Target)
     objective.Amount = Target.Amount
     objective.RepeatNum = Target.RepeatNum
 
@@ -19,13 +16,7 @@ function Damage(Type, Complete, Title, Description, Target)
     objective.ManualResult = function(self, result)
         self.Active = false
         self:OnResult(result)
-        local resultStr
-        if result then
-            resultStr = 'complete'
-        else
-            resultStr = 'failed'
-        end
-        UpdateObjective(Title, 'complete', resultStr, self.Tag)
+        UpdateObjective(Title, 'complete', result and 'complete' or 'failed', self.Tag)
     end
 
 
