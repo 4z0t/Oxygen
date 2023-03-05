@@ -41,6 +41,7 @@ local BC = import("../BuildConditions.lua")
 ---@field _name string
 ---@field _type OpAIName
 ---@field _data PlatoonDataTable
+---@field _useData PlatoonDataTable
 ---@field _quantity table<string,integer>
 ---@field _lock table<LockType, LockData>
 ---@field _formation FormationType
@@ -48,6 +49,7 @@ local BC = import("../BuildConditions.lua")
 ---@field _remove string|string[]
 ---@field _buildConditions BuildCondition[]
 ---@field _function PlatoonAIFunctionTable
+---@field _useFunction PlatoonAIFunctionTable
 ---@field _priority  number
 IOpAIBuilder = ClassSimple
 {
@@ -65,6 +67,30 @@ IOpAIBuilder = ClassSimple
         self._name = nil
         self._function = nil
         self._priority = nil
+    end,
+
+
+
+    ---Uses given FileName and FunctionName for all new OpAIs
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
+    ---@param fileName FileName
+    ---@param functionName FunctionName
+    ---@return Builder
+    UseAIFunction = function(self, fileName, functionName)
+        self._useFunction = { fileName, functionName }
+        return self
+    end,
+
+
+    ---Uses given PlatoonDataTable for all new OpAIs
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
+    ---@param data PlatoonDataTable
+    ---@return Builder
+    UseData = function(self, data)
+        self._useData = data
+        return self
     end,
 
     ---Starts creation of new OpAI for use in Platoon loader
@@ -211,8 +237,8 @@ IOpAIBuilder = ClassSimple
             name = self._name,
             type = self.Type,
             data = {
-                MasterPlatoonFunction = self._function,
-                PlatoonData = self._data,
+                MasterPlatoonFunction = self._function or self._useFunction,
+                PlatoonData = self._data or self._useData,
                 Priority = self._priority
             },
             quantity = self._quantity,
