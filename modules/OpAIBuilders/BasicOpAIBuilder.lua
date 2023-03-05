@@ -192,7 +192,7 @@ IOpAIBuilder = ClassSimple
     ---@param self IOpAIBuilder
     ---@return OpAITable
     Create = function(self)
-
+        assert(self.Type, "IOpAIBuilder doesnt support creation of OpAITable without 'Type' specified")
         return {
             name = self._name,
             type = self.Type,
