@@ -182,7 +182,9 @@ IOpAIBuilder = ClassSimple
     ---@param quantity integer
     ---@return Builder
     Quantity = function(self, childrenType, quantity)
-        self._quantity[childrenType] = quantity
+        if quantity and quantity ~= 0 then
+            self._quantity[childrenType] = quantity
+        end
         return self
     end,
 

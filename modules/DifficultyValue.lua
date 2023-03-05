@@ -50,9 +50,25 @@ function Extend(tbl)
     end
 end
 
+---@deprecated
 function Get(key)
     return diffucltyValuesRegister[key][difficulty]
 end
+
+local difficultyMetaTable = {
+    __index = function(tbl, key)
+        return diffucltyValuesRegister[key][difficulty]
+    end,
+
+    __newindex = function(tbl, key, value)
+        difficulty = difficulty or ScenarioInfo.Options.Difficulty or 1
+        diffucltyValuesRegister[key] = value
+    end
+}
+
+---@type table<string, any>
+values = setmetatable({}, difficultyMetaTable)
+
 
 if __debug then
     function Add(key, value)
