@@ -264,7 +264,7 @@ AdvancedBaseManager = Class(BaseManager)
                 end
 
                 if opAItable.categories then
-                    opAI:SetTargettingPriorities(opAItable.categories)
+                    opAI:SetTargettingPriorities(opAItable.categories, categories.ALLUNITS)
                 end
             end
         end
