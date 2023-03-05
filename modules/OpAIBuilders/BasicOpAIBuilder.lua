@@ -1,4 +1,4 @@
-local BC = import("BuildConditions.lua")
+local BC = import("../BuildConditions.lua")
 
 ---@class OpAIData
 ---@field MasterPlatoonFunction PlatoonAIFunctionTable
