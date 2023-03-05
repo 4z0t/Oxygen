@@ -262,6 +262,10 @@ AdvancedBaseManager = Class(BaseManager)
                 if opAItable.formation then
                     opAI:SetFormation(opAItable.formation)
                 end
+
+                if opAItable.categories then
+                    opAI:SetTargettingPriorities(opAItable.categories)
+                end
             end
         end
 

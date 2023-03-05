@@ -6,7 +6,6 @@ local BC = import("../BuildConditions.lua")
 ---@field Priority number
 
 ---@class OpAITable
----@field unitGroup UnitGroup
 ---@field type OpAIType
 ---@field name string
 ---@field data OpAIData
@@ -16,7 +15,7 @@ local BC = import("../BuildConditions.lua")
 ---@field childrenState table<string, boolean>
 ---@field remove string|string[]
 ---@field buildConditions BuildCondition[]
----@field reactive boolean
+---@field categories  EntityCategory[]
 
 
 ---@alias OpAIType
@@ -51,6 +50,7 @@ local BC = import("../BuildConditions.lua")
 ---@field _function PlatoonAIFunctionTable
 ---@field _useFunction PlatoonAIFunctionTable
 ---@field _priority  number
+---@field _categories  EntityCategory[]
 IOpAIBuilder = ClassSimple
 {
     ---Clears builder
@@ -67,8 +67,18 @@ IOpAIBuilder = ClassSimple
         self._name = nil
         self._function = nil
         self._priority = nil
+        self._categories = nil
     end,
 
+    ---sets target priorities of OpAI units
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
+    ---@param categories EntityCategory[]
+    ---@return Builder
+    TargettingPriorities = function(self, categories)
+        self._categories = categories
+        return self
+    end,
 
 
     ---Uses given FileName and FunctionName for all new OpAIs
@@ -246,7 +256,8 @@ IOpAIBuilder = ClassSimple
             formation = self._formation,
             childrenState = self._childrenState,
             remove = self._remove,
-            buildConditions = self._buildConditions
+            buildConditions = self._buildConditions,
+            categories = self._categories
         }
     end,
 

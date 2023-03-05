@@ -93,6 +93,7 @@ local BC = import("BuildConditions.lua")
 ---@field public PlatoonType PlatoonType
 ---@field public RequiresConstruction boolean
 ---@field public LocationType UnitGroup
+---@field public PlatoonAddFunctions PlatoonAIFunctionTable[]
 ---@field public PlatoonAIFunction PlatoonAIFunctionTable
 ---@field public PlatoonData PlatoonDataTable
 ---@field public BuildConditions BuildCondition?
