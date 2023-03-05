@@ -142,7 +142,7 @@ IOpAIBuilder = ClassSimple
     ---Sets quantity of children for OpAI
     ---@generic Builder : IOpAIBuilder
     ---@param self Builder
-    ---@param childrenType string|string[]
+    ---@param childrenType string|(string[])
     ---@param quantity integer
     ---@return Builder
     Quantity = function(self, childrenType, quantity)

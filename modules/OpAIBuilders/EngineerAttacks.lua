@@ -9,6 +9,18 @@
 --- | 'MobileShields'
 
 
+local VALID_TYPES =
+{
+    ['T3Transports'] = true,
+    ['T2Transports'] = true,
+    ['T1Transports'] = true,
+    ['T3Engineers'] = true,
+    ['T2Engineers'] = true,
+    ['CombatEngineers'] = true,
+    ['T1Engineers'] = true,
+    ['MobileShields'] = true,
+}
+
 
 
 local IOpAIBuilder = import("BasicOpAIBuilder.lua").IOpAIBuilder
@@ -16,13 +28,21 @@ local IOpAIBuilder = import("BasicOpAIBuilder.lua").IOpAIBuilder
 ---@class EngineerAttacksOpAIBuilder : IOpAIBuilder
 EngineerAttacksOpAIBuilder = Class(IOpAIBuilder)
 {
+    ---@param self EngineerAttacksOpAIBuilder
+    ---@param childrenType EngineerAttacksChildType
+    _Validate = function(self, childrenType)
+        assert(VALID_TYPES[childrenType], "Unknown children type " .. childrenType)
+    end,
+
+
     Type = 'EngineerAttack',
     ---Sets quantity of children for OpAI
     ---@param self EngineerAttacksOpAIBuilder
-    ---@param childrenType EngineerAttacksChildType|EngineerAttacksChildType[]
+    ---@param childrenType EngineerAttacksChildType
     ---@param quantity integer
     ---@return EngineerAttacksOpAIBuilder
     Quantity = function(self, childrenType, quantity)
+        self:_Validate(childrenType)
         return IOpAIBuilder.Quantity(self, childrenType, quantity)
     end,
 
@@ -31,6 +51,7 @@ EngineerAttacksOpAIBuilder = Class(IOpAIBuilder)
     ---@param childrenType EngineerAttacksChildType
     ---@return EngineerAttacksOpAIBuilder
     EnableChild = function(self, childrenType)
+        self:_Validate(childrenType)
         return IOpAIBuilder.EnableChild(self, childrenType)
     end,
 
@@ -39,14 +60,16 @@ EngineerAttacksOpAIBuilder = Class(IOpAIBuilder)
     ---@param childrenType EngineerAttacksChildType
     ---@return EngineerAttacksOpAIBuilder
     DisableChild = function(self, childrenType)
+        self:_Validate(childrenType)
         return IOpAIBuilder.DisableChild(self, childrenType)
     end,
 
     ---Removes children of OpAI
     ---@param self EngineerAttacksOpAIBuilder
-    ---@param childrenType EngineerAttacksChildType|EngineerAttacksChildType[]
+    ---@param childrenType EngineerAttacksChildType
     ---@return EngineerAttacksOpAIBuilder
     RemoveChildren = function(self, childrenType)
+        self:_Validate(childrenType)
         return IOpAIBuilder.RemoveChildren(self, childrenType)
     end,
 }
