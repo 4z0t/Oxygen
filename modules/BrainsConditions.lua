@@ -5,6 +5,26 @@ local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 
 
 
+---@param comporator CompareOp @ defaults to ">="
+---@param n1 number
+---@param n2 number
+---@return boolean
+local function Compare(comporator, n1, n2)
+    if not comporator or comporator == '>=' then
+        return n1 >= n2
+    elseif comporator == '==' then
+        return n1 == n2
+    elseif comporator == '<=' then
+        return n1 <= n2
+    elseif comporator == '>' then
+        return n1 > n2
+    elseif comporator == '<' then
+        return n1 < n2
+    else
+        return false
+    end
+end
+
 ---Returns true if given target brains are having active or building units with given category satisfying compare operation
 ---@param aibrain AIBrain
 ---@param targetBrains ArmyName[]
@@ -16,9 +36,7 @@ function FocusBrainBeingBuiltOrActiveCategoryCompare(aibrain, targetBrains, numR
     local num = 0
     local targetBrainSet = {}
     local armySetup = ScenarioInfo.ArmySetup
-    if type(targetBrains) == "string" then
-        targetBrains = { targetBrains }
-    end
+
     for _, brain in targetBrains do
         if brain == 'HumanPlayers' then
             local tblArmy = ListArmies()
@@ -39,19 +57,7 @@ function FocusBrainBeingBuiltOrActiveCategoryCompare(aibrain, targetBrains, numR
         end
     end
 
-    if not compareType or compareType == '>=' then
-        return num >= numReq
-    elseif compareType == '==' then
-        return num == numReq
-    elseif compareType == '<=' then
-        return num <= numReq
-    elseif compareType == '>' then
-        return num > numReq
-    elseif compareType == '<' then
-        return num < numReq
-    else
-        return false
-    end
+    return Compare(compareType, num, numReq)
 end
 
 ---@alias EconStat
@@ -83,9 +89,7 @@ function BrainsCompareEconomyStats(aibrain, targetBrains, numReq, econStat, comp
     local num = 0
     local targetBrainSet = {}
     local armySetup = ScenarioInfo.ArmySetup
-    if type(targetBrains) == "string" then
-        targetBrains = { targetBrains }
-    end
+
     for _, brain in targetBrains do
         if brain == 'HumanPlayers' then
             local tblArmy = ListArmies()
@@ -105,17 +109,5 @@ function BrainsCompareEconomyStats(aibrain, targetBrains, numReq, econStat, comp
         end
     end
 
-    if not compareType or compareType == '>=' then
-        return num >= numReq
-    elseif compareType == '==' then
-        return num == numReq
-    elseif compareType == '<=' then
-        return num <= numReq
-    elseif compareType == '>' then
-        return num > numReq
-    elseif compareType == '<' then
-        return num < numReq
-    else
-        return false
-    end
+    return Compare(compareType, num, numReq)
 end
