@@ -1,7 +1,7 @@
 ---@alias DifficultyStrings
---- |"Hard"
---- |"Medium"
---- |"Easy"
+--- |    "Hard"
+--- |    "Medium"
+--- |    "Easy"
 
 ---@alias DifficultyData (DifficultyStrings[])|DifficultyStrings
 ---@alias DifficultyLevel 1|2|3
