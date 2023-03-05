@@ -243,6 +243,8 @@ IOpAIBuilder = ClassSimple
     ---@return OpAITable
     Create = function(self)
         assert(self.Type, "IOpAIBuilder doesnt support creation of OpAITable without 'Type' specified")
+        assert(self._priority, "Priority mustn't be empty")
+        
         return {
             name = self._name,
             type = self.Type,
