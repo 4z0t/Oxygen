@@ -40,16 +40,6 @@ local BC = import("BuildConditions.lua")
 
 
 
----@alias LockType
---- | 'DeathRatio'
---- | 'DeathTimer'
---- | 'None'
-
----@class LockData
----@field Ratio number?
----@field LockTimer integer?
-
-
 ---@alias BuildConditionFileName
 --- | '/lua/editor/otherarmyunitcountbuildconditions.lua'
 --- | '/lua/editor/miscbuildconditions.lua'
@@ -64,6 +54,7 @@ local BC = import("BuildConditions.lua")
 ---@field func BuildConditionFuncName
 ---@field condition table
 
+---@deprecated
 ---@class OpAIBuilder
 ---@field _name string
 ---@field _type OpAIName

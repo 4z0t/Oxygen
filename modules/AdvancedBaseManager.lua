@@ -214,6 +214,8 @@ AdvancedBaseManager = Class(BaseManager)
     LoadOpAIs = function(self, opAIs)
         for _, opAItable --[[@as OpAITable]]in opAIs do
             if opAItable.unitGroup then
+                WARN("Unit groups in OpAI loader are deprecated, please dont use OpAI Builder for it")
+                WARN(opAItable.unitGroup)
                 ---@type OpAIData
                 local data = opAItable.data
                 local buildCondition = opAItable.buildCondition
@@ -248,12 +250,10 @@ AdvancedBaseManager = Class(BaseManager)
                 for lockType, lockData in opAItable.lock do
                     opAI:SetLockingStyle(lockType, lockData)
                 end
-                if opAItable.buildCondition then
-                    opAI:AddBuildCondition(
-                        opAItable.buildCondition[1],
-                        opAItable.buildCondition[2],
-                        opAItable.buildCondition[3]
-                    )
+                if opAItable.buildConditions then
+                    for _, bc in opAItable.buildConditions do
+                        opAI:AddBuildCondition(unpack(bc))
+                    end
                 end
                 if opAItable.remove then
                     opAI:RemoveChildren(opAItable.remove)
