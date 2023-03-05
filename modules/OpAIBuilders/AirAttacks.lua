@@ -1,0 +1,14 @@
+---@alias AirAttacksChildType
+--- | 'Interceptors'
+--- | 'LightGunships'
+--- | 'Bombers'
+--- | 
+--- | 'TorpedoBombers'
+--- | 'GuidedMissiles'
+--- | 'Gunships'
+--- | 'CombatFighters'
+--- | 
+--- | 'StratBombers'
+--- | 'AirSuperiority'
+--- | 'HeavyGunships'
+--- | 'HeavyTorpedoBombers'

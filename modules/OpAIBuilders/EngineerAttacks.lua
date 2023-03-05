@@ -1,0 +1,9 @@
+---@alias EngineerAttacksChildType
+--- | 'T3Transports'
+--- | 'T2Transports'
+--- | 'T1Transports'
+--- | 'T3Engineers'
+--- | 'T2Engineers'
+--- | 'CombatEngineers'
+--- | 'T1Engineers'
+--- | 'MobileShields'
