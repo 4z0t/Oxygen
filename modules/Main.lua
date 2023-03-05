@@ -30,8 +30,16 @@ _G.Oxygen = {
 
     PlatoonBuilder = import("PlatoonBuilder.lua").PlatoonBuilder,
     PlatoonLoader = import("PlatoonLoader.lua").PlatoonLoader,
-
+    ---@deprecated
     OpAIBuilder = import("OpAIBuilder.lua").OpAIBuilder,
+
+    OpAIBuilders =
+    {
+        NavalAttacks = import("OpAIBuilders/NavalAttacks.lua").NavalAttacksOpAIBuilder,
+        AirAttacks = import("OpAIBuilders/AirAttacks.lua").AirAttacksOpAIBuilder,
+        LandAttacks = import("OpAIBuilders/LandAttacks.lua").LandAttacksOpAIBuilder,
+        EngineerAttacks = import("OpAIBuilders/EngineerAttacks.lua").EngineerAttacksOpAIBuilder,
+    },
 
     BuildConditions = import("BuildConditions.lua"),
 

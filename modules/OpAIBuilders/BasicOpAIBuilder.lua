@@ -52,7 +52,8 @@ local BC = import("BuildConditions.lua")
 IOpAIBuilder = ClassSimple
 {
     ---Clears builder
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     _Clear = function(self)
         self._data = nil
         self._quantity = {}
@@ -67,9 +68,10 @@ IOpAIBuilder = ClassSimple
     end,
 
     ---Starts creation of new OpAI for use in Platoon loader
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@param name string
-    ---@return IOpAIBuilder
+    ---@return Builder
     New = function(self, name)
         self:_Clear()
         self._name = name
@@ -78,28 +80,31 @@ IOpAIBuilder = ClassSimple
 
 
     ---Sets data of OpAI
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@param data PlatoonDataTable
-    ---@return IOpAIBuilder
+    ---@return Builder
     Data = function(self, data)
         self._data = data
         return self
     end,
 
     ---comment
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@param priority number
-    ---@return IOpAIBuilder
+    ---@return Builder
     Priority = function(self, priority)
         self._priority = priority
         return self
     end,
 
     ---comment
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@param fileName FileName
     ---@param functionName FunctionName
-    ---@return IOpAIBuilder
+    ---@return Builder
     AIFunction = function(self, fileName, functionName)
         self._function = { fileName, functionName }
         return self
@@ -107,9 +112,10 @@ IOpAIBuilder = ClassSimple
 
 
     ---Adds build condition to OpAI
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@param condition BuildCondition
-    ---@return IOpAIBuilder
+    ---@return Builder
     AddCondition = function(self, condition)
         table.insert(self._buildConditions, condition)
         return self
@@ -120,11 +126,12 @@ IOpAIBuilder = ClassSimple
     ---``` lua
     ---:AddHumansCategoryCondition(categories.LAND * categories.MOBILE, ">=", 20)
     ---```
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@param category EntityCategory
     ---@param compareOp CompareOp
     ---@param value number
-    ---@return IOpAIBuilder
+    ---@return Builder
     AddHumansCategoryCondition = function(self, category, compareOp, value)
         return self:AddCondition(
             BC.HumansCategoryCondition(category, compareOp, value)
@@ -133,63 +140,70 @@ IOpAIBuilder = ClassSimple
 
 
     ---Sets quantity of children for OpAI
-    ---@param self IOpAIBuilder
-    ---@param childrenType string
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
+    ---@param childrenType string|string[]
     ---@param quantity integer
-    ---@return IOpAIBuilder
+    ---@return Builder
     Quantity = function(self, childrenType, quantity)
         self._quantity[childrenType] = quantity
         return self
     end,
 
     ---Enables children of OpAI
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@param childrenType string
-    ---@return IOpAIBuilder
+    ---@return Builder
     EnableChild = function(self, childrenType)
         self._childrenState[childrenType] = true
         return self
     end,
 
     ---Disables children of OpAI
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@param childrenType string
-    ---@return IOpAIBuilder
+    ---@return Builder
     DisableChild = function(self, childrenType)
         self._childrenState[childrenType] = false
         return self
     end,
 
     ---Removes children of OpAI
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@param childrenType string|string[]
-    ---@return IOpAIBuilder
+    ---@return Builder
     RemoveChildren = function(self, childrenType)
         self._remove = childrenType
         return self
     end,
 
     ---Sets formation of OpAI
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@param formation FormationType
-    ---@return IOpAIBuilder
+    ---@return Builder
     Formation = function(self, formation)
         self._formation = formation
         return self
     end,
 
     ---Sets locking style of OpAI
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@param lockType LockType
     ---@param lockData LockData?
-    ---@return IOpAIBuilder
+    ---@return Builder
     LockingStyle = function(self, lockType, lockData)
         self._lock[lockType] = lockData or false
         return self
     end,
 
     ---completes creation of OpAI for use in platoon builder
-    ---@param self IOpAIBuilder
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
     ---@return OpAITable
     Create = function(self)
         assert(self.Type, "IOpAIBuilder doesnt support creation of OpAITable without 'Type' specified")
