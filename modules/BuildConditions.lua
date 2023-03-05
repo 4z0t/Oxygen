@@ -92,6 +92,20 @@ function HumansEconomyCondition(econStat, compareOp, value)
     return ArmyEconomyCondition("HumanPlayers", econStat, compareOp, value)
 end
 
+
+---@param econStat EconStat
+---@param compareOp CompareOp
+---@param value number
+---@return BuildCondition
+function BrainEconomyCondition(econStat, compareOp, value)
+    return {
+        OBC,
+        "BrainCompareEconomy",
+        { "default_brain",  value, econStat, compareOp }
+    }
+end
+
+
 ---@param condition BuildCondition
 ---@return BuildCondition
 function RemoveDefaultBrain(condition)

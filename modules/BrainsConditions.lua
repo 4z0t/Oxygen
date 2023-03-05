@@ -111,3 +111,14 @@ function BrainsCompareEconomyStats(aibrain, targetBrains, numReq, econStat, comp
 
     return Compare(compareType, num, numReq)
 end
+
+
+---@param aibrain AIBrain
+---@param numReq number
+---@param econStat EconStat
+---@param compareType CompareOp
+---@return boolean
+function BrainCompareEconomy(aibrain, numReq, econStat, compareType)
+    local num = AIUtils.AIGetEconomyNumbers(aibrain)[econStat]
+    return Compare(compareType, num, numReq)
+end
