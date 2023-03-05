@@ -1,3 +1,6 @@
+local OBC = '/mods/Oxygen/modules/BrainsConditions.lua'
+
+
 ---@param armies ArmyName[]
 ---@param category EntityCategory
 ---@param compareOp CompareOp
@@ -35,7 +38,7 @@ end
 ---@return BuildCondition
 function ArmiesBuiltOrActiveCategoryCondition(armies, category, compareOp, value)
     return {
-        '/mods/Oxygen/modules/BrainsConditions.lua',
+        OBC,
         "FocusBrainBeingBuiltOrActiveCategoryCompare",
         { "default_brain", armies, value, category, compareOp }
     }
@@ -56,6 +59,37 @@ end
 ---@return BuildCondition
 function HumansBuiltOrActiveCategoryCondition(category, compareOp, value)
     return ArmyBuiltOrActiveCategoryCondition("HumanPlayers", category, compareOp, value)
+end
+
+---@param armies ArmyName[]
+---@param econStat EconStat
+---@param compareOp CompareOp
+---@param value number
+---@return BuildCondition
+function ArmiesEconomyCondition(armies, econStat, compareOp, value)
+    return {
+        OBC,
+        "BrainsCompareEconomyStats",
+        { "default_brain", armies, value, econStat, compareOp }
+    }
+end
+
+---@param army ArmyName
+---@param econStat EconStat
+---@param compareOp CompareOp
+---@param value number
+---@return BuildCondition
+function ArmyEconomyCondition(army, econStat, compareOp, value)
+    return ArmiesEconomyCondition({ army }, econStat, compareOp, value)
+end
+
+
+---@param econStat EconStat
+---@param compareOp CompareOp
+---@param value number
+---@return BuildCondition
+function HumansEconomyCondition(econStat, compareOp, value)
+    return ArmyEconomyCondition("HumanPlayers", econStat, compareOp, value)
 end
 
 ---@param condition BuildCondition
