@@ -145,10 +145,10 @@
 --- |  "UEF SACU"
 --- |  "UEF RAS SACU"
 --- |  "UEF Rambo SACU"
---- |
---- |
---- |
---- |
+--- |  "Scorcher"
+--- |  "T1 UEF Bomber"
+--- |  "Stinger"
+--- |  "T2 UEF Gunship"
 --- |
 --- |
 --- |
@@ -313,6 +313,11 @@ local idsToNames = {
         "T1 Cybran Bomber"
     },
 
+    ["UEA0103"] = {
+        "Scorcher",
+        "T1 UEF Bomber"
+    },
+
     ["XRA0305"] = {
         "Wailer",
         "T3 Cybran Gunship"
@@ -325,6 +330,12 @@ local idsToNames = {
         "Renegade",
         "T2 Cybran Gunship"
     },
+
+    ["UEA0203"] = {
+        "Stinger",
+        "T2 UEF Gunship"
+    },
+
     ["URL0103"] = {
         "Medusa",
         "T1 Cybran Artillery",
