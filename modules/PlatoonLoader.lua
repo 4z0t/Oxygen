@@ -13,7 +13,7 @@ PlatoonLoader = ClassSimple
 
     ---comment
     ---@param self PlatoonLoader
-    ---@param platoons PlatoonTable[]
+    ---@param platoons PlatoonSpecTable[]
     LoadPlatoons = function(self, platoons)
         local location = self._bm.BaseName
         local aiBrain = self._bm.AIBrain

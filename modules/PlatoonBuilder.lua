@@ -85,7 +85,7 @@ local BC = import("BuildConditions.lua")
 ---@field [2] FunctionName
 
 
----@class PlatoonTable
+---@class PlatoonSpecTable
 ---@field public BuilderName string
 ---@field public PlatoonTemplate PlatoonTemplateTable
 ---@field public InstanceCount integer
@@ -93,8 +93,9 @@ local BC = import("BuildConditions.lua")
 ---@field public PlatoonType PlatoonType
 ---@field public RequiresConstruction boolean
 ---@field public LocationType UnitGroup
----@field public PlatoonAddFunctions PlatoonAIFunctionTable[]
----@field public PlatoonAIFunction PlatoonAIFunctionTable
+---@field public PlatoonBuildCallbacks PlatoonAIFunctionTable[] @Callbacks when platoon starts to build
+---@field public PlatoonAddFunctions PlatoonAIFunctionTable[] @Callbacks when platoon is complete
+---@field public PlatoonAIFunction PlatoonAIFunctionTable @ Main Platoon AI function
 ---@field public PlatoonData PlatoonDataTable
 ---@field public BuildConditions BuildCondition?
 ---@field public BuildTimeOut integer
@@ -380,9 +381,9 @@ PlatoonBuilder = ClassSimple
 
     ---comment
     ---@param self PlatoonTemplateBuilder
-    ---@return PlatoonTable
+    ---@return PlatoonSpecTable
     Create = function(self)
-        ---@type PlatoonTable
+        ---@type PlatoonSpecTable
         local result = {
 
             BuilderName          = self._name,
