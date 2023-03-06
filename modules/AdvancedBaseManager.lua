@@ -191,19 +191,13 @@ AdvancedBaseManager = Class(BaseManager)
         local aiBrain = self.AIBrain
         for _, platoon in platoons do
             if platoon.Difficulty == ScenarioInfo.Options.Difficulty then
+                local _platoon = table.deepcopy(platoon)
+                
                 --keeping track of platoon's basename
-                if platoon.PlatoonData then
-                    platoon.PlatoonData.BaseName = platoon.PlatoonData.BaseName or location
-                end
+                _platoon.PlatoonData.BaseName = _platoon.PlatoonData.BaseName or location
 
-                if platoon.LocationType ~= location then
-                    local prevLocation = platoon.LocationType
-                    platoon.LocationType = location
-                    aiBrain:PBMAddPlatoon(platoon)
-                    platoon.LocationType = prevLocation
-                else
-                    aiBrain:PBMAddPlatoon(platoon)
-                end
+                _platoon.LocationType = location
+                aiBrain:PBMAddPlatoon(platoon)
             end
         end
     end,
@@ -239,9 +233,14 @@ AdvancedBaseManager = Class(BaseManager)
                     opAItable.data
                 )
 
+                local childrenTable = {}
+                local quantityTable = {}
                 for childrenType, quantity in opAItable.quantity do
-                    opAI:SetChildQuantity(childrenType, quantity)
+                    table.insert(childrenTable, childrenType)
+                    table.insert(quantityTable, quantity)
                 end
+                local r = opAI:SetChildQuantity(childrenTable, quantityTable)
+                assert(r ~= false, "Couldn't setup OpAI!")
 
                 for childrenType, state in opAItable.childrenState do
                     opAI:SetChildActive(childrenType, state)
