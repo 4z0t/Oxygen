@@ -208,7 +208,7 @@ PlatoonBuilder = ClassSimple
             name .. 'template',
             'NoPlan',
         }
-        self._type = 'Land'
+        self._type = self._useType or 'Land'
         return self
     end,
 
@@ -267,27 +267,25 @@ PlatoonBuilder = ClassSimple
     ---Adds new unit into template
     ---@param self PlatoonTemplateBuilder
     ---@param unitId UnitId
-    ---@param quantity integer
-    ---@param orderType OrderType
-    ---@param formationType FormationType
+    ---@param quantity? integer @defaults to 1
+    ---@param orderType? OrderType @defaults to 'Attack'
+    ---@param formationType? FormationType @defaults to 'AttackFormation'
     ---@return PlatoonTemplateBuilder
     AddUnit = function(self, unitId, quantity, orderType, formationType)
+        if quantity == 0 then return self end
         assert(self._template, "PlatoonTemplate wasnt initialized")
-
-        table.insert(self._template, { unitId, 1, quantity, orderType, formationType })
+        table.insert(self._template, { unitId, 1, quantity or 1, orderType or 'Attack', formationType or 'AttackFormation' })
         return self
     end,
 
+    ---@deprecated
     ---Adds default unit into template with OrderType as Attack and FormationType as GrowthFormation
     ---@param self PlatoonTemplateBuilder
     ---@param unitId UnitId
     ---@param quantity integer?
     ---@return PlatoonTemplateBuilder
     AddUnitDefault = function(self, unitId, quantity)
-        if quantity == 0 then
-            return self
-        end
-        return self:AddUnit(unitId, quantity or 1, 'Attack', 'GrowthFormation')
+        return self:AddUnit(unitId, quantity)
     end,
 
     ---

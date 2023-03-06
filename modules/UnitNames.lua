@@ -137,7 +137,7 @@
 --- |     "T3 UEF Armored Bot"
 --- |     "T2 UEF Field Engineer"
 --- |     "Sparky"
---- |
+--- |     "T2 UEF Flak"
 --- |
 --- |
 --- |
@@ -406,6 +406,7 @@ local idsToNames = {
     },
     ["UEL0205"] = {
         "T2 UEF MAA",
+        "T2 UEF Flak",
         "Sky Boxer"
     },
     ["UEL0307"] = {

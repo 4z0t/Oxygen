@@ -197,7 +197,7 @@ AdvancedBaseManager = Class(BaseManager)
                 _platoon.PlatoonData.BaseName = _platoon.PlatoonData.BaseName or location
 
                 _platoon.LocationType = location
-                aiBrain:PBMAddPlatoon(platoon)
+                aiBrain:PBMAddPlatoon(_platoon)
             end
         end
     end,
