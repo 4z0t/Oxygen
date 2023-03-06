@@ -56,6 +56,7 @@ _G.Oxygen = {
         Air = "/mods/Oxygen/modules/PlatoonAIs/Air.lua",
         Naval = "/mods/Oxygen/modules/PlatoonAIs/Naval.lua",
         Economy = "/mods/Oxygen/modules/PlatoonAIs/Economy.lua",
+        Common = "/mods/Oxygen/modules/PlatoonAIs/Common.lua",
     },
 
     ---Use this table for intellisence support:

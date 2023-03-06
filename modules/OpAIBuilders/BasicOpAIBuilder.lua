@@ -51,6 +51,7 @@ local BC = import("../BuildConditions.lua")
 ---@field _useFunction PlatoonAIFunctionTable
 ---@field _priority  number
 ---@field _categories  EntityCategory[]
+---@field _count integer
 IOpAIBuilder = ClassSimple
 {
     ---Clears builder
@@ -68,6 +69,7 @@ IOpAIBuilder = ClassSimple
         self._function = nil
         self._priority = nil
         self._categories = nil
+        self._count = nil
     end,
 
     ---sets target priorities of OpAI units
@@ -80,6 +82,15 @@ IOpAIBuilder = ClassSimple
         return self
     end,
 
+    ---sets target priorities of OpAI units
+    ---@generic Builder : IOpAIBuilder
+    ---@param self Builder
+    ---@param count integer
+    ---@return Builder
+    ChildCount = function(self, count)
+        self._count = count
+        return self
+    end,
 
     ---Uses given FileName and FunctionName for all new OpAIs
     ---@generic Builder : IOpAIBuilder
@@ -261,7 +272,8 @@ IOpAIBuilder = ClassSimple
             childrenState = self._childrenState,
             remove = self._remove,
             buildConditions = self._buildConditions,
-            categories = self._categories
+            categories = self._categories,
+            count = self._count
         }
     end,
 

@@ -232,6 +232,7 @@ AdvancedBaseManager = Class(BaseManager)
                     opAItable.name,
                     opAItable.data
                 )
+                opAI:SetChildActive('All', false)
 
                 local childrenTable = {}
                 local quantityTable = {}
@@ -239,11 +240,17 @@ AdvancedBaseManager = Class(BaseManager)
                     table.insert(childrenTable, childrenType)
                     table.insert(quantityTable, quantity)
                 end
-                local r = opAI:SetChildQuantity(childrenTable, quantityTable)
-                assert(r ~= false, "Couldn't setup OpAI!")
+                if not table.empty(childrenTable) then
+                    local r = opAI:SetChildQuantity(childrenTable, quantityTable)
+                    assert(r ~= false, "Couldn't setup OpAI!")
+                end
 
                 for childrenType, state in opAItable.childrenState do
                     opAI:SetChildActive(childrenType, state)
+                end
+
+                if opAItable.count then
+                    opAI:SetChildCount(opAItable.count)
                 end
 
                 for lockType, lockData in opAItable.lock do
