@@ -101,21 +101,6 @@ local BC = import("BuildConditions.lua")
 ---@field public BuildTimeOut integer
 ---@field public Difficulty DifficultyLevel
 
--- Platoon Spec
--- {
---       PlatoonBuildCallbacks = {FunctionsToCallBack when the platoon starts to build}
---       PlatoonAddFunctions = {<other threads to be forked on this platoon>}
---       PlatoonData = {
---           Construction = {
---               BaseTemplate = basetemplates, must contain templates for all 3 factions it will be viewed by faction index,
---               BuildingTemplate = building templates, contain templates for all 3 factions it will be viewed by faction index,
---               BuildClose = true/false do I follow the table order or do build the best spot near me?
---               BuildRelative = true/false are the build coordinates relative to the starting location or absolute coords?,
---               BuildStructures = {List of structure types and the order to build them.}
---          }
---      }
---  },
-
 
 ---@class PlatoonTemplateBuilder
 ---@field _useFunction PlatoonAIFunctionTable
@@ -130,6 +115,8 @@ local BC = import("BuildConditions.lua")
 ---@field _requiresconstruction boolean
 ---@field _location UnitGroup
 ---@field _function PlatoonAIFunctionTable
+---@field _addFunctions PlatoonAIFunctionTable[]
+---@field _startFunctions PlatoonAIFunctionTable[]
 ---@field _data PlatoonDataTable
 ---@field _conditions BuildCondition
 ---@field _buildTimeout integer
@@ -170,6 +157,7 @@ PlatoonBuilder = ClassSimple
         return self
     end,
 
+    ---@param self PlatoonTemplateBuilder
     _Clear = function(self)
         self._name = nil
         self._conditions = nil
@@ -182,6 +170,8 @@ PlatoonBuilder = ClassSimple
         self._data = nil
         self._buildTimeout = nil
         self._difficulty = nil
+        self._addFunctions = nil
+        self._startFunctions = nil
     end,
 
     ---Starts creation of new Platoon
@@ -229,6 +219,7 @@ PlatoonBuilder = ClassSimple
         self._priority = priority
         return self
     end,
+
     ---comment
     ---@param self PlatoonTemplateBuilder
     ---@param location UnitGroup
@@ -255,6 +246,7 @@ PlatoonBuilder = ClassSimple
         self._function = { fileName, functionName }
         return self
     end,
+
     ---comment
     ---@param self PlatoonTemplateBuilder
     ---@param count integer
@@ -274,7 +266,8 @@ PlatoonBuilder = ClassSimple
     AddUnit = function(self, unitId, quantity, orderType, formationType)
         if quantity == 0 then return self end
         assert(self._template, "PlatoonTemplate wasnt initialized")
-        table.insert(self._template, { unitId, 1, quantity or 1, orderType or 'Attack', formationType or 'AttackFormation' })
+        table.insert(self._template,
+            { unitId, 1, quantity or 1, orderType or 'Attack', formationType or 'AttackFormation' })
         return self
     end,
 
@@ -361,6 +354,41 @@ PlatoonBuilder = ClassSimple
         return self
     end,
 
+    ---Adds callback when platoon is started being built
+    ---@param self PlatoonTemplateBuilder
+    ---@param fileName FileName
+    ---@param functionName FunctionName
+    ---@return PlatoonTemplateBuilder
+    AddStartCallback = function(self, fileName, functionName)
+        self._startFunctions = self._startFunctions or {}
+        table.insert(self._startFunctions, { fileName, functionName })
+        return self
+    end,
+
+    ---Adds callback when platoon is completed being built
+    ---@param self PlatoonTemplateBuilder
+    ---@param fileName FileName
+    ---@param functionName FunctionName
+    ---@return PlatoonTemplateBuilder
+    AddCompleteCallback = function(self, fileName, functionName)
+        self._addFunctions = self._addFunctions or {}
+        table.insert(self._addFunctions, { fileName, functionName })
+        return self
+    end,
+
+    ---Makes platoon to be built once
+    ---@param self PlatoonTemplateBuilder
+    ---@return PlatoonTemplateBuilder
+    BuildOnce = function(self)
+        return self:AddCompleteCallback('/lua/scenarioplatoonai.lua', 'BuildOnce')
+    end,
+
+    ---Enables stealth on platoon units
+    ---@param self PlatoonTemplateBuilder
+    ---@return PlatoonTemplateBuilder
+    EnableStealth = function (self)
+        return self:AddCompleteCallback('/lua/scenarioplatoonai.lua', 'PlatoonEnableStealth')
+    end,
 
     _Verify = function(self)
         if self._name ~= nil and
@@ -395,7 +423,11 @@ PlatoonBuilder = ClassSimple
             PlatoonData          = self._data or self._useData,
             RequiresConstruction = true,
             BuildTimeOut         = self._buildTimeout,
-            Difficulty           = self._difficulty or ScenarioInfo.Options.Difficulty
+            Difficulty           = self._difficulty or ScenarioInfo.Options.Difficulty,
+
+            PlatoonAddFunctions = self._addFunctions,
+            PlatoonBuildCallbacks = self._startFunctions,
+
 
         }
         return result
