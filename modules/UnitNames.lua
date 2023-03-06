@@ -515,7 +515,7 @@ local function Init()
         for _, name in names do
             name = name:lower()
 
-            assert(namesToIds[name] == nil, debug.traceback("Attempt to assign same name twice " .. name))
+            assert(namesToIds[name] == nil, "Attempt to assign same name twice " .. name)
 
             namesToIds[name] = id
         end
@@ -533,19 +533,8 @@ Init()
 ---@return UnitId
 function Get(name)
     name = name:lower()
-    return namesToIds[name]
-end
 
-if __debug then
-    ---Returns unit id by nickname
-    ---@see idsToNames
-    ---@param name UnitName
-    ---@return UnitId
-    function Get(name)
-        name = name:lower()
-        if namesToIds[name] == nil then
-            error(debug.traceback("Cant find name " .. name .. "!"))
-        end
-        return namesToIds[name]
-    end
+    assert(namesToIds[name], "There is no unit with name " .. name)
+
+    return namesToIds[name]
 end
