@@ -138,6 +138,13 @@
 --- |     "T2 UEF Field Engineer"
 --- |     "Sparky"
 --- |     "T2 UEF Flak"
+--- |  "Cybran SACU"
+--- |  "Cybran RAS SACU"
+--- |  "Cybran Rambo SACU"
+--- |  "Cybran Combat SACU"
+--- |  "UEF SACU"
+--- |  "UEF RAS SACU"
+--- |  "UEF Rambo SACU"
 --- |
 --- |
 --- |
@@ -159,6 +166,7 @@
 --- |
 --- |
 --- |
+
 
 
 ---@type table<UnitId, UnitName[]>
@@ -342,9 +350,40 @@ local idsToNames = {
     },
 
 
+    ---SACUS
+    ---Cybran
+    ["URL0301"] = {
+        "Cybran SACU"
+    },
+
     ["URL0301_RAS"] = {
         "Cybran RAS SACU"
     },
+
+    ["URL0301_RAMBO"] = {
+        "Cybran Rambo SACU"
+    },
+    ["URL0301_COMBAT"] = {
+        "Cybran Combat SACU"
+    },
+
+    ---UEF
+    ["UEL0301"] = {
+        "UEF SACU"
+    },
+
+    ["UEL0301_RAS"] = {
+        "UEF RAS SACU"
+    },
+
+    ["UEL0301_RAMBO"] = {
+        "UEF Rambo SACU"
+    },
+
+    ["UEL0301_COMBAT"] = {
+        "UEF Combat SACU"
+    },
+
 
     -- t1 land scouts
     ["UEL0101"] = {
@@ -433,6 +472,9 @@ local idsToNames = {
         "T2 UEF Field Engineer",
         "Sparky",
     },
+
+
+
     -- [""]={},
     -- [""]={},
 
