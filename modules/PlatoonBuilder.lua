@@ -386,29 +386,25 @@ PlatoonBuilder = ClassSimple
     ---Enables stealth on platoon units
     ---@param self PlatoonTemplateBuilder
     ---@return PlatoonTemplateBuilder
-    EnableStealth = function (self)
+    EnableStealth = function(self)
         return self:AddCompleteCallback('/lua/scenarioplatoonai.lua', 'PlatoonEnableStealth')
     end,
 
+    ---@param self PlatoonTemplateBuilder
     _Verify = function(self)
-        if self._name ~= nil and
-            self._location ~= nil and
-            self._priority ~= nil and
-            self._template ~= nil and
-            self._type ~= nil and
-            self._function ~= nil and
-            self._instanceCount ~= nil and
-            self._data ~= nil
-        then
-            return
-        end
-        error(debug.traceback "Incomplete Platoon")
+        assert(self._name, "Platoon Spec must have a name!")
+        assert(self._priority, "Priority Spec must be a number")
+        assert(self._template, "Platoon Spec must have a unit template!")
+        assert(self._type or self._useType, "Platoon Spec must have specified type!")
+        assert(self._function or self._useFunction, "Platoon Spec must have AI function!")
+        assert(self._data or self._useData, "Platoon Spec must have PlatoonData set!")
     end,
 
     ---comment
     ---@param self PlatoonTemplateBuilder
     ---@return PlatoonSpecTable
     Create = function(self)
+        self:_Verify()
         ---@type PlatoonSpecTable
         local result = {
 
@@ -419,7 +415,7 @@ PlatoonBuilder = ClassSimple
             PlatoonTemplate      = self._template,
             PlatoonType          = self._type or self._useType,
             PlatoonAIFunction    = self._function or self._useFunction,
-            InstanceCount        = self._instanceCount,
+            InstanceCount        = self._instanceCount or 1,
             PlatoonData          = self._data or self._useData,
             RequiresConstruction = true,
             BuildTimeOut         = self._buildTimeout,
