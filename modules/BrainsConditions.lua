@@ -71,12 +71,28 @@ end
 --- | "MassUsage"
 --- | "EnergyRequested"
 --- | "MassRequested"
---- | "EnergyEfficiency"
---- | "MassEfficiency"
 --- | "MassRequested"
 --- | "EnergyStorage"
 --- | "MassStorage"
 
+
+
+
+local economyFunctions =
+{
+    MassTrend = function(aiBrain) return aiBrain:GetEconomyTrend('MASS') end,
+    EnergyTrend = function(aiBrain) return aiBrain:GetEconomyTrend('ENERGY') end,
+    MassStorageRatio = function(aiBrain) return aiBrain:GetEconomyStoredRatio('MASS') end,
+    EnergyStorageRatio = function(aiBrain) return aiBrain:GetEconomyStoredRatio('ENERGY') end,
+    EnergyIncome = function(aiBrain) return aiBrain:GetEconomyIncome('ENERGY') end,
+    MassIncome = function(aiBrain) return aiBrain:GetEconomyIncome('MASS') end,
+    EnergyUsage = function(aiBrain) return aiBrain:GetEconomyUsage('ENERGY') end,
+    MassUsage = function(aiBrain) return aiBrain:GetEconomyUsage('MASS') end,
+    EnergyRequested = function(aiBrain) return aiBrain:GetEconomyRequested('ENERGY') end,
+    MassRequested = function(aiBrain) return aiBrain:GetEconomyRequested('MASS') end,
+    EnergyStorage = function(aiBrain) return aiBrain:GetEconomyStored('ENERGY') end,
+    MassStorage = function(aiBrain) return aiBrain:GetEconomyStored('MASS') end,
+}
 
 ---Returns true if given target brains are having active or building units with given category satisfying compare operation
 ---@param aibrain AIBrain
@@ -105,13 +121,12 @@ function BrainsCompareEconomyStats(aibrain, targetBrains, numReq, econStat, comp
 
     for _, testBrain in ipairs(ArmyBrains) do
         if targetBrainSet[testBrain.Name] then
-            num = num + AIUtils.AIGetEconomyNumbers(testBrain)[econStat]
+            num = num + economyFunctions[econStat](testBrain)
         end
     end
 
     return Compare(compareType, num, numReq)
 end
-
 
 ---@param aibrain AIBrain
 ---@param numReq number
