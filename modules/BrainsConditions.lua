@@ -134,6 +134,6 @@ end
 ---@param compareType CompareOp
 ---@return boolean
 function BrainCompareEconomy(aibrain, numReq, econStat, compareType)
-    local num = AIUtils.AIGetEconomyNumbers(aibrain)[econStat]
+    local num =  economyFunctions[econStat](aibrain)
     return Compare(compareType, num, numReq)
 end
