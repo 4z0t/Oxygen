@@ -1,6 +1,7 @@
 ---Creates Platoon loader for given base manager
 ---@alias PlatoonLoaderInit fun(baseManager:BaseManager):PlatoonLoader
 
+---@deprecated
 ---@type PlatoonLoaderInit
 ---@class PlatoonLoader
 ---@field _bm BaseManager

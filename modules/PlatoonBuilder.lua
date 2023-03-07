@@ -25,6 +25,15 @@ local BC = import("BuildConditions.lua")
 ---@field [4] OrderType
 ---@field [5] FormationType
 
+
+---@class UnitEntry
+---@field [1] UnitId
+---@field [2] integer @ quantity
+---@field [3] OrderType
+---@field [4] FormationType
+
+
+
 ---@alias StructureType
 --- |
 --- |
@@ -268,6 +277,17 @@ PlatoonBuilder = ClassSimple
         assert(self._template, "PlatoonTemplate wasnt initialized")
         table.insert(self._template,
             { unitId, 1, quantity or 1, orderType or 'Attack', formationType or 'AttackFormation' })
+        return self
+    end,
+
+    ---Adds units to platoon template
+    ---@param self PlatoonTemplateBuilder
+    ---@param units UnitEntry[]
+    ---@return PlatoonTemplateBuilder
+    AddUnits = function(self, units)
+        for _, unitDef in units do
+            self:AddUnit(unpack(unitDef))
+        end
         return self
     end,
 
