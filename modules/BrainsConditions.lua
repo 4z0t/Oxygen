@@ -137,3 +137,13 @@ function BrainCompareEconomy(aibrain, numReq, econStat, compareType)
     local num =  economyFunctions[econStat](aibrain)
     return Compare(compareType, num, numReq)
 end
+
+---@param aibrain AIBrain
+---@param numReq number
+---@param category EntityCategory[]
+---@param compareType CompareOp
+---@return boolean
+function BrainCompareNumCategory(aibrain, numReq, category, compareType)
+    local num =  aibrain:GetCurrentUnits(category)
+    return Compare(compareType, num, numReq)
+end
