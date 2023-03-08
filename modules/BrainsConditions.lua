@@ -140,7 +140,7 @@ end
 
 ---@param aibrain AIBrain
 ---@param numReq number
----@param category EntityCategory[]
+---@param category EntityCategory
 ---@param compareType CompareOp
 ---@return boolean
 function BrainCompareNumCategory(aibrain, numReq, category, compareType)

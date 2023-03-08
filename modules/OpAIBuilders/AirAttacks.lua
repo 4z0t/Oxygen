@@ -40,7 +40,9 @@ AirAttacksOpAIBuilder = Class(IOpAIBuilder)
     _Validate = function(self, childrenType)
         assert(VALID_TYPES[childrenType], "Unknown children type " .. childrenType)
     end,
+
     Type = 'AirAttacks',
+
     ---Sets quantity of children for OpAI
     ---@param self AirAttacksOpAIBuilder
     ---@param childrenType AirAttacksChildType

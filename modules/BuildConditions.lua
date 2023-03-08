@@ -106,6 +106,19 @@ function BrainEconomyCondition(econStat, compareOp, value)
 end
 
 
+---@param category EntityCategory
+---@param compareOp CompareOp
+---@param value number
+---@return BuildCondition
+function BrainCategoryCondition(category, compareOp, value)
+    return {
+        OBC,
+        "BrainCompareNumCategory",
+        { "default_brain",  value, category, compareOp }
+    }
+end
+
+
 ---@param condition BuildCondition
 ---@return BuildCondition
 function RemoveDefaultBrain(condition)
