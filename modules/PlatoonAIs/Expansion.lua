@@ -10,7 +10,6 @@ local BaseManagerThreads = import("/lua/ai/opai/BaseManagerPlatoonThreads.lua")
 function ExpansionPlatoon(platoon)
     ---@type AIBrain
     local aiBrain = platoon:GetBrain()
-    local units = platoon:GetPlatoonUnits()
     local data = platoon.PlatoonData
     local expansionData = data.ExpansionData
 
@@ -34,12 +33,12 @@ function ExpansionPlatoon(platoon)
 
     WaitSeconds(3)
 
-    aiBrain:DisbandPlatoon(platoon)
-
-
+    local engies = platoon:GetPlatoonUnits() or {}
+    
     ---@type Platoon
     platoon = aiBrain:MakePlatoon('', '')
-    aiBrain:AssignUnitsToPlatoon(platoon, units, "Guard", "None")
+    aiBrain:AssignUnitsToPlatoon(platoon, engies, "Guard", "None")
+
     platoon.PlatoonData = expansionData
-    platoon:ForkAIThread(BaseManagerThreads.BaseManagerEngineerPlatoonSplit)
+    BaseManagerThreads.BaseManagerEngineerPlatoonSplit(platoon)
 end
