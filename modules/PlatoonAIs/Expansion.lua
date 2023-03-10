@@ -31,13 +31,9 @@ function ExpansionPlatoon(platoon)
         return
     end
 
-    WaitSeconds(3)
+    -- assert(aiBrain.BaseManagers[expansionData.BaseName], "Base manager ".. expansionData.BaseName .. " not found")
 
-    local engies = platoon:GetPlatoonUnits() or {}
-    
-    ---@type Platoon
-    platoon = aiBrain:MakePlatoon('', '')
-    aiBrain:AssignUnitsToPlatoon(platoon, engies, "Guard", "None")
+    -- platoon:MoveToLocation(aiBrain.BaseManagers[expansionData.BaseName].Position, false)
 
     platoon.PlatoonData = expansionData
     BaseManagerThreads.BaseManagerEngineerPlatoonSplit(platoon)
