@@ -865,11 +865,10 @@ function ExpansionOf(expansionName)
         platoonBuilder
             :AIFunction(Oxygen.PlatoonAI.Expansion, 'ExpansionPlatoon')
             :AddCondition { BMBC, 'BaseActive', { expansionName } }
-            :AddCondition { BMBC, 'BaseManagerNeedsEngineers',
-                { expansionName } }
+            :AddCondition { BMBC, 'BaseManagerNeedsEngineers', { expansionName } }
 
         platoonBuilder._data = platoonBuilder._data or {}
-        platoonBuilder._data.ExnpasionData = {
+        platoonBuilder._data.ExpansionData = {
             BaseName = expansionName
         }
     end
