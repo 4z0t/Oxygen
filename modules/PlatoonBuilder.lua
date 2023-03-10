@@ -420,10 +420,11 @@ PlatoonBuilder = ClassSimple
         assert(self._data or self._useData, "Platoon Spec must have PlatoonData set!")
     end,
 
-    ---comment
+    ---Creates Platoon template. If fn passed, applies that function to platoon template
     ---@param self PlatoonTemplateBuilder
+    ---@param fn? fun(platoonSpec:PlatoonSpecTable):PlatoonSpecTable
     ---@return PlatoonSpecTable
-    Create = function(self)
+    Create = function(self, fn)
         self:_Verify()
         ---@type PlatoonSpecTable
         local result = {
@@ -446,6 +447,9 @@ PlatoonBuilder = ClassSimple
 
 
         }
+        if fn then
+            return fn(result)
+        end
         return result
     end
 }
