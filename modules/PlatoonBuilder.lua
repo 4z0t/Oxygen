@@ -428,24 +428,20 @@ PlatoonBuilder = ClassSimple
         self:_Verify()
         ---@type PlatoonSpecTable
         local result = {
-
-            BuilderName          = self._name,
-            BuildConditions      = self._conditions,
-            LocationType         = self._location or self._useLocation,
-            Priority             = self._priority,
-            PlatoonTemplate      = self._template,
-            PlatoonType          = self._type or self._useType,
-            PlatoonAIFunction    = self._function or self._useFunction,
-            InstanceCount        = self._instanceCount or 1,
-            PlatoonData          = self._data or self._useData,
-            RequiresConstruction = true,
-            BuildTimeOut         = self._buildTimeout,
-            Difficulty           = self._difficulty or ScenarioInfo.Options.Difficulty,
-
-            PlatoonAddFunctions = self._addFunctions,
+            BuilderName           = self._name,
+            BuildConditions       = self._conditions,
+            LocationType          = self._location or self._useLocation,
+            Priority              = self._priority,
+            PlatoonTemplate       = self._template,
+            PlatoonType           = self._type or self._useType,
+            PlatoonAIFunction     = self._function or self._useFunction,
+            InstanceCount         = self._instanceCount or 1,
+            PlatoonData           = self._data or self._useData,
+            RequiresConstruction  = true,
+            BuildTimeOut          = self._buildTimeout,
+            Difficulty            = self._difficulty or ScenarioInfo.Options.Difficulty,
+            PlatoonAddFunctions   = self._addFunctions,
             PlatoonBuildCallbacks = self._startFunctions,
-
-
         }
         if fn then
             return fn(result)
