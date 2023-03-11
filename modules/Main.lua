@@ -49,6 +49,11 @@ _G.Oxygen = {
     Game = import("GameManager.lua"),
 
     DifficultyValues = import("DifficultyValue.lua").values,
+    Misc = import("Misc.lua"),
+
+
+
+
 
     PlatoonAI = {
         Land = "/mods/Oxygen/modules/PlatoonAIs/Land.lua",

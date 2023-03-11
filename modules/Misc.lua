@@ -1,3 +1,9 @@
+local ScenarioFramework = import('/lua/ScenarioFramework.lua')
+local Utils = import("Utils.lua")
+local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
+
+
+
 ---Scatters units on targets with given order
 ---@param order fun(units:Unit[], target:Unit)
 ---@param units Unit[]
@@ -30,4 +36,29 @@ function ScatterUnits(order, units, targets)
         order(pool, targets[index])
     end
 
+end
+
+---Makes from map units UnitEntry list for Platoon Builder
+---@param army any
+---@param name any
+---@return UnitEntry[]
+function FromMapUnits(army, name, difficultySeparate)
+    if difficultySeparate then
+        name = name .. "_D" .. ScenarioInfo.Options.Difficulty
+    end
+
+    local unitGroup = ScenarioUtils.FindUnitGroup(name, Scenario.Armies[army].Units)
+
+    assert(unitGroup, "Units of " .. army .. " named " .. name .. " not found")
+
+    local idToCount = {}
+    for _, unit in unitGroup.Units do
+        idToCount[unit.type] = (idToCount[unit.type] or 0) + 1
+    end
+
+    local result = {}
+    for id, count in idToCount do
+        table.insert(result, { id, count })
+    end
+    return result
 end
