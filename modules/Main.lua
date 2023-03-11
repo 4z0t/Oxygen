@@ -19,8 +19,9 @@ _G.Oxygen = {
 
     UnitNames = import("UnitNames.lua"),
 
-    BaseManager = import("AdvancedBaseManager.lua").AdvancedBaseManager,
-    BaseManagers = import("AdvancedBaseManager.lua"),
+    AdvancedBaseManager = import("BaseManager/__Init__.lua").BaseManagers.AdvancedBaseManager,
+    BaseManagers = import("BaseManager/__Init__.lua").BaseManagers,
+    BaseManager = import("BaseManager/__Init__.lua"),
 
     PlayersManager = import("PlayersManager.lua").PlayersManager,
 

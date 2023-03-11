@@ -6,10 +6,9 @@ local Factions = import('/lua/factions.lua').Factions
 local BuildingTemplates = import('/lua/BuildingTemplates.lua').BuildingTemplates
 local RebuildStructuresTemplate = import('/lua/BuildingTemplates.lua').RebuildStructuresTemplate
 local StructureUpgradeTemplates = import('/lua/upgradetemplates.lua').StructureUpgradeTemplates
-local BC = import("BuildConditions.lua")
 
 local BMBC = '/lua/editor/BaseManagerBuildConditions.lua'
-local ABMBC = '/mods/Oxygen/modules/AdvancedBaseManagerBuildConditions.lua'
+local ABMBC = '/mods/Oxygen/modules/BaseManager/AdvancedBaseManagerBuildConditions.lua'
 local BMPT = '/lua/ai/opai/BaseManagerPlatoonThreads.lua'
 
 
@@ -111,7 +110,7 @@ AdvancedBaseManager = Class(BaseManager)
             assert(bc[1] and bc[2],
                 "AdvancedBaseManager.AddBuildStructures: BuildCondition must contain a reference to a function!")
 
-            bc = BC.RemoveDefaultBrain(bc)
+            bc = Oxygen.BuildConditions.RemoveDefaultBrain(bc)
             local func = import(bc[1])[ bc[2] ]
 
             assert(func ~= nil,
@@ -852,25 +851,3 @@ NukeBaseManger = Class(AdvancedBaseManager)
         end
     end,
 }
-
-
----Sets platoon to be an expasion of provided base manager
----@param expansionName string
----@return fun(platoonBuilder:PlatoonTemplateBuilder)
-function ExpansionOf(expansionName)
-
-    ---Makes platoon to be an expansion one
-    ---@param platoonBuilder PlatoonTemplateBuilder
-    return function(platoonBuilder)
-        platoonBuilder
-            :AIFunction(Oxygen.PlatoonAI.Expansion, 'ExpansionPlatoon')
-            :AddCondition { BMBC, 'BaseActive', { expansionName } }
-            :AddCondition { BMBC, 'BaseManagerNeedsEngineers', { expansionName } }
-
-        platoonBuilder._data = platoonBuilder._data or {}
-        platoonBuilder._data.ExpansionData = {
-            BaseName = expansionName
-        }
-    end
-
-end

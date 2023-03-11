@@ -36,5 +36,5 @@ function ExpansionPlatoon(platoon)
     -- platoon:MoveToLocation(aiBrain.BaseManagers[expansionData.BaseName].Position, false)
 
     platoon.PlatoonData = expansionData
-    BaseManagerThreads.BaseManagerEngineerPlatoonSplit(platoon)
+    Oxygen.BaseManager.Threads.BaseManagerEngineerPlatoonSplit(platoon)
 end
