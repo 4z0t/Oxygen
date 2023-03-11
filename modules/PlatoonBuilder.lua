@@ -211,12 +211,12 @@ PlatoonBuilder = ClassSimple
         return self
     end,
 
-    ---comment
+    ---Sets PlatoonData of platoon template, merges if alreay presents
     ---@param self PlatoonTemplateBuilder
     ---@param data PlatoonDataTable
     ---@return PlatoonTemplateBuilder
     Data = function(self, data)
-        self._data = data
+        self._data = table.merged(self._data, data)
         return self
     end,
 
@@ -437,7 +437,7 @@ PlatoonBuilder = ClassSimple
             PlatoonAddFunctions   = self._addFunctions,
             PlatoonBuildCallbacks = self._startFunctions,
         }
-       
+
         return result
     end
 }
