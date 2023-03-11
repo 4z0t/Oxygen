@@ -22,14 +22,14 @@ local BC = import("BuildConditions.lua")
 ---@field [1] UnitId
 ---@field [2] integer
 ---@field [3] integer @ quantity
----@field [4] OrderType
+---@field [4] PlatoonSquadType
 ---@field [5] FormationType
 
 
 ---@class UnitEntry
 ---@field [1] UnitId
 ---@field [2] integer @ quantity
----@field [3] OrderType
+---@field [3] PlatoonSquadType
 ---@field [4] FormationType
 
 
@@ -269,14 +269,14 @@ PlatoonBuilder = ClassSimple
     ---@param self PlatoonTemplateBuilder
     ---@param unitId UnitId
     ---@param quantity? integer @defaults to 1
-    ---@param orderType? OrderType @defaults to 'Attack'
+    ---@param squad? PlatoonSquadType @defaults to 'Attack'
     ---@param formationType? FormationType @defaults to 'AttackFormation'
     ---@return PlatoonTemplateBuilder
-    AddUnit = function(self, unitId, quantity, orderType, formationType)
+    AddUnit = function(self, unitId, quantity, squad, formationType)
         if quantity == 0 then return self end
         assert(self._template, "PlatoonTemplate wasnt initialized")
         table.insert(self._template,
-            { unitId, 1, quantity or 1, orderType or 'Attack', formationType or 'AttackFormation' })
+            { unitId, 1, quantity or 1, squad or 'Attack', formationType or 'AttackFormation' })
         return self
     end,
 
@@ -289,16 +289,6 @@ PlatoonBuilder = ClassSimple
             self:AddUnit(unpack(unitDef))
         end
         return self
-    end,
-
-    ---@deprecated
-    ---Adds default unit into template with OrderType as Attack and FormationType as GrowthFormation
-    ---@param self PlatoonTemplateBuilder
-    ---@param unitId UnitId
-    ---@param quantity integer?
-    ---@return PlatoonTemplateBuilder
-    AddUnitDefault = function(self, unitId, quantity)
-        return self:AddUnit(unitId, quantity)
     end,
 
     ---

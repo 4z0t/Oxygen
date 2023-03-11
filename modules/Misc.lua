@@ -39,14 +39,12 @@ function ScatterUnits(order, units, targets)
 end
 
 ---Makes from map units UnitEntry list for Platoon Builder
----@param army any
----@param name any
+---@param army string
+---@param name string
+---@param squad? PlatoonSquadType @defaults to 'Attack'
+---@param formation? FormationType @defaults to 'AttackFormation'
 ---@return UnitEntry[]
-function FromMapUnits(army, name, difficultySeparate)
-    if difficultySeparate then
-        name = name .. "_D" .. ScenarioInfo.Options.Difficulty
-    end
-
+function FromMapUnits(army, name, squad, formation)
     local unitGroup = ScenarioUtils.FindUnitGroup(name, Scenario.Armies[army].Units)
 
     assert(unitGroup, "Units of " .. army .. " named " .. name .. " not found")
@@ -58,7 +56,17 @@ function FromMapUnits(army, name, difficultySeparate)
 
     local result = {}
     for id, count in idToCount do
-        table.insert(result, { id, count })
+        table.insert(result, { id, count, squad, formation })
     end
     return result
+end
+
+---Makes from map units UnitEntry list for Platoon Builder with difficulty specified
+---@param army string
+---@param name string
+---@param squad? PlatoonSquadType @defaults to 'Attack'
+---@param formation? FormationType @defaults to 'AttackFormation'
+---@return UnitEntry[]
+function FromMapUnitsDifficulty(army, name, squad, formation)
+    return FromMapUnits(army, name .. "_D" .. ScenarioInfo.Options.Difficulty, squad, formation)
 end
