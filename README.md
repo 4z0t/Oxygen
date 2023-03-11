@@ -6,7 +6,7 @@ Currently there is only one way of scripting mission in coop. It is using ingame
 However, it has so many problems in root that make scripting more pain than joy.
 
 Oxygen is a Framework that solves this problem and improves some aspects of mission scripting.
-There are % main parts that form coop mission.
+These are main parts that form coop mission.
 
 ## Objectives and their management
 
@@ -81,5 +81,27 @@ When mission can be ended at success or fail:
 
 And **Objective Manager** will automatically assemble all data for primary, secondary and bonus objectives to be then displayed in UI.
 
+## Cinematics
+
+ TODO
+
+## Players
+
+TODO
+
 ## Base Managers and Platoons
 
+AIs must have something to control to offend player during objective.
+This can be reached with **Base Managers** that produce units groups.
+
+TODO
+
+## Game and Expanding map
+
+ TODO
+
+## Triggers
+
+TODO
+
+## ...
