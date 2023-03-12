@@ -83,11 +83,177 @@ And **Objective Manager** will automatically assemble all data for primary, seco
 
 ## Cinematics
 
- TODO
+During start or end of objectives players must be notified about next ones with some kind of message quickly briefing then about it.
+After mission is complete and new one starts players can be notified with dialog appearing briefing them.
+Also we can make cutscene showing objective targets during which players cant do any input: NIS mode.
+This is useful to create immersive shots of battles and enemy units moving towards players.
+
+Oxygen Cinematics kicks in:
+
+```lua
+local OC = Oxygen.Cinematics
+...
+-- During NIS mode players cant do any input and black bars appear on top and bottom.
+-- We can also pass in areas where units will become invulnerable during cutscene.
+OC.NISMode(function()
+
+    -- Position camera with marker defined on map
+    OC.MoveTo("Cam1", 0)
+
+    -- Create dialog where nice man tells you about objective (there are lots of examples in other missions,
+    -- most important here that we can create our own provided with mission, but it isnt easy process since game is really old)
+    ScenarioFramework.Dialogue( {{
+            text = '[HQ]: <something describing mission>',
+            vid = 'video.sfd',
+            bank = 'wolf',
+            cue = 'corre',
+            faction = 'Cybran'
+        }}, nil, true)
+    
+    -- waiting a bit
+    WaitSeconds(2)
+
+    -- we can display some text, but as I tried to make it bigger, it would crash game
+    -- UI 4 Sim is better which I'll show later (UI 4 Sim allows you create custom UI for map which is synced)
+    OC.DisplayText("Global\nWarning", 12, 'ffffffff', 'center', 1)
+
+    -- moving camera to other position for 2,5 seconds
+    OC.MoveTo("Cam3", 2.5)
+    WaitSeconds(2.5)
+
+    -- creating vision at enemy base just to show how dangerous it is
+    -- it will be hidden after NIS mode ends leaving no icons ('true' flag)
+    OC.VisionAtLocation("MainBase_M", 60, Brains.Player1):DestroyOnExit(true)
+
+    -- and so on...
+    OC.MoveTo("BaseCam1", 3)
+    OC.MoveTo("BaseCam2", 1)
+    OC.MoveTo("Cam3", 4)
+
+end, {"BattleField1", "BattleField2"})
+
+```
+
+There are lots of possibilities for phase between objectives:
+
+* expanding map and loading new bases
+* creating attacking units defined on map and  giving them orders
+* setting up objective's targets
+
+But let's do players' setup since we need those as well.
 
 ## Players
 
-TODO
+Oxygen provides with **PlayersManager** which simplifies process of setting up players and spawning em, however, it also
+cuts some certain advanced options, but for our purposes this will fit extremely well.
+
+```lua
+local playersManager = Oxygen.PlayersManager()
+
+...
+
+playersData = playersManager:Init
+ {
+    -- name of each upgrade is annotated, so, you dont need to 
+    -- learn each to set. But dont forget that not all upgrades may fit in the same slot.
+    -- Setting up upgrades for all players:
+    -- the returned value is data per player, it has as many entries as there are players in lobby
+  enhancements = {`
+    Aeon = {
+        "AdvancedEngineering",
+        "T3Engineering",
+        "ResourceAllocation",
+        "ResourceAllocationAdvanced",
+        "EnhancedSensors"
+    },
+    Cybran = {
+        "AdvancedEngineering",
+        "T3Engineering",
+        "ResourceAllocation",
+        "MicrowaveLaserGenerator"
+    },
+    UEF = {
+        "AdvancedEngineering",
+        "T3Engineering",
+        "ResourceAllocation",
+        "Shield",
+        "ShieldGeneratorField"
+    },
+    Seraphim = {
+        "AdvancedEngineering",
+        "T3Engineering",
+        "DamageStabilization",
+        "DamageStabilizationAdvanced",
+        "ResourceAllocation",
+        "ResourceAllocationAdvanced"
+    }
+  },
+  {
+    -- we can set any color we want as it is done in UI
+    color = "ff18DAE0",
+    -- those are used to spawn player on map (those names must be defined on map
+    -- for each player)
+    units =
+    {
+        Aeon = 'AeonPlayer_1',
+        Cybran = 'CybranPlayer_1',
+        UEF = 'UEFPlayer_1',
+        Seraphim = 'SeraPlayer_1',
+    },
+    -- custom name for a player (if not set it will use its own from lobby)
+    name = "Punch lox"
+  },
+  {
+    color = "ff69D63E",
+    units =
+    {
+        Cybran = 'CybranPlayer_2',
+        UEF = 'UEFPlayer_2',
+        Aeon = 'AeonPlayer_2',
+        Seraphim = 'SeraPlayer_2',
+    },
+    name = "Zadsport",
+    -- we can set specific upgrades per player as well
+    enhancements = {
+        Aeon = {
+            "AdvancedEngineering",
+            "T3Engineering",
+            "ResourceAllocation",
+        },
+        Cybran = {
+            "AdvancedEngineering",
+            "T3Engineering",
+            "ResourceAllocation",
+        },
+        UEF = {
+            "AdvancedEngineering",
+            "T3Engineering",
+            "ResourceAllocation",
+        },
+        Seraphim = {
+            "AdvancedEngineering",
+            "T3Engineering",
+            "ResourceAllocation",
+        }
+  },
+  },
+ }
+
+-- we can get their count like this
+local playersCount = table.getsize(playersData)
+
+ ...
+-- After that we can spawn players' ACUs warping them ...
+playersManager:WarpIn(function()
+    ScenarioFramework.Dialogue(VOStrings.E01_D01_010, PlayerDeath, true)
+end)
+-- or gating in (this only changes effects ACUs spawn with, you will have to setup gate on map yourself)
+playersManager:GateIn(function()
+    ScenarioFramework.Dialogue(VOStrings.E01_D01_010, PlayerDeath, true)
+end)
+-- The function passed in is players' death callback.
+-- You can make mission end if player dies or keep count of dead players.
+```
 
 ## Base Managers and Platoons
 
