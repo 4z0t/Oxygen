@@ -38,6 +38,17 @@ function ScatterUnits(order, units, targets)
 
 end
 
+local function MapGroupToIds(unitGroup, idToCount)
+    for _, unit in unitGroup.Units do
+        if unit.type == "GROUP" then
+            MapGroupToIds(unit, idToCount)
+        else
+            idToCount[unit.type] = (idToCount[unit.type] or 0) + 1
+        end
+    end
+    return idToCount
+end
+
 ---Makes from map units UnitEntry list for Platoon Builder
 ---@param army string
 ---@param name string
@@ -49,15 +60,13 @@ function FromMapUnits(army, name, squad, formation)
 
     assert(unitGroup, "Units of " .. army .. " named " .. name .. " not found")
 
-    local idToCount = {}
-    for _, unit in unitGroup.Units do
-        idToCount[unit.type] = (idToCount[unit.type] or 0) + 1
-    end
+    local idToCount = MapGroupToIds(unitGroup, {})
 
     local result = {}
     for id, count in idToCount do
         table.insert(result, { id, count, squad, formation })
     end
+
     return result
 end
 
