@@ -1,4 +1,3 @@
-
 local AIUtils = import("/lua/ai/aiutilities.lua")
 local AMPlatoonHelperFunctions = import("/lua/editor/amplatoonhelperfunctions.lua")
 local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
@@ -28,7 +27,6 @@ function BaseManagerEngineerPlatoonSplit(platoon)
     end
     for _, v in units do
         if not v.Dead then
-            -- Make sure current base manager isnt at capacity of engineers
             if EntityCategoryContains(categories.ENGINEER, v) and
                 bManager.EngineerQuantity > bManager.CurrentEngineerCount then
                 if bManager.EngineerBuildRateBuff then
@@ -42,8 +40,6 @@ function BaseManagerEngineerPlatoonSplit(platoon)
                 v.BaseName = baseName
                 engPlat:ForkAIThread(BaseManagerThreads.BaseManagerSingleEngineerPlatoon)
 
-                -- If engineer is not a commander or sub-commander, increment number of units working for the base
-                -- set up death trigger for the engineer
                 if not EntityCategoryContains(categories.COMMAND, v) then
                     bManager:AddCurrentEngineer()
 
