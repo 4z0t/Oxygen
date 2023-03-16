@@ -57,6 +57,7 @@ AdvancedBaseManager = Class(BaseManager)
         BaseManager.Create(self)
         self.BuildStructuresConditions = {}
         self.TransportsNeeded = 0
+        self.TransportsTech = 1
     end,
 
     ---Initializes AdvancedBaseManager
@@ -181,6 +182,12 @@ AdvancedBaseManager = Class(BaseManager)
         self.FunctionalityStates.Transporting = value
     end,
 
+    ---Sets Transporting tech level used (BM will use teches below too)
+    ---@param self AdvancedBaseManager
+    ---@param value 1|2|3
+    SetTransportsTech = function(self, value)
+        self.TransportsTech = value
+    end,
 
     ---Loads platoons into base manager
     ---@param self AdvancedBaseManager
