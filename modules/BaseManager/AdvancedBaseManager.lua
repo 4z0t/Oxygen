@@ -35,6 +35,7 @@ local BMPT = '/lua/ai/opai/BaseManagerPlatoonThreads.lua'
 ---@field BuildStructuresConditions table<UnitGroup, BuildStructuresFunctionCondition>
 ---@field MultiFaction boolean
 ---@field TransportsNeeded integer
+---@field TransportsTech 1|2|3
 AdvancedBaseManager = Class(BaseManager)
 {
 
@@ -757,8 +758,9 @@ AdvancedBaseManager = Class(BaseManager)
                     LocationType = name,
                     PlatoonAIFunction = { '/lua/ScenarioPlatoonAI.lua', 'TransportPool' },
                     BuildConditions = {
-                        { ABMBC, 'NeedTransports', { name } },
                         { ABMBC, 'TransportsEnabled', { name } },
+                        { ABMBC, 'TransportsTechAllowed', { name, tech } },
+                        { ABMBC, 'NeedTransports', { name } },
                     },
                     PlatoonData = {
                         BaseName = name,
@@ -780,8 +782,9 @@ AdvancedBaseManager = Class(BaseManager)
                     LocationType = name,
                     PlatoonAIFunction = { '/lua/ScenarioPlatoonAI.lua', 'TransportPool' },
                     BuildConditions = {
-                        { ABMBC, 'NeedTransports', { name } },
                         { ABMBC, 'TransportsEnabled', { name } },
+                        { ABMBC, 'TransportsTechAllowed', { name, 3 } },
+                        { ABMBC, 'NeedTransports', { name } },
                     },
                     PlatoonData = {
                         BaseName = name,

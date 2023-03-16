@@ -5,12 +5,21 @@ function TransportsEnabled(aiBrain, baseName)
     ---@type AdvancedBaseManager
     local bManager = aiBrain.BaseManagers[baseName]
     if not bManager then return false end
+    
     return bManager.FunctionalityStates.Transporting
 end
 
+---@param aiBrain AIBrain
+---@param baseName string
+---@param tech integer
+---@return boolean
+function TransportsTechAllowed(aiBrain, baseName, tech)
+    ---@type AdvancedBaseManager
+    local bManager = aiBrain.BaseManagers[baseName]
+    if not bManager then return false end
 
-
-
+    return bManager.TransportsTech >= tech
+end
 
 ---@param aiBrain AIBrain
 ---@param baseName string
