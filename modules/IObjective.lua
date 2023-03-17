@@ -79,7 +79,7 @@ IObjective = ClassSimple
         self.ResultCallbacks = {}
         self.ProgressCallbacks = {}
 
-        self:_ProcessArgs(objArgs)
+        self:ProcessArgs(objArgs)
 
         if not Sync.ObjectivesTable then
             Sync.ObjectivesTable = {}
@@ -98,6 +98,12 @@ IObjective = ClassSimple
             loading = false,
             StartTime = self.SimStartTime,
         }
+        self:PostCreate(objArgs)
+    end,
+
+    ---@param self IObjective
+    ---@param args ObjectiveArgs
+    PostCreate = function (self, args)
     end,
 
     ---Adds result callback for an objective
@@ -177,7 +183,7 @@ IObjective = ClassSimple
 
     ---@param self IObjective
     ---@param args ObjectiveArgs
-    _ProcessArgs = function(self, args)
+    ProcessArgs = function(self, args)
         if not args then return end
 
         if args.ShowFaction then

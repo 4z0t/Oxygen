@@ -107,6 +107,44 @@ function SetupVizMarker(objective, object)
     objective.VizMarkers:Add(VizMarker(spec))
 end
 
+---@overload fun(objective:IObjective, area:Area)
+---@param objective IObjective
+---@param object  Entity
+function FlashViz(objective, object)
+    if IsEntity(object) then
+        local pos = object:GetPosition()
+        local spec = {
+            X = pos[1],
+            Z = pos[2],
+            Radius = 2,
+            LifeTime = 1.00,
+            Omni = false,
+            Vision = true,
+            Radar = false,
+            Army = GetPlayerArmy(),
+        }
+        local vizmarker = VizMarker(spec)
+        object.Trash:Add(vizmarker)
+        vizmarker:AttachBoneTo(-1, object, -1)
+        objective.VizMarkers:Add(vizmarker)
+    else
+        local rect = ScenarioUtils.AreaToRect(object)
+        local width = rect.x1 - rect.x0
+        local height = rect.y1 - rect.y0
+        local spec = {
+            X = rect.x0 + width / 2,
+            Z = rect.y0 + height / 2,
+            Radius = math.max(width, height),
+            LifeTime = 0.01,
+            Omni = false,
+            Vision = true,
+            Radar = false,
+            Army = GetPlayerArmy(),
+        }
+        objective.VizMarkers:Add(VizMarker(spec))
+    end
+end
+
 ---@param obj IObjective
 ---@param unit Unit
 ---@param targetTag integer
