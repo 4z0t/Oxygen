@@ -60,13 +60,13 @@ IObjective = ClassSimple
         self.Hidden = objArgs.Hidden
         self.Decals = {}
 
-        self.UnitMarkers = {}
+        self.UnitMarkers = setmetatable({}, { __mode = "v" })
 
-        self.VizMarkers = {}
+        self.VizMarkers = setmetatable({}, { __mode = "v" })
 
         self.Decal = false
 
-        self.IconOverrides = {}
+        self.IconOverrides = setmetatable({}, { __mode = "v" })
 
         self.NextTargetTag = 0
         self.PositionUpdateThreads = setmetatable({}, { __mode = "v" })
