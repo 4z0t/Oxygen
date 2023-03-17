@@ -3,19 +3,22 @@ local SimObjectives = import("/lua/simobjectives.lua")
 local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
 
 
----@class ObjectiveArgs
+---@class ObjectiveArgs : ObjectiveTarget
 ---@field Hidden boolean
 ---@field ShowFaction boolean | 'Cybran'|'Aeon'|'UEF'|'Seraphim'
 ---@field Image string
 ---@field Requirements ObjectiveTargetRequirements[]
 ---@field Timer integer
 ---@field Category EntityCategory
+---@field AlwaysVisible boolean
+---@field MarkUnits boolean
 
 ---@class UserTarget
 ---@field Type string
 
 
 ---@class IObjective
+---@field Type ObjectiveType
 ---@field Title string
 ---@field Tag string
 ---@field Description string
@@ -26,12 +29,13 @@ local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
 ---@field UnitMarkers table
 ---@field VizMarkers table
 ---@field Decal UserDecal
----@field IconOverrides table
+---@field IconOverrides Unit[]
 ---@field NextTargetTag integer
----@field PositionUpdateThreads table
+---@field PositionUpdateThreads thread[]
 ---@field SimStartTime number
 ---@field ResultCallbacks function[]
 ---@field ProgressCallbacks function[]
+---@field Args ObjectiveArgs
 IObjective = ClassSimple
 {
     Icon = false,
@@ -45,6 +49,7 @@ IObjective = ClassSimple
     ---@param objArgs ObjectiveArgs
     __init = function(self, objType, complete, title, description, objArgs)
 
+        self.Type = objType
         self.Title = title
         self.Description = description
 
@@ -65,10 +70,12 @@ IObjective = ClassSimple
         self.IconOverrides = {}
 
         self.NextTargetTag = 0
-        self.PositionUpdateThreads = {}
+        self.PositionUpdateThreads = setmetatable({}, { __mode = "v" })
 
         self.SimStartTime = GetGameTimeSeconds()
 
+
+        self.Args = objArgs
 
         self.ResultCallbacks = {}
         self.ProgressCallbacks = {}
@@ -159,13 +166,38 @@ IObjective = ClassSimple
     end,
 
 
-    ---comment
+
     ---@param self IObjective
     ---@param args ObjectiveArgs
     _ProcessArgs = function(self, args)
+        if not args then return end
+
         if args.ShowFaction then
             args.Image = ObjectiveHandlers.GetFactionImage(args.ShowFaction)
         end
+
+        if args.Units then
+            for _, v in args.Units do
+                if v and v.IsDead and not v.Dead then
+                    self:AddUnitTarget(v)
+                end
+            end
+        end
+
+        if args.Unit and not args.Unit.Dead then
+            self:AddUnitTarget(args.Unit)
+        end
+
+        if args.Areas then
+            for _, v in args.Areas do
+                self:AddAreaTarget(v)
+            end
+        end
+
+        if args.Area then
+            self:AddAreaTarget(args.Area)
+        end
+
     end,
 
     ---Forms user targets to be displayed in UI
@@ -195,6 +227,49 @@ IObjective = ClassSimple
 
         return userTargets
     end,
+
+
+    ---@param self IObjective
+    ---@param unit Unit
+    AddUnitTarget = function(self, unit)
+        self.NextTargetTag = self.NextTargetTag + 1
+        if unit.Army == ObjectiveHandlers.GetPlayerArmy() then
+            ObjectiveHandlers.SetupFocusNotify(self, unit, self.NextTargetTag)
+        else
+            ObjectiveHandlers.SetupNotify(self, unit, self.NextTargetTag)
+        end
+        if self.Args.AlwaysVisible then
+            ObjectiveHandlers.SetupVizMarker(self, unit)
+        end
+
+        -- Mark the units unless MarkUnits == false
+        if self.Args.MarkUnits == nil or self.Args.MarkUnits then
+            local icon = ObjectiveHandlers.GetUnderlayIcon(self.Type)
+            if icon then
+                unit:SetStrategicUnderlay(icon)
+            end
+            table.insert(self.IconOverrides, unit)
+        end
+    end,
+
+
+    ---@param self IObjective
+    ---@param area Area
+    AddAreaTarget = function(self, area)
+        self.NextTargetTag = self.NextTargetTag + 1
+
+        self:_UpdateUI('Target',
+            {
+                Type = 'Area',
+                Value = ScenarioUtils.AreaToRect(area),
+                TargetTag = self.NextTargetTag
+            })
+
+        if self.Args.AlwaysVisible then
+            ObjectiveHandlers.SetupVizMarker(self, area)
+        end
+    end,
+
 
 
 

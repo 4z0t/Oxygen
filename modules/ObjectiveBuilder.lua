@@ -215,7 +215,7 @@ ObjectiveBuilder = ClassSimple
     ---@return ObjectiveBuilder
     NewBonus = function(self, name)
         self:New(name)
-        self._type = 'Bonus'
+        self._type = 'bonus'
         return self
     end,
 
