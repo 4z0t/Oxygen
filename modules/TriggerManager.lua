@@ -3,6 +3,8 @@ local KillThread = KillThread
 local unpack = unpack
 local assert = assert
 
+local ScenarioFramework = import('/lua/ScenarioFramework.lua')
+
 ---@alias ThreadFunction fun(...:any):nil
 
 ---@class Runnable
@@ -206,7 +208,45 @@ UnitStartBuildTrigger = Class(IUnitTrigger) { _type = 'OnStartBuild',
 }
 
 
+---@class BasicIntelTrigger
+---@field _aiBrain AIBrain
+---@field _callback UnitCallback
+BasicIntelTrigger = ClassSimple
+{
+    ---@param self BasicIntelTrigger
+    ---@param callback UnitCallback
+    ---@param aiBrain AIBrain
+    __init = function(self, callback, aiBrain)
+        self._callback = callback
+        self._aiBrain = aiBrain
+    end,
 
+    ---Adds unit intel callback
+    ---@param self BasicIntelTrigger
+    ---@param unit Unit
+    Add = function(self, unit)
+        self._aiBrain:SetupArmyIntelTrigger
+        {
+            CallbackFunction = self._callback,
+            Type = 'LOSNow',
+            Category = categories.ALLUNITS,
+            Blip = unit,
+            Value = true,
+            OnceOnly = true,
+            TargetAIBrain = unit:GetAIBrain(),
+        }
+    end
+}
+
+---@class PlayerIntelTrigger : BasicIntelTrigger
+PlayerIntelTrigger = Class(BasicIntelTrigger)
+{
+    ---@param self PlayerIntelTrigger
+    ---@param callback UnitCallback
+    __init = function(self, callback)
+        BasicIntelTrigger.__init(self, callback, GetArmyBrain(ScenarioFramework.Objectives.GetPlayerArmy()))
+    end
+}
 
 
 TriggerManager = ClassSimple
