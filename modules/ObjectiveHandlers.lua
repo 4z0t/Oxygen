@@ -47,6 +47,28 @@ function GetUnderlayIcon(objType)
     return typeToUnderlay[objType]
 end
 
+local actionToPicture = {
+    ["kill"] = "/game/orders/attack_btn_up.dds",
+    ["capture"] = "/game/orders/convert_btn_up.dds",
+    ["build"] = "/game/orders/production_btn_up.dds",
+    ["protect"] = "/game/orders/guard_btn_up.dds",
+    ["timer"] = "/game/orders/guard_btn_up.dds",
+    ["move"] = "/game/orders/move_btn_up.dds",
+    ["reclaim"] = "/game/orders/reclaim_btn_up.dds",
+    ["repair"] = "/game/orders/repair_btn_up.dds",
+    ["locate"] = "/game/orders/omni_btn_up.dds",
+    ["group"] = "/game/orders/move_btn_up.dds",
+    ["killorcapture"] = "/game/orders/attack_capture_btn_up.dds",
+}
+
+
+---@param actionString ObjectiveAction
+---@return string
+function GetActionIcon(actionString)
+    local action = string.lower(actionString)
+    return actionToPicture[action] or ""
+end
+
 ---@overload fun(objective:IObjective, area:Area)
 ---@param objective IObjective
 ---@param object  Entity

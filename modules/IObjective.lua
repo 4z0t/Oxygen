@@ -46,7 +46,8 @@ IObjective = ClassSimple
     ---@param title string
     ---@param description string
     ---@param objArgs ObjectiveArgs
-    __init = function(self, objType, complete, title, description, objArgs)
+    ---@param action? ObjectiveAction
+    __init = function(self, objType, complete, title, description, objArgs, action)
 
         self.Type = objType
         self.Title = title
@@ -90,7 +91,7 @@ IObjective = ClassSimple
             hidden = self.Hidden,
             title = self.Title,
             description = self.Description,
-            actionImage = self.Icon,
+            actionImage = ObjectiveHandlers.GetActionIcon(action or self.Icon),
             targetImage = objArgs.Image,
             progress = "",
             targets = self:_FormUserTargets(objArgs),
@@ -279,10 +280,3 @@ IObjective = ClassSimple
 
 
 }
-
-
-
-
-
-
-
