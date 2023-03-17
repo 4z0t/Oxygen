@@ -79,6 +79,7 @@ IObjective = ClassSimple
         self.ResultCallbacks = {}
         self.ProgressCallbacks = {}
 
+        self:OnCreate()
         self:ProcessArgs(objArgs)
 
         if not Sync.ObjectivesTable then
@@ -104,6 +105,10 @@ IObjective = ClassSimple
     ---@param self IObjective
     ---@param args ObjectiveArgs
     PostCreate = function (self, args)
+    end,
+
+    ---@param self IObjective
+    OnCreate = function (self)
     end,
 
     ---Adds result callback for an objective
