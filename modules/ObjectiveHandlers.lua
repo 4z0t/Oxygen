@@ -65,6 +65,7 @@ function SetupVizMarker(objective, object)
         local vizmarker = VizMarker(spec)
         object.Trash:Add(vizmarker)
         vizmarker:AttachBoneTo(-1, object, -1)
+        objective.VizMarkers:Add(vizmarker)
         return
     end
 
@@ -81,8 +82,7 @@ function SetupVizMarker(objective, object)
         Vision = true,
         Army = GetPlayerArmy(),
     }
-    local vizmarker = VizMarker(spec)
-    table.insert(objective.VizMarkers, vizmarker);
+    objective.VizMarkers:Add(VizMarker(spec))
 end
 
 ---@param obj IObjective

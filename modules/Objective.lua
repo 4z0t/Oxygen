@@ -26,9 +26,9 @@ local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
 ---@field Complete boolean
 ---@field Hidden boolean
 ---@field Decals UserDecal[]
----@field UnitMarkers table
----@field VizMarkers table
----@field Decal UserDecal
+---@field UnitMarkers TrashBag
+---@field VizMarkers TrashBag
+---@field Decal TrashBag
 ---@field IconOverrides Unit[]
 ---@field NextTargetTag integer
 ---@field PositionUpdateThreads thread[]
@@ -58,11 +58,10 @@ IObjective = ClassSimple
         self.Complete = false
 
         self.Hidden = objArgs.Hidden
-        self.Decals = {}
 
-        self.UnitMarkers = setmetatable({}, { __mode = "v" })
-
-        self.VizMarkers = setmetatable({}, { __mode = "v" })
+        self.Decals = TrashBag()
+        self.UnitMarkers = TrashBag()
+        self.VizMarkers = TrashBag()
 
         self.Decal = false
 
@@ -86,7 +85,7 @@ IObjective = ClassSimple
         end
         Sync.ObjectivesTable[self.Tag] = {
             tag = self.Tag,
-            type = objType,
+            type = self.Type,
             complete = complete,
             hidden = self.Hidden,
             title = self.Title,
@@ -114,14 +113,16 @@ IObjective = ClassSimple
         table.insert(self.ProgressCallbacks, callback)
     end,
 
+
+    ---@param self IObjective
+    ---@param success boolean
+    ---@param data any
     OnResult = function(self, success, data)
         self.Complete = success
-
-        -- Destroy decals
-        for _, v in self.Decals do v:Destroy() end
-
-        -- Destroy unit marker things
-        for _, v in self.UnitMarkers do v:Destroy() end
+        
+        self.Decal:Destroy()
+        self.VizMarkers:Destroy()
+        self.UnitMarkers:Destroy()
 
         -- Revert strategic icons
         for _, v in self.IconOverrides do
@@ -129,9 +130,6 @@ IObjective = ClassSimple
                 v:SetStrategicUnderlay("")
             end
         end
-
-        -- Destroy visibility markers
-        for _, v in self.VizMarkers do v:Destroy() end
 
 
         if self.PositionUpdateThreads then
