@@ -38,8 +38,7 @@ local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
 ---@field Args ObjectiveArgs
 IObjective = ClassSimple
 {
-    Icon = false,
-
+    Icon = "",
 
     ---@param self IObjective
     ---@param objType ObjectiveType
@@ -82,6 +81,9 @@ IObjective = ClassSimple
 
         self:_ProcessArgs(objArgs)
 
+        if not Sync.ObjectivesTable then
+            Sync.ObjectivesTable = {}
+        end
         Sync.ObjectivesTable[self.Tag] = {
             tag = self.Tag,
             type = objType,
@@ -157,6 +159,14 @@ IObjective = ClassSimple
         self:_UpdateUI('complete', 'failed')
     end,
 
+    ---@param self IObjective
+    ---@param result boolean
+    ManualResult = function(self, result)
+        self.Active = false
+        self:OnResult(result)
+        self:_UpdateUI('complete', result and 'complete' or 'failed')
+    end,
+
     ---Updates UI of objective
     ---@param self IObjective
     ---@param field string
@@ -164,7 +174,6 @@ IObjective = ClassSimple
     _UpdateUI = function(self, field, data)
         SimObjectives.UpdateObjective(self.Title, field, data, self.Tag)
     end,
-
 
 
     ---@param self IObjective
@@ -269,8 +278,6 @@ IObjective = ClassSimple
             ObjectiveHandlers.SetupVizMarker(self, area)
         end
     end,
-
-
 
 
 }
