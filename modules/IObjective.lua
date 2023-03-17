@@ -119,7 +119,7 @@ IObjective = ClassSimple
     ---@param data any
     OnResult = function(self, success, data)
         self.Complete = success
-        
+
         self.Decal:Destroy()
         self.VizMarkers:Destroy()
         self.UnitMarkers:Destroy()
@@ -279,3 +279,10 @@ IObjective = ClassSimple
 
 
 }
+
+
+
+
+
+
+
