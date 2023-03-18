@@ -41,7 +41,7 @@ CategoriesInAreaObjective = Class(IObjective)
     ---@param self CategoriesInAreaObjective
     ---@param args ObjectiveArgs
     PostCreate = function(self, args)
-        
+
         for _, requirement in args.Requirements do
             local rect = ScenarioUtils.AreaToRect(requirement.Area)
 
@@ -57,9 +57,9 @@ CategoriesInAreaObjective = Class(IObjective)
                 ObjectiveHandlers.FlashViz(self, requirement.Area)
             end
 
-            local reqRef = requirement
-            reqRef.Rect = rect
-            reqRef.CompareFunc = ObjectiveHandlers.GetCompareFunc(requirement.CompareOp)
+            requirement.ArmiesList = CreateArmiesList(requirement.Armies)
+            requirement.Rect = rect
+            requirement.CompareFunc = ObjectiveHandlers.GetCompareFunc(requirement.CompareOp)
         end
 
         self:_UpdateUI('Progress', ('(0/%d)'):format(table.getn(args.Requirements)))
@@ -78,7 +78,7 @@ CategoriesInAreaObjective = Class(IObjective)
             for _, requirement in requirements do
                 local units = GetUnitsInRect(requirement.Rect)
                 local cnt = 0
-                local ArmiesList = CreateArmiesList(requirement.Armies)
+                local armiesList = requirement.ArmiesList
                 if units then
                     for _, unit in units do
                         if not unit.Dead and not unit:IsBeingBuilt()
@@ -86,7 +86,7 @@ CategoriesInAreaObjective = Class(IObjective)
                             (
                             not (requirement.ArmyIndex or requirement.Armies)
                                 or (requirement.ArmyIndex == unit.Army)
-                                or ArmiesList[unit.Army]
+                                or armiesList[unit.Army]
                             )
                             and EntityCategoryContains(requirement.Category, unit)
                         then
