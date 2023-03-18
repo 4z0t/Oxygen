@@ -155,6 +155,7 @@ end
 ---@field onProgressFunc fun()
 ---@field next string | string[]
 ---@field expansionTimer integer
+---@field class IObjective
 
 ---@class ObjectiveBuilder
 ---@field name string
@@ -173,6 +174,7 @@ end
 ---@field _onStartFunc fun():ObjectiveTarget?
 ---@field _next string | string[]
 ---@field _expansionTimer integer
+---@field _class IObjective
 ---@overload fun():ObjectiveBuilder
 ObjectiveBuilder = ClassSimple
 {
@@ -238,12 +240,17 @@ ObjectiveBuilder = ClassSimple
     end,
 
     ---Sets given action and function if not specified
+    ---@overload fun(self:ObjectiveBuilder, action:IObjective):ObjectiveBuilder
     ---@param self ObjectiveBuilder
     ---@param action ObjectiveAction
     ---@return ObjectiveBuilder
     To = function(self, action)
-        self._action = action:lower()
-        self._func = self._func or actionToFunction[self._action]
+        if type(action) == "string" then
+            self._action = action:lower()
+            self._func = self._func or actionToFunction[self._action]
+        elseif type(action) == "table" then
+            self._class = action
+        end
         return self
     end,
 
@@ -355,7 +362,7 @@ ObjectiveBuilder = ClassSimple
     ---@param self ObjectiveBuilder
     ---@param seconds integer
     ---@return ObjectiveBuilder
-    ExpansionTimer = function (self, seconds)
+    ExpansionTimer = function(self, seconds)
         self._expansionTimer = seconds
         return self
     end,
@@ -381,7 +388,7 @@ ObjectiveBuilder = ClassSimple
     ---comment
     ---@param self ObjectiveBuilder
     _Validate = function(self)
-        if self._func ~= nil
+        if (self._func ~= nil or self._class ~= nil)
             and self._complete ~= nil
             and self._type ~= nil
             and self._title ~= nil
@@ -417,7 +424,8 @@ ObjectiveBuilder = ClassSimple
             onSuccessFunc = self._onSuccessFunc,
             onFailFunc = self._onFailFunc,
             onProgressFunc = self._onProgressFunc,
-            expansionTimer = self._expansionTimer
+            expansionTimer = self._expansionTimer,
+            class = self._class
         }
     end
 }
