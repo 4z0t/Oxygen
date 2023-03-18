@@ -41,7 +41,7 @@ CategoriesInAreaObjective = Class(IObjective)
     ---@param self CategoriesInAreaObjective
     ---@param args ObjectiveArgs
     PostCreate = function(self, args)
-
+        
         for _, requirement in args.Requirements do
             local rect = ScenarioUtils.AreaToRect(requirement.Area)
 
@@ -50,7 +50,7 @@ CategoriesInAreaObjective = Class(IObjective)
             local x = rect.x0 + (w / 2.0)
             local z = rect.y0 + (h / 2.0)
 
-            if args.MarkArea and not self.Decals[requirement.Area] then
+            if args.MarkArea then
                 local decal = ObjectiveHandlers.CreateObjectiveDecal(x, z, w, h)
                 self.Decals:Add(decal)
             elseif args.FlashVisible then

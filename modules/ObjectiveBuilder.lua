@@ -197,6 +197,7 @@ ObjectiveBuilder = ClassSimple
         self._onStartFunc = EmptyFunc
         self._onProgressFunc = nil
         self._next = nil
+        self._class = nil
         self.name = name
         return self
     end,
