@@ -1,13 +1,7 @@
 local IObjective = import("IObjective.lua").IObjective
-local Triggers = import("TriggerManager.lua")
 local ObjectiveHandlers = import("ObjectiveHandlers.lua")
 local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 
-
-CategoriesInAreaObjective = Class(IObjective)
-{
-    --Todo
-}
 
 ---@class KillObjective : IObjective
 ---@field UnitDeathTrigger UnitDeathTrigger
@@ -24,13 +18,13 @@ KillObjective = Class(IObjective)
         self.Killed = 0
         self.Total = table.getn(self.Args.Units)
 
-        self.UnitDeathTrigger = Triggers.UnitDeathTrigger(
+        self.UnitDeathTrigger = Oxygen.Triggers.UnitDeathTrigger(
             function(unit)
                 self:OnUnitKilled(unit)
             end
         )
 
-        self.UnitGivenTrigger = Triggers.UnitGivenTrigger(
+        self.UnitGivenTrigger = Oxygen.Triggers.UnitGivenTrigger(
             function(oldUnit, newUnit)
                 self:OnUnitGiven(oldUnit, newUnit)
             end
@@ -91,32 +85,4 @@ KillObjective = Class(IObjective)
 
         self:AddObjectiveUnit(self.Args, newUnit)
     end
-}
-
-
-
-TimerObjective = Class(IObjective)
-{
-    --todo
-}
-
-
-ProtectObjective = Class(TimerObjective)
-{
-    --todo
-}
-
-CategoryStatCompareObjective = Class(IObjective)
-{
-    --todo
-}
-
-SpecificUnitsInAreaObjective = Class(IObjective)
-{
-    --todo
-}
-
-LocateObjective = Class(IObjective)
-{
-
 }

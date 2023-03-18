@@ -53,7 +53,7 @@ _G.Oxygen = {
     Misc = import("Misc.lua"),
 
 
-
+    Triggers = import("TriggerManager.lua"),
 
 
     PlatoonAI = {
