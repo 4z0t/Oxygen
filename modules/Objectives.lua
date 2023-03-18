@@ -14,6 +14,7 @@ CategoriesInAreaObjective = Class(IObjective)
 ---@field UnitGivenTrigger UnitGivenTrigger
 KillObjective = Class(IObjective)
 {
+    Icon = "Kill",
 
     ---@param self KillObjective
     OnCreate = function(self)
@@ -73,3 +74,32 @@ KillObjective = Class(IObjective)
         --todo
     end
 }
+
+
+
+TimerObjective = Class(IObjective)
+{
+    --todo
+}
+
+
+ProtectObjective = Class(TimerObjective)
+{
+    --todo
+}
+
+CategoryStatCompareObjective = Class(IObjective)
+{
+    --todo
+}
+
+SpecificUnitsInAreaObjective = Class(IObjective)
+{
+    --todo
+}
+
+LocateObjective = Class(IObjective)
+{
+
+}
+

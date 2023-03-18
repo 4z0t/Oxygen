@@ -66,7 +66,7 @@ local actionToPicture = {
 ---@return string
 function GetActionIcon(actionString)
     local action = string.lower(actionString)
-    return actionToPicture[action] or ""
+    return actionToPicture[action] or actionString
 end
 
 ---@overload fun(objective:IObjective, area:Area)
