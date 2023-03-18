@@ -49,7 +49,7 @@ KillObjective = Class(CountObjective)
         if not unit.Dead then
             -- Mark the units unless MarkUnits == false
             if args.MarkUnits == nil or args.MarkUnits then
-                self.UnitMarkers.Add(ObjectiveArrow { AttachTo = unit })
+                self.UnitMarkers:Add(ObjectiveArrow { AttachTo = unit })
             end
             if args.FlashVisible then
                 ObjectiveHandlers.FlashViz(self, unit)

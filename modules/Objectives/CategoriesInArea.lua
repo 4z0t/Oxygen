@@ -93,7 +93,7 @@ CategoriesInAreaObjective = Class(IObjective)
                             if not unit.Marked and self.Args.MarkUnits then
                                 unit.Marked = true
                                 self:AddUnitTarget(unit)
-                                self.UnitMarkers.Add(ObjectiveArrow { AttachTo = unit })
+                                self.UnitMarkers:Add(ObjectiveArrow { AttachTo = unit })
                             end
                             cnt = cnt + 1
                         end
