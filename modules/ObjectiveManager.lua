@@ -87,7 +87,16 @@ ObjectiveManager = ClassSimple
         end
         ---@type Objective
         local obj
-        if useActionInFunc[objTable.func] then
+        if objTable.class then
+            obj = objTable.class(
+                objTable.type,
+                objTable.complete,
+                objTable.title,
+                objTable.description,
+                target,
+                objTable.action
+            )
+        elseif useActionInFunc[objTable.func] then
             obj = Objectives[objTable.func](
                 objTable.type,
                 objTable.complete,
