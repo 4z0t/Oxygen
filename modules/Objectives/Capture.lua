@@ -59,7 +59,7 @@ CaptureObjective = Class(KillObjective)
         self.Total = self.Total - 1
 
         if self.Total < self.Required then
-            self:Fail(unit)
+            self:Fail()
         end
     end
 
