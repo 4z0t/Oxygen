@@ -6,7 +6,7 @@ local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 ---@class KillObjective : IObjective
 ---@field UnitDeathTrigger UnitDeathTrigger
 ---@field UnitGivenTrigger UnitGivenTrigger
----@field Killed integer
+---@field Count integer
 ---@field Total integer
 KillObjective = Class(IObjective)
 {
@@ -15,7 +15,7 @@ KillObjective = Class(IObjective)
     ---@param self KillObjective
     OnCreate = function(self)
 
-        self.Killed = 0
+        self.Count = 0
         self.Total = table.getn(self.Args.Units)
 
         self.UnitDeathTrigger = Oxygen.Triggers.UnitDeathTrigger(
@@ -67,12 +67,12 @@ KillObjective = Class(IObjective)
     OnUnitKilled = function(self, unit)
         if not self.Active then return end
 
-        self.Killed = self.Killed + 1
+        self.Count = self.Count + 1
 
-        self:_UpdateUI('Progress', ("%s/%s"):format(self.Killed, self.Total))
-        self:OnProgress(self.Killed, self.Total)
+        self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Total))
+        self:OnProgress(self.Count, self.Total)
 
-        if self.Killed == self.Total then
+        if self.Count == self.Total then
             self:Success(unit)
         end
     end,

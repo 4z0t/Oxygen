@@ -57,10 +57,6 @@ CategoriesInAreaObjective = Class(IObjective)
                 ObjectiveHandlers.FlashViz(self, requirement.Area)
             end
 
-            if args.MarkUnits then
-                self.MarkUnits = true
-            end
-
             local reqRef = requirement
             reqRef.Rect = rect
             reqRef.CompareFunc = ObjectiveHandlers.GetCompareFunc(requirement.CompareOp)
