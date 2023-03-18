@@ -12,6 +12,8 @@ CategoriesInAreaObjective = Class(IObjective)
 ---@class KillObjective : IObjective
 ---@field UnitDeathTrigger UnitDeathTrigger
 ---@field UnitGivenTrigger UnitGivenTrigger
+---@field Killed integer
+---@field Total integer
 KillObjective = Class(IObjective)
 {
     Icon = "Kill",
@@ -63,12 +65,24 @@ KillObjective = Class(IObjective)
     end,
 
 
+    ---@param self KillObjective
+    ---@param unit Unit
     OnUnitKilled = function(self, unit)
         if not self.Active then return end
-        --todo
 
+        self.Killed = self.Killed + 1
+
+        self:_UpdateUI('Progress', ("%s/%s"):format(self.Killed, self.Total))
+        self:OnProgress(self.Killed, self.Total)
+
+        if self.Killed == self.Total then
+            self:Success(unit)
+        end
     end,
 
+    ---@param self KillObjective
+    ---@param unit Unit
+    ---@param newUnit Unit
     OnUnitGiven = function(self, unit, newUnit)
         if not self.Active then return end
         --todo
@@ -102,4 +116,3 @@ LocateObjective = Class(IObjective)
 {
 
 }
-
