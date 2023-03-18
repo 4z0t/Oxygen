@@ -104,11 +104,11 @@ IObjective = ClassSimple
 
     ---@param self IObjective
     ---@param args ObjectiveArgs
-    PostCreate = function (self, args)
+    PostCreate = function(self, args)
     end,
 
     ---@param self IObjective
-    OnCreate = function (self)
+    OnCreate = function(self)
     end,
 
     ---Adds result callback for an objective
@@ -128,7 +128,7 @@ IObjective = ClassSimple
 
     ---@param self IObjective
     ---@param success boolean
-    ---@param data any
+    ---@param data? any
     OnResult = function(self, success, data)
         self.Complete = success
 
@@ -161,19 +161,26 @@ IObjective = ClassSimple
         for _, v in self.ProgressCallbacks do v(current, total) end
     end,
 
+    ---End objective with success
+    ---@param self IObjective
+    ---@param data? any
+    Success = function(self, data)
+        self:ManualResult(true, data)
+    end,
+
     ---Fail of an objective
     ---@param self IObjective
-    Fail = function(self)
-        self.Active = false
-        self:OnResult(false)
-        self:_UpdateUI('complete', 'failed')
+    ---@param data? any
+    Fail = function(self, data)
+        self:ManualResult(false, data)
     end,
 
     ---@param self IObjective
     ---@param result boolean
-    ManualResult = function(self, result)
+    ---@param data? any
+    ManualResult = function(self, result, data)
         self.Active = false
-        self:OnResult(result)
+        self:OnResult(result, data)
         self:_UpdateUI('complete', result and 'complete' or 'failed')
     end,
 
