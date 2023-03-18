@@ -135,7 +135,7 @@ IObjective = ClassSimple
         self.Complete = success
 
         self.Trash:Destroy()
-        self.Decal:Destroy()
+        self.Decals:Destroy()
         self.VizMarkers:Destroy()
         self.UnitMarkers:Destroy()
 
