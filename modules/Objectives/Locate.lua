@@ -4,8 +4,6 @@ local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 
 
 ---@class LocateObjective : CountObjective
----@field UnitDeathTrigger UnitDestroyedTrigger
----@field UnitGivenTrigger UnitGivenTrigger
 ---@field UnitLocatedTrigger PlayerIntelTrigger
 ---@field Located table<Unit, true>
 LocateObjective = Class(CountObjective)
@@ -22,6 +20,15 @@ LocateObjective = Class(CountObjective)
                 self:OnUnitLocated(unit)
             end
         )
+    end,
+
+    ---@param self LocateObjective
+    ---@param args ObjectiveArgs
+    PostCreate = function(self, args)
+
+        for _, unit in args.Units do
+            self.UnitLocatedTrigger:Add(unit)
+        end
 
         self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Total))
     end,
