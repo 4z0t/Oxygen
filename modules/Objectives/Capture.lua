@@ -3,6 +3,7 @@ local ObjectiveHandlers = import("ObjectiveHandlers.lua")
 local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
 
+local CountObjective = import("IObjective.lua").CountObjective
 local KillObjective = import("Kill.lua").KillObjective
 
 
@@ -16,8 +17,8 @@ CaptureObjective = Class(KillObjective)
 
     ---@param self CaptureObjective
     OnCreate = function(self)
-        self.Count = 0
-        self.Total = table.getn(self.Args.Units)
+        CountObjective.OnCreate(self)
+
         self.Required = self.Args.NumRequired or self.Total
         self.CapturedUnits = {}
 

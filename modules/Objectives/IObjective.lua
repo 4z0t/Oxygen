@@ -146,7 +146,7 @@ IObjective = ClassSimple
                 v:SetStrategicUnderlay("")
             end
         end
-        
+
         if self.PositionUpdateThreads then
             for k, v in self.PositionUpdateThreads do
                 if v then
@@ -298,4 +298,17 @@ IObjective = ClassSimple
     end,
 
 
+}
+
+
+---@class CountObjective : IObjective
+---@field Count integer
+---@field Total integer
+CountObjective = Class(IObjective)
+{
+    ---@param self CountObjective
+    OnCreate = function(self)
+        self.Count = 0
+        self.Total = table.getn(self.Args.Units)
+    end,
 }

@@ -1,22 +1,18 @@
-local IObjective = import("IObjective.lua").IObjective
+local CountObjective = import("IObjective.lua").CountObjective
 local ObjectiveHandlers = import("ObjectiveHandlers.lua")
 local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 
 
----@class KillObjective : IObjective
+---@class KillObjective : CountObjective
 ---@field UnitDeathTrigger UnitDestroyedTrigger
 ---@field UnitGivenTrigger UnitGivenTrigger
----@field Count integer
----@field Total integer
-KillObjective = Class(IObjective)
+KillObjective = Class(CountObjective)
 {
     Icon = "Kill",
 
     ---@param self KillObjective
     OnCreate = function(self)
-
-        self.Count = 0
-        self.Total = table.getn(self.Args.Units)
+        CountObjective.OnCreate(self)
 
         self.UnitDeathTrigger = Oxygen.Triggers.UnitDestroyedTrigger(
             function(unit)
