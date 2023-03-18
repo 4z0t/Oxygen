@@ -45,7 +45,7 @@ LocateObjective = Class(CountObjective)
         self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Total))
         self:OnProgress(self.Count, self.Total)
 
-        if self.Located == self.Total then
+        if self.Count == self.Total then
             self:Success()
         end
     end
