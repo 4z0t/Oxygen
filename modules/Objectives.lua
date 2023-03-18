@@ -49,21 +49,24 @@ KillObjective = Class(IObjective)
     PostCreate = function(self, args)
 
         for _, unit in args.Units do
-            if not unit.Dead then
-                -- Mark the units unless MarkUnits == false
-                if args.MarkUnits == nil or args.MarkUnits then
-                    self.UnitMarkers.Add(ObjectiveArrow { AttachTo = unit })
-                end
-                if args.FlashVisible then
-                    ObjectiveHandlers.FlashViz(self, unit)
-                end
-                self:AddTriggers(unit)
-            else
-                self:OnUnitKilled(unit)
-            end
+            self:AddObjectiveUnit(args, unit)
         end
     end,
 
+    AddObjectiveUnit = function(self, args, unit)
+        if not unit.Dead then
+            -- Mark the units unless MarkUnits == false
+            if args.MarkUnits == nil or args.MarkUnits then
+                self.UnitMarkers.Add(ObjectiveArrow { AttachTo = unit })
+            end
+            if args.FlashVisible then
+                ObjectiveHandlers.FlashViz(self, unit)
+            end
+            self:AddTriggers(unit)
+        else
+            self:OnUnitKilled(unit)
+        end
+    end,
 
     ---@param self KillObjective
     ---@param unit Unit
@@ -85,7 +88,8 @@ KillObjective = Class(IObjective)
     ---@param newUnit Unit
     OnUnitGiven = function(self, unit, newUnit)
         if not self.Active then return end
-        --todo
+
+        self:AddObjectiveUnit(self.Args, newUnit)
     end
 }
 
