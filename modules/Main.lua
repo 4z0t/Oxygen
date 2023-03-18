@@ -60,6 +60,8 @@ _G.Oxygen = {
         Kill = import("Objectives/Kill.lua").KillObjective,
         Capture = import("Objectives/Capture.lua").CaptureObjective,
         CategoriesInArea = import("Objectives/CategoriesInArea.lua").CategoriesInAreaObjective,
+        Locate = import("Objectives/Locate.lua").LocateObjective,
+   
     },
 
 
