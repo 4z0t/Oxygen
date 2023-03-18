@@ -286,3 +286,35 @@ function SetupFocusNotify(obj, unit, targetTag)
     -- function (defined above)
     unit:AddUnitCallback(destroyCB, 'OnKilled')
 end
+
+---comment
+---@param x number
+---@param z number
+---@param w number
+---@param h number
+---@return moho.CDecalHandle
+function CreateObjectiveDecal(x, z, w, h)
+    return CreateDecal(
+        Vector(x, 0, z), 0, '/env/utility/decals/objective_debug_albedo.dds', '', 'Water Albedo', w, h,
+        4000, 0, 1, 0)
+end
+
+
+local compareOpToFunc =
+{
+    [">"] = function(a, b) return a > b end,
+    ["<"] = function(a, b) return a < b end,
+    [">="] = function(a, b) return a >= b end,
+    ["<="] = function(a, b) return a <= b end,
+    ["=="] = function(a, b) return a == b end,
+}
+
+---@param op CompareOp
+---@return fun(a:number, b:number):boolean
+function GetCompareFunc(op)
+    local compOp = compareOpToFunc[op]
+
+    assert(compOp, "Unknown operation " .. op)
+
+    return compOp
+end

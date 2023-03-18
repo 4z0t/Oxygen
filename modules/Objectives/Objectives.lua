@@ -3,10 +3,6 @@ local ObjectiveHandlers = import("ObjectiveHandlers.lua")
 local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 
 
-CategoriesInAreaObjective = Class(IObjective)
-{
-    --Todo
-}
 
 
 

@@ -25,9 +25,10 @@ local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
 ---@field Active boolean
 ---@field Complete boolean
 ---@field Hidden boolean
----@field Decals UserDecal[]
+---@field Decals TrashBag
 ---@field UnitMarkers TrashBag
 ---@field VizMarkers TrashBag
+---@field Trash TrashBag
 ---@field Decal TrashBag
 ---@field IconOverrides Unit[]
 ---@field NextTargetTag integer
@@ -60,6 +61,7 @@ IObjective = ClassSimple
 
         self.Hidden = objArgs.Hidden
 
+        self.Trash = TrashBag()
         self.Decals = TrashBag()
         self.UnitMarkers = TrashBag()
         self.VizMarkers = TrashBag()
@@ -132,6 +134,7 @@ IObjective = ClassSimple
     OnResult = function(self, success, data)
         self.Complete = success
 
+        self.Trash:Destroy()
         self.Decal:Destroy()
         self.VizMarkers:Destroy()
         self.UnitMarkers:Destroy()
