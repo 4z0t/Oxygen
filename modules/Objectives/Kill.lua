@@ -34,8 +34,8 @@ KillObjective = Class(IObjective)
     ---@param self KillObjective
     ---@param unit Unit
     AddTriggers = function(self, unit)
-        self.UnitDeathTrigger:Add(unit)
-        self.UnitGivenTrigger:Add(unit)
+        self.UnitDeathTrigger:Add { unit }
+        self.UnitGivenTrigger:Add { unit }
     end,
 
     ---@param self KillObjective

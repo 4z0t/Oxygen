@@ -133,6 +133,7 @@ IObjective = ClassSimple
     ---@param data? any
     OnResult = function(self, success, data)
         self.Complete = success
+        for _, v in self.ResultCallbacks do v(success, data) end
 
         self.Trash:Destroy()
         self.Decals:Destroy()
@@ -145,8 +146,7 @@ IObjective = ClassSimple
                 v:SetStrategicUnderlay("")
             end
         end
-
-
+        
         if self.PositionUpdateThreads then
             for k, v in self.PositionUpdateThreads do
                 if v then
@@ -155,8 +155,6 @@ IObjective = ClassSimple
                 end
             end
         end
-
-        for _, v in self.ResultCallbacks do v(success, data) end
     end,
 
 
