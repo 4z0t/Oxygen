@@ -16,10 +16,22 @@ CaptureObjective = Class(KillObjective)
 
     ---@param self CaptureObjective
     OnCreate = function(self)
-        KillObjective.OnCreate(self)
-
+        self.Count = 0
+        self.Total = table.getn(self.Args.Units)
         self.Required = self.Args.NumRequired or self.Total
         self.CapturedUnits = {}
+
+        self.UnitDeathTrigger = Oxygen.Triggers.UnitDeathTrigger(
+            function(unit)
+                self:OnUnitKilled(unit)
+            end
+        )
+        self.UnitGivenTrigger = Oxygen.Triggers.UnitGivenTrigger(
+            function(oldUnit, newUnit)
+                self:OnUnitGiven(oldUnit, newUnit)
+            end
+        )
+
         self.UnitCapturedTrigger = Oxygen.Triggers.UnitCapturedNewTrigger(
             function(unit, captor)
                 self:OnUnitCaptured(unit, captor)
