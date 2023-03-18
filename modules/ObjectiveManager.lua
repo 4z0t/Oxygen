@@ -180,7 +180,7 @@ ObjectiveManager = ClassSimple
             success,
             self:CheckComplete('primary'),
             self:CheckComplete('secondary'),
-            self:CheckComplete('Bonus')
+            self:CheckComplete('bonus')
         )
     end
 }
