@@ -55,6 +55,13 @@ _G.Oxygen = {
 
     Triggers = import("TriggerManager.lua"),
 
+    Objective =
+    {
+        Kill = import("Objectives/Kill.lua").KillObjective,
+        Capture = import("Objectives/Capture.lua").CaptureObjective,
+        CategoriesInArea = import("Objectives/CategoriesInArea.lua").CategoriesInAreaObjective,
+    },
+
 
     PlatoonAI = {
         Land = "/mods/Oxygen/modules/PlatoonAIs/Land.lua",

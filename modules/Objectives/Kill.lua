@@ -4,7 +4,7 @@ local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 
 
 ---@class KillObjective : IObjective
----@field UnitDeathTrigger UnitDeathTrigger
+---@field UnitDeathTrigger UnitDestroyedTrigger
 ---@field UnitGivenTrigger UnitGivenTrigger
 ---@field Count integer
 ---@field Total integer
@@ -18,7 +18,7 @@ KillObjective = Class(IObjective)
         self.Count = 0
         self.Total = table.getn(self.Args.Units)
 
-        self.UnitDeathTrigger = Oxygen.Triggers.UnitDeathTrigger(
+        self.UnitDeathTrigger = Oxygen.Triggers.UnitDestroyedTrigger(
             function(unit)
                 self:OnUnitKilled(unit)
             end
