@@ -12,6 +12,7 @@ local KillObjective = import("Kill.lua").KillObjective
 ---@field CapturedUnits Unit[]
 CaptureObjective = Class(KillObjective)
 {
+    Icon = "Capture",
 
     ---@param self CaptureObjective
     OnCreate = function(self)
