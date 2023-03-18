@@ -54,7 +54,7 @@ KillObjective = Class(IObjective)
                 if args.FlashVisible then
                     ObjectiveHandlers.FlashViz(self, unit)
                 end
-                -- CreateTriggers(unit, objective, true) -- Reclaiming is same as killing for our purposes
+                self:AddTriggers(unit)
             else
                 self:OnUnitKilled(unit)
             end
