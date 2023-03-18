@@ -27,6 +27,14 @@ CaptureObjective = Class(KillObjective)
     end,
 
     ---@param self CaptureObjective
+    ---@param args ObjectiveArgs
+    PostCreate = function(self, args)
+        KillObjective.PostCreate(self, args)
+
+        self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Required))
+    end,
+
+    ---@param self CaptureObjective
     ---@param unit Unit
     AddTriggers = function(self, unit)
         KillObjective.AddTriggers(self, unit)
