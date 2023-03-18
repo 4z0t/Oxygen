@@ -45,6 +45,8 @@ KillObjective = Class(IObjective)
         for _, unit in args.Units do
             self:AddObjectiveUnit(args, unit)
         end
+
+        self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Total))
     end,
 
     AddObjectiveUnit = function(self, args, unit)

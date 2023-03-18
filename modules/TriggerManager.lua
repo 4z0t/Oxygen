@@ -165,6 +165,10 @@ UnitFailedToBuildTrigger = Class(IUnitTrigger) { _type = 'OnFailedToBuild' }
 UnitDeathTrigger = Class(IUnitTrigger) { _type = 'OnKilled' }
 ---@class UnitDestroyedTrigger : IUnitTrigger
 UnitDestroyedTrigger = Class(IUnitTrigger) { _type = { 'OnReclaimed', 'OnCaptured', 'OnKilled' } }
+---@class UnitCapturedNewTrigger : IUnitTrigger
+UnitCapturedNewTrigger = Class(IUnitTrigger) { _type = 'OnCapturedNewUnit' }
+---@class UnitCapturedTrigger : IUnitTrigger
+UnitCapturedTrigger = Class(IUnitTrigger) { _type = 'OnCaptured' }
 
 
 ---@class UnitDamagedTrigger : IUnitTrigger
@@ -206,6 +210,9 @@ UnitStartBuildTrigger = Class(IUnitTrigger) { _type = 'OnStartBuild',
         end
     end,
 }
+
+
+
 
 
 ---@class BasicIntelTrigger
