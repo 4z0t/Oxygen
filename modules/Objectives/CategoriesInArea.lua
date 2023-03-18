@@ -1,3 +1,4 @@
+local EntityCategoryContains = EntityCategoryContains
 local IObjective = import("IObjective.lua").IObjective
 local ObjectiveHandlers = import("ObjectiveHandlers.lua")
 local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
@@ -84,18 +85,21 @@ CategoriesInAreaObjective = Class(IObjective)
                 local ArmiesList = CreateArmiesList(requirement.Armies)
                 if units then
                     for _, unit in units do
-                        if not unit.Dead and not unit:IsBeingBuilt() then
-                            if not (requirement.ArmyIndex or requirement.Armies) or (requirement.ArmyIndex == unit.Army)
-                                or ArmiesList[unit.Army] then
-                                if EntityCategoryContains(requirement.Category, unit) then
-                                    if not unit.Marked and self.Args.MarkUnits then
-                                        unit.Marked = true
-                                        self:AddUnitTarget(unit)
-                                        self.UnitMarkers.Add(ObjectiveArrow { AttachTo = unit })
-                                    end
-                                    cnt = cnt + 1
-                                end
+                        if not unit.Dead and not unit:IsBeingBuilt()
+                            and
+                            (
+                            not (requirement.ArmyIndex or requirement.Armies)
+                                or (requirement.ArmyIndex == unit.Army)
+                                or ArmiesList[unit.Army]
+                            )
+                            and EntityCategoryContains(requirement.Category, unit)
+                        then
+                            if not unit.Marked and self.Args.MarkUnits then
+                                unit.Marked = true
+                                self:AddUnitTarget(unit)
+                                self.UnitMarkers.Add(ObjectiveArrow { AttachTo = unit })
                             end
+                            cnt = cnt + 1
                         end
                     end
                 end
