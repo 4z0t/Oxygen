@@ -162,7 +162,7 @@ ObjectiveManager = ClassSimple
     CheckComplete = function(self, objType)
         for name, objTable in self._objectives do
             if objTable.type == objType then
-                if not Objectives.IsComplete(self._activeObjectives[name]) then
+                if not self._activeObjectives[name].Complete then
                     return false
                 end
             end
