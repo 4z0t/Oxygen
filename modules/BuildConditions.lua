@@ -1,6 +1,6 @@
 local OBC = '/mods/Oxygen/modules/BrainsConditions.lua'
 
-
+---Creates condition for matching categories of armies
 ---@param armies ArmyName[]
 ---@param category EntityCategory
 ---@param compareOp CompareOp
@@ -14,6 +14,7 @@ function ArmiesCategoryCondition(armies, category, compareOp, value)
     }
 end
 
+---Creates condition for matching categories of an army
 ---@param category EntityCategory
 ---@param army ArmyName
 ---@param compareOp CompareOp
@@ -23,6 +24,7 @@ function ArmyCategoryCondition(army, category, compareOp, value)
     return ArmiesCategoryCondition({ army }, category, compareOp, value)
 end
 
+---Creates condition for matching categories of Humans
 ---@param category EntityCategory
 ---@param compareOp CompareOp
 ---@param value number
@@ -31,6 +33,7 @@ function HumansCategoryCondition(category, compareOp, value)
     return ArmyCategoryCondition("HumanPlayers", category, compareOp, value)
 end
 
+---Creates condition for matching categories of Armies of units that are active or being built
 ---@param armies ArmyName[]
 ---@param category EntityCategory
 ---@param compareOp CompareOp
@@ -44,6 +47,7 @@ function ArmiesBuiltOrActiveCategoryCondition(armies, category, compareOp, value
     }
 end
 
+---Creates condition for matching categories of an Army of units that are active or being built
 ---@param category EntityCategory
 ---@param army ArmyName
 ---@param compareOp CompareOp
@@ -53,6 +57,7 @@ function ArmyBuiltOrActiveCategoryCondition(army, category, compareOp, value)
     return ArmiesBuiltOrActiveCategoryCondition({ army }, category, compareOp, value)
 end
 
+---Creates condition for matching categories of Humans of units that are active or being built
 ---@param category EntityCategory
 ---@param compareOp CompareOp
 ---@param value number
@@ -61,6 +66,7 @@ function HumansBuiltOrActiveCategoryCondition(category, compareOp, value)
     return ArmyBuiltOrActiveCategoryCondition("HumanPlayers", category, compareOp, value)
 end
 
+---Creates condition for matching Economy stat of Armies
 ---@param armies ArmyName[]
 ---@param econStat EconStat
 ---@param compareOp CompareOp
@@ -74,6 +80,7 @@ function ArmiesEconomyCondition(armies, econStat, compareOp, value)
     }
 end
 
+---Creates condition for matching Economy stat of an Army
 ---@param army ArmyName
 ---@param econStat EconStat
 ---@param compareOp CompareOp
@@ -83,7 +90,7 @@ function ArmyEconomyCondition(army, econStat, compareOp, value)
     return ArmiesEconomyCondition({ army }, econStat, compareOp, value)
 end
 
-
+---Creates condition for matching Economy stat of Human
 ---@param econStat EconStat
 ---@param compareOp CompareOp
 ---@param value number
@@ -93,6 +100,7 @@ function HumansEconomyCondition(econStat, compareOp, value)
 end
 
 
+---Creates condition for matching economy of a brain
 ---@param econStat EconStat
 ---@param compareOp CompareOp
 ---@param value number
@@ -105,7 +113,7 @@ function BrainEconomyCondition(econStat, compareOp, value)
     }
 end
 
-
+---Creates condition for matching category of a brain
 ---@param category EntityCategory
 ---@param compareOp CompareOp
 ---@param value number
@@ -118,7 +126,7 @@ function BrainCategoryCondition(category, compareOp, value)
     }
 end
 
-
+---Removes default brain from conditions arguments
 ---@param condition BuildCondition
 ---@return BuildCondition
 function RemoveDefaultBrain(condition)
