@@ -61,6 +61,27 @@ KillObjective = Class(CountObjective)
         end
     end,
 
+
+    ---@param self KillObjective
+    ---@param oldUnit Unit
+    ---@param newUnit Unit
+    ReplaceObjectiveUnit = function(self, oldUnit, newUnit)
+        local units = self.Args.Units
+        local index
+        if oldUnit then
+            for i, v in units do
+                if v == oldUnit then
+                    index = i
+                    break
+                end
+            end
+        end
+        if index then
+            table.remove(units, index)
+        end
+        table.insert(units, newUnit)
+    end,
+
     ---@param self KillObjective
     ---@param unit Unit
     OnUnitKilled = function(self, unit)
@@ -82,6 +103,7 @@ KillObjective = Class(CountObjective)
     OnUnitGiven = function(self, unit, newUnit)
         if not self.Active then return end
 
+        self:ReplaceObjectiveUnit(unit, newUnit)
         self:AddObjectiveUnit(self.Args, newUnit)
     end
 }
