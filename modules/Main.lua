@@ -62,6 +62,7 @@ _G.Oxygen = {
         CategoriesInArea = import("Objectives/CategoriesInArea.lua").CategoriesInAreaObjective,
         Locate = import("Objectives/Locate.lua").LocateObjective,
         Damage = import("Objectives/Damage.lua").DamageObjective,
+        SpecificUnitsInArea = import("Objectives/SpecificUnitsInArea.lua").SpecificUnitsInAreaObjective,
    
     },
 
