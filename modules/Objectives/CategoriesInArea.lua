@@ -41,6 +41,7 @@ CategoriesInAreaObjective = Class(IObjective)
     ---@param self CategoriesInAreaObjective
     ---@param args ObjectiveArgs
     PostCreate = function(self, args)
+        assert(args.Requirements, self.Title .. " :Objective requires Requirements in Target specified!")
 
         for _, requirement in args.Requirements do
             local rect = ScenarioUtils.AreaToRect(requirement.Area)

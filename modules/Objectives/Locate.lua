@@ -25,6 +25,7 @@ LocateObjective = Class(CountObjective)
     ---@param self LocateObjective
     ---@param args ObjectiveArgs
     PostCreate = function(self, args)
+        assert(args.Units, self.Title .. " :Objective requires Units in Target specified!")
 
         for _, unit in args.Units do
             self.UnitLocatedTrigger:Add(unit)

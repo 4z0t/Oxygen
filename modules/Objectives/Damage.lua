@@ -25,6 +25,8 @@ DamageObjective = Class(KillObjective)
                 self:OnUnitGiven(oldUnit, newUnit)
             end
         )
+
+        assert(self.Args.Amount, self.Title .. " :Objective requires 'Amount' specified in Target!")
     end,
 
     ---@param self DamageObjective
