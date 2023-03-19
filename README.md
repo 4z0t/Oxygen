@@ -41,8 +41,7 @@ objectiveBuilder
   :Description [[
     description of objective
     ]] -- description that player will see in UI
-  :Function "CategoriesInArea" -- function that will be called during objective start (annotated string)
-  :To "kill" -- action to perform (can also replace objective function if wasnt specified) (also annotated)
+  :To(Oxygen.Objective.Kill) -- class of the objective that will be instantiated and will receive Target
   :Target
   {
     ... -- arguments for objective (annotated)
