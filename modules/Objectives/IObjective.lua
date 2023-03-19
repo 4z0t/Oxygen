@@ -154,7 +154,10 @@ IObjective = ClassSimple
         end
     end,
 
-
+    
+    ---@param self IObjective
+    ---@param current integer
+    ---@param total integer
     OnProgress = function(self, current, total)
         for _, v in self.ProgressCallbacks do v(current, total) end
     end,
