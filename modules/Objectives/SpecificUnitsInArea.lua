@@ -17,7 +17,7 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
     OnCreate = function(self)
         KillObjective.OnCreate(self)
 
-        self.Required = self.Args.NumRequired
+        self.Required = self.Args.NumRequired or self.Total
     end,
 
     ---@param self SpecificUnitsInAreaObjective
@@ -58,8 +58,8 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
                 end
             end
 
-            if cnt ~= args.Count then
-                args.Count = cnt
+            if cnt ~= self.Count then
+                self.Count = cnt
 
                 if args.ShowProgress then
                     self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Required))
