@@ -68,7 +68,7 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
             end
 
             if cnt >= self.Required then
-                self:Success()
+                self:Success(units)
                 return
             end
             WaitTicks(5)
@@ -89,7 +89,7 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
         self:OnProgress(self.Count, self.Required)
 
         if self.Total < self.Required then
-            self:Fail()
+            self:Fail(self.Args.Units)
         end
     end
 

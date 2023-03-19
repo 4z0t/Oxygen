@@ -104,6 +104,7 @@ KillObjective = Class(CountObjective)
         if not self.Active then return end
 
         self:ReplaceObjectiveUnit(unit, newUnit)
+        self:AddUnitTarget(newUnit)
         self:AddObjectiveUnit(self.Args, newUnit)
     end
 }
