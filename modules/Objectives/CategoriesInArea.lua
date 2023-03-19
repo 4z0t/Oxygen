@@ -44,22 +44,15 @@ CategoriesInAreaObjective = Class(IObjective)
         assert(args.Requirements, self.Title .. " :Objective requires Requirements in Target specified!")
 
         for _, requirement in args.Requirements do
-            local rect = ScenarioUtils.AreaToRect(requirement.Area)
-
-            local w = rect.x1 - rect.x0
-            local h = rect.y1 - rect.y0
-            local x = rect.x0 + (w / 2.0)
-            local z = rect.y0 + (h / 2.0)
 
             if args.MarkArea then
-                local decal = ObjectiveHandlers.CreateObjectiveDecal(x, z, w, h)
-                self.Decals:Add(decal)
+                self.Decals:Add(ObjectiveHandlers.CreateAreaObjectiveDecal(requirement.Area))
             elseif args.FlashVisible then
                 ObjectiveHandlers.FlashViz(self, requirement.Area)
             end
 
             requirement.ArmiesList = CreateArmiesList(requirement.Armies)
-            requirement.Rect = rect
+            requirement.Rect = ScenarioUtils.AreaToRect(requirement.Area)
             requirement.CompareFunc = ObjectiveHandlers.GetCompareFunc(requirement.CompareOp)
         end
 

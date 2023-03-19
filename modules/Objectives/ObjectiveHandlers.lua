@@ -287,7 +287,6 @@ function SetupFocusNotify(obj, unit, targetTag)
     unit:AddUnitCallback(destroyCB, 'OnKilled')
 end
 
----comment
 ---@param x number
 ---@param z number
 ---@param w number
@@ -299,6 +298,17 @@ function CreateObjectiveDecal(x, z, w, h)
         4000, 0, 1, 0)
 end
 
+
+---@param area Area
+---@return moho.CDecalHandle
+function CreateAreaObjectiveDecal(area)
+    local rect = ScenarioUtils.AreaToRect(area)
+    local w = rect.x1 - rect.x0
+    local h = rect.y1 - rect.y0
+    local x = rect.x0 + 0.5 * w
+    local z = rect.y0 + 0.5 * h
+    return CreateObjectiveDecal(x, z, w, h)
+end
 
 local compareOpToFunc =
 {

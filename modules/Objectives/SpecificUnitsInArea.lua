@@ -25,15 +25,10 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
     PostCreate = function(self, args)
         KillObjective.PostCreate(self, args)
 
-        local rect = ScenarioUtils.AreaToRect(args.Area)
-        local w = rect.x1 - rect.x0
-        local h = rect.y1 - rect.y0
-        local x = rect.x0 + (w / 2.0)
-        local z = rect.y0 + (h / 2.0)
-        self.Rect = rect
+        self.Rect = ScenarioUtils.AreaToRect(args.Area)
 
         if args.MarkArea then
-            self.Decals:Add(ObjectiveHandlers.CreateObjectiveDecal(x, z, w, h))
+            self.Decals:Add(ObjectiveHandlers.CreateAreaObjectiveDecal(args.Area))
         end
 
         self.Trash:Add(ForkThread(self.WatchAreaThread, self))

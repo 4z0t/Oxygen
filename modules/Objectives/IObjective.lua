@@ -25,11 +25,10 @@ local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
 ---@field Active boolean
 ---@field Complete boolean
 ---@field Hidden boolean
----@field Decals TrashBag
 ---@field UnitMarkers TrashBag
 ---@field VizMarkers TrashBag
 ---@field Trash TrashBag
----@field Decal TrashBag
+---@field Decals TrashBag
 ---@field IconOverrides Unit[]
 ---@field NextTargetTag integer
 ---@field PositionUpdateThreads thread[]
@@ -65,8 +64,6 @@ IObjective = ClassSimple
         self.Decals = TrashBag()
         self.UnitMarkers = TrashBag()
         self.VizMarkers = TrashBag()
-
-        self.Decal = false
 
         self.IconOverrides = setmetatable({}, { __mode = "v" })
 
