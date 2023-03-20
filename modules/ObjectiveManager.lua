@@ -11,7 +11,7 @@ local useActionInFunc = {
 
 ---@class ObjectiveManager
 ---@field _objectives table<string, ObjectiveTable>
----@field _activeObjectives table<string, Objective>
+---@field _activeObjectives table<string, IObjective>
 ---@overload fun():ObjectiveManager
 ObjectiveManager = ClassSimple
 {
@@ -150,7 +150,7 @@ ObjectiveManager = ClassSimple
     ---Returns active objective by its name
     ---@param self ObjectiveManager
     ---@param name string
-    ---@return Objective|boolean
+    ---@return IObjective|boolean
     Get = function(self, name)
         return self._activeObjectives[name]
     end,
