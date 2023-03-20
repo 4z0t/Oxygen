@@ -25,6 +25,8 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
     PostCreate = function(self, args)
         KillObjective.PostCreate(self, args)
 
+        assert(args.Area, self.Title .. " :Objective requires 'Area' in Target!")
+
         self.Rect = ScenarioUtils.AreaToRect(args.Area)
 
         if args.MarkArea then
