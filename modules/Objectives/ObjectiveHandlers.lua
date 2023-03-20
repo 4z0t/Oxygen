@@ -17,6 +17,10 @@ local factionToImage = {
     ['Seraphim'] = '/textures/ui/common/faction_icon-lg/seraphim_ico.dds',
 }
 
+---@param faction 'Cybran'|'Aeon'|'UEF'|'Seraphim'
+function GetFactionImage(faction)
+    return factionToImage[faction]
+end
 
 local playerArmy
 function GetPlayerArmy()
@@ -29,11 +33,6 @@ function GetPlayerArmy()
         end
     end
     return playerArmy
-end
-
----@param faction 'Cybran'|'Aeon'|'UEF'|'Seraphim'
-function GetFactionImage(faction)
-    return factionToImage[faction]
 end
 
 local typeToUnderlay = {
