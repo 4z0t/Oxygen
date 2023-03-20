@@ -5,18 +5,16 @@ local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
 
 
---TODO
+
+---@param armies string[]
+---@return table<integer, boolean>
 local function CreateArmiesList(armies)
-    if not armies then
-        return {}
-    end
+    if not armies then return {} end
 
     local armiesList = {}
     for _, armyName in armies do
-        if type(armyName) ~= 'string' then
-            error('SimObjectives error: Armies in requirements need to be of type string, provided type: ' ..
-                type(armyName))
-        end
+        assert(type(armyName) == "string",
+            "Armies in requirements need to be of type string, provided type: " .. type(armyName))
         if armyName == 'HumanPlayers' then
             local tblArmy = ListArmies()
             for iArmy, strArmy in pairs(tblArmy) do
@@ -27,7 +25,7 @@ local function CreateArmiesList(armies)
         elseif ScenarioInfo.ArmySetup[armyName] then
             armiesList[ScenarioInfo.ArmySetup[armyName].ArmyIndex] = true
         else
-            error('SimObjectives error: Army doesnt exist: ' .. armyName)
+            error('Army doesnt exist: ' .. armyName)
         end
     end
 
