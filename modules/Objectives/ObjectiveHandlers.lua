@@ -70,7 +70,7 @@ end
 
 ---@overload fun(objective:IObjective, area:Area)
 ---@param objective IObjective
----@param object  Entity
+---@param object Object
 function SetupVizMarker(objective, object)
     if IsEntity(object) then
         local pos = object:GetPosition()
@@ -108,7 +108,7 @@ end
 
 ---@overload fun(objective:IObjective, area:Area)
 ---@param objective IObjective
----@param object  Entity
+---@param object Object
 function FlashViz(objective, object)
     if IsEntity(object) then
         local pos = object:GetPosition()
@@ -296,7 +296,6 @@ function CreateObjectiveDecal(x, z, w, h)
         Vector(x, 0, z), 0, '/env/utility/decals/objective_debug_albedo.dds', '', 'Water Albedo', w, h,
         4000, 0, 1, 0)
 end
-
 
 ---@param area Area
 ---@return moho.CDecalHandle
