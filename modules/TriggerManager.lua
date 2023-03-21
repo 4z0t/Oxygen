@@ -87,10 +87,14 @@ TimerTrigger = Class(BasicTrigger)
 
 
 ---Adds callbacks to units
----@param units Unit[]
+---@param units Unit[]|Unit
 ---@param callback UnitCallback
 ---@param callbackType string
 local function AddUnitsCallback(units, callback, callbackType)
+    if IsEntity(units) then
+        units:AddUnitCallback(callback, callbackType)
+        return
+    end
     for _, unit in units do
         unit:AddUnitCallback(callback, callbackType)
     end
