@@ -47,7 +47,7 @@ IReplaceThreadTrigger = Class(BasicTrigger)
     ---@param self IReplaceThreadTrigger
     ---@param ... any
     Run = function(self, ...)
-        assert(self.MainThreadFunction, "MainThreadFunction want set")
+        assert(self.MainThreadFunction, "MainThreadFunction wasn't set")
         local callback = self:ReplaceThreadFunction(self.MainThreadFunction)
         return BasicTrigger.Run(self, callback, unpack(arg))
     end
@@ -69,7 +69,7 @@ end
 ---@param ... any
 local function TickingCallbackThreadFunction(callback, delay, onTickSecond, ...)
     local second = 0
-    while second <= delay do
+    while second < delay do
         second = second + 1
         WaitSeconds(1)
         onTickSecond(second)
