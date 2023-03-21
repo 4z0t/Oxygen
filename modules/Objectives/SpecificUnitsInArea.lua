@@ -65,7 +65,7 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
             end
 
             if cnt >= self.Required then
-                self:Success(units)
+                self:OnUnitsReached(units)
                 return
             end
             WaitTicks(5)
@@ -88,6 +88,13 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
         if self.Total < self.Required then
             self:Fail(self.Args.Units)
         end
-    end
+    end,
+
+    ---Called when all required amount of units reached objective area
+    ---@param self SpecificUnitsInAreaObjective
+    ---@param units Unit[]
+    OnUnitsReached = function (self, units)
+        self:Success(units)
+    end,
 
 }
