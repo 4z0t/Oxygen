@@ -54,7 +54,7 @@ CategoriesInAreaObjective = Class(IObjective)
             requirement.CompareFunc = ObjectiveHandlers.GetCompareFunc(requirement.CompareOp)
         end
 
-        self:_UpdateUI('Progress', ('(0/%d)'):format(table.getn(args.Requirements)))
+        self:_UpdateUI('Progress', ('0/%d'):format(table.getn(args.Requirements)))
         self.Trash:Add(ForkThread(self.WatchAreaThread, self))
     end,
 
