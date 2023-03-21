@@ -190,9 +190,16 @@ PlatoonBuilder = ClassSimple
     New = function(self, name)
         self:_Clear()
         self._name = name
+        self._instanceCount = 1
+        self._template = {
+            name .. 'template',
+            'NoPlan',
+        }
+        self._type = self._useType
         return self
     end,
 
+    ---@deprecated
     ---Starts creation of new land Platoon with default
     ---PlatoonTemplate with NoPlan
     ---InstanceCount = 1
@@ -202,12 +209,6 @@ PlatoonBuilder = ClassSimple
     ---@return PlatoonTemplateBuilder
     NewDefault = function(self, name)
         self:New(name)
-        self._instanceCount = 1
-        self._template = {
-            name .. 'template',
-            'NoPlan',
-        }
-        self._type = self._useType or 'Land'
         return self
     end,
 
