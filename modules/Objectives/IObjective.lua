@@ -154,7 +154,7 @@ IObjective = ClassSimple
         end
     end,
 
-    
+
     ---@param self IObjective
     ---@param current integer
     ---@param total integer
@@ -297,7 +297,13 @@ IObjective = ClassSimple
         end
     end,
 
-
+    ---Updates progress UI
+    ---@param self IObjective
+    ---@param current integer
+    ---@param total integer
+    UpdateProgressUI = function(self, current, total)
+        self:_UpdateUI('Progress', ('(%i/%i)'):format(current, total))
+    end
 }
 
 
