@@ -23,6 +23,10 @@ ProtectObjective = Class(KillObjective, TimerObjective)
     PostCreate = function(self, args)
         KillObjective.PostCreate(self, args)
         TimerObjective.PostCreate(self, args)
+
+        if args.ShowProgress then
+            self:UpdateProgressUI(self.Total, self.Required)
+        end
     end,
 
     ---@param self ProtectObjective
