@@ -7,6 +7,8 @@ local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 ---@field TickingTimer TickingTimerTrigger
 TimerObjective = Class(IObjective)
 {
+    Icon = "Timer",
+    
     ---@param self TimerObjective
     OnCreate = function(self)
         self.TickingTimer = Oxygen.Triggers.TickingTimerTrigger(
@@ -27,6 +29,8 @@ TimerObjective = Class(IObjective)
 
     ---@param self TimerObjective
     OnExpired = function(self)
+        if not self.Active then return end
+
         self:ManualResult(self.Args.ExpireResult == 'complete')
         self:ResetSyncTimer()
     end,

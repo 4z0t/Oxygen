@@ -63,6 +63,7 @@ _G.Oxygen = {
         Locate = import("Objectives/Locate.lua").LocateObjective,
         Damage = import("Objectives/Damage.lua").DamageObjective,
         Timer = import("Objectives/Timer.lua").TimerObjective,
+        Protect = import("Objectives/Protect.lua").ProtectObjective,
         SpecificUnitsInArea = import("Objectives/SpecificUnitsInArea.lua").SpecificUnitsInAreaObjective,
    
     },
