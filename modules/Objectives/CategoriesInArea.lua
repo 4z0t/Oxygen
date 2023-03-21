@@ -102,10 +102,16 @@ CategoriesInAreaObjective = Class(IObjective)
             end
 
             if reqsMet == totalReqs then
-                self:Success()
+                self:OnRequirementsMet()
                 return
             end
             WaitTicks(10)
         end
+    end,
+
+    ---Called when all requirements are met
+    ---@param self CategoriesInAreaObjective
+    OnRequirementsMet = function (self)
+        self:Success()
     end
 }
