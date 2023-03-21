@@ -61,25 +61,34 @@ KillObjective = Class(CountObjective)
         end
     end,
 
+    ---Removes unit from list of objective units
+    ---@param self KillObjective
+    ---@param unit Unit
+    RemoveObjectiveUnit = function(self, unit)
+        if not unit then return end
 
+        local units = self.Args.Units
+        local index
+
+        for i, v in units do
+            if v == unit then
+                index = i
+                break
+            end
+        end
+
+        if index then
+            table.remove(units, index)
+        end
+    end,
+
+    --Replaces old unit on new one in objective list
     ---@param self KillObjective
     ---@param oldUnit Unit
     ---@param newUnit Unit
     ReplaceObjectiveUnit = function(self, oldUnit, newUnit)
-        local units = self.Args.Units
-        local index
-        if oldUnit then
-            for i, v in units do
-                if v == oldUnit then
-                    index = i
-                    break
-                end
-            end
-        end
-        if index then
-            table.remove(units, index)
-        end
-        table.insert(units, newUnit)
+        self:RemoveObjectiveUnit(oldUnit)
+        table.insert(self.Args.Units, newUnit)
     end,
 
     ---@param self KillObjective
