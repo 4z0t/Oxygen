@@ -80,14 +80,14 @@ end
 
 local economyFunctions =
 {
-    MassTrend = function(aiBrain) return aiBrain:GetEconomyTrend('MASS') end,
-    EnergyTrend = function(aiBrain) return aiBrain:GetEconomyTrend('ENERGY') end,
+    MassTrend = function(aiBrain) return aiBrain:GetEconomyTrend('MASS') * 10 end,
+    EnergyTrend = function(aiBrain) return aiBrain:GetEconomyTrend('ENERGY') * 10 end,
     MassStorageRatio = function(aiBrain) return aiBrain:GetEconomyStoredRatio('MASS') end,
     EnergyStorageRatio = function(aiBrain) return aiBrain:GetEconomyStoredRatio('ENERGY') end,
-    EnergyIncome = function(aiBrain) return aiBrain:GetEconomyIncome('ENERGY') end,
-    MassIncome = function(aiBrain) return aiBrain:GetEconomyIncome('MASS') end,
-    EnergyUsage = function(aiBrain) return aiBrain:GetEconomyUsage('ENERGY') end,
-    MassUsage = function(aiBrain) return aiBrain:GetEconomyUsage('MASS') end,
+    EnergyIncome = function(aiBrain) return aiBrain:GetEconomyIncome('ENERGY') * 10 end,
+    MassIncome = function(aiBrain) return aiBrain:GetEconomyIncome('MASS') * 10 end,
+    EnergyUsage = function(aiBrain) return aiBrain:GetEconomyUsage('ENERGY') * 10 end,
+    MassUsage = function(aiBrain) return aiBrain:GetEconomyUsage('MASS') * 10 end,
     EnergyRequested = function(aiBrain) return aiBrain:GetEconomyRequested('ENERGY') end,
     MassRequested = function(aiBrain) return aiBrain:GetEconomyRequested('MASS') end,
     EnergyStorage = function(aiBrain) return aiBrain:GetEconomyStored('ENERGY') end,
@@ -134,7 +134,7 @@ end
 ---@param compareType CompareOp
 ---@return boolean
 function BrainCompareEconomy(aibrain, numReq, econStat, compareType)
-    local num =  economyFunctions[econStat](aibrain)
+    local num = economyFunctions[econStat](aibrain)
     return Compare(compareType, num, numReq)
 end
 
@@ -144,6 +144,6 @@ end
 ---@param compareType CompareOp
 ---@return boolean
 function BrainCompareNumCategory(aibrain, numReq, category, compareType)
-    local num =  aibrain:GetCurrentUnits(category)
+    local num = aibrain:GetCurrentUnits(category)
     return Compare(compareType, num, numReq)
 end
