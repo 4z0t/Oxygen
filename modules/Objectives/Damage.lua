@@ -32,8 +32,8 @@ DamageObjective = Class(KillObjective)
     ---@param self DamageObjective
     ---@param unit Unit
     AddTriggers = function(self, unit)
-        self.UnitDamagedTrigger:Add({ unit }, self.Args.Amount, self.Args.RepeatNum)
-        self.UnitGivenTrigger:Add { unit }
+        self.UnitDamagedTrigger:Add(unit, self.Args.Amount, self.Args.RepeatNum)
+        self.UnitGivenTrigger:Add(unit)
     end,
 
 

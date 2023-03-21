@@ -179,10 +179,14 @@ UnitCapturedTrigger = Class(IUnitTrigger) { _type = 'OnCaptured' }
 UnitDamagedTrigger = Class(IUnitTrigger) { _type = 'OnDamaged',
     ---Adds to units damaged callback
     ---@param self UnitDamagedTrigger
-    ---@param units Unit[]
+    ---@param units Unit[] | Unit
     ---@param amount? number
     ---@param repeatNum? number
     Add = function(self, units, amount, repeatNum)
+        if IsEntity(units) then
+            units:AddOnDamagedCallback(self._callback, amount, repeatNum)
+            return
+        end
         for _, unit in units do
             unit:AddOnDamagedCallback(self._callback, amount, repeatNum)
         end
@@ -193,9 +197,13 @@ UnitDamagedTrigger = Class(IUnitTrigger) { _type = 'OnDamaged',
 UnitBuildTrigger = Class(IUnitTrigger) { _type = 'OnUnitBuilt',
     ---Adds to units damaged callback
     ---@param self UnitBuildTrigger
-    ---@param units Unit[]
+    ---@param units Unit[]| Unit
     ---@param category EntityCategory
     Add = function(self, units, category)
+        if IsEntity(units) then
+            units:AddOnUnitBuiltCallback(self._callback, category)
+            return
+        end
         for _, unit in units do
             unit:AddOnUnitBuiltCallback(self._callback, category)
         end
@@ -206,11 +214,14 @@ UnitBuildTrigger = Class(IUnitTrigger) { _type = 'OnUnitBuilt',
 UnitStartBuildTrigger = Class(IUnitTrigger) { _type = 'OnStartBuild',
     ---Adds to units damaged callback
     ---@param self UnitStartBuildTrigger
-    ---@param units Unit[]
-    ---@param category EntityCategory
-    Add = function(self, units, category)
+    ---@param units Unit[]| Unit
+    Add = function(self, units)
+        if IsEntity(units) then
+            units:AddOnStartBuildCallback(self._callback)
+            return
+        end
         for _, unit in units do
-            unit:AddOnStartBuildCallback(self._callback, category)
+            unit:AddOnStartBuildCallback(self._callback)
         end
     end,
 }

@@ -52,7 +52,7 @@ CaptureObjective = Class(KillObjective)
     ---@param unit Unit
     AddTriggers = function(self, unit)
         KillObjective.AddTriggers(self, unit)
-        self.UnitCapturedTrigger:Add { unit }
+        self.UnitCapturedTrigger:Add(unit)
     end,
 
     ---@param self CaptureObjective
