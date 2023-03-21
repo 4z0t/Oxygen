@@ -1,6 +1,3 @@
-local IObjective = import("IObjective.lua").IObjective
-local ObjectiveHandlers = import("ObjectiveHandlers.lua")
-local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 local TimerObjective = import("Timer.lua").TimerObjective
 local KillObjective = import("Kill.lua").KillObjective
 
