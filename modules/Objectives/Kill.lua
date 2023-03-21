@@ -46,19 +46,24 @@ KillObjective = Class(CountObjective)
         self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Total))
     end,
 
+    ---Adds unit markers and triggers
+    ---@param self KillObjective
+    ---@param args ObjectiveArgs
+    ---@param unit Unit
     AddObjectiveUnit = function(self, args, unit)
-        if not unit.Dead then
-            -- Mark the units unless MarkUnits == false
-            if args.MarkUnits == nil or args.MarkUnits then
-                self.UnitMarkers:Add(ObjectiveArrow { AttachTo = unit })
-            end
-            if args.FlashVisible then
-                ObjectiveHandlers.FlashViz(self, unit)
-            end
-            self:AddTriggers(unit)
-        else
+        if unit.Dead then
             self:OnUnitKilled(unit)
+            return
         end
+
+        -- Mark the units unless MarkUnits == false
+        if args.MarkUnits == nil or args.MarkUnits then
+            self.UnitMarkers:Add(ObjectiveArrow { AttachTo = unit })
+        end
+        if args.FlashVisible then
+            ObjectiveHandlers.FlashViz(self, unit)
+        end
+        self:AddTriggers(unit)
     end,
 
     ---Removes unit from list of objective units
@@ -91,6 +96,7 @@ KillObjective = Class(CountObjective)
         table.insert(self.Args.Units, newUnit)
     end,
 
+    ---Called when unit is killed (depends on trigger type)
     ---@param self KillObjective
     ---@param unit Unit
     OnUnitKilled = function(self, unit)
@@ -106,13 +112,14 @@ KillObjective = Class(CountObjective)
         end
     end,
 
+    ---Called when unit is given to another army
     ---@param self KillObjective
-    ---@param unit Unit
+    ---@param oldUnit Unit
     ---@param newUnit Unit
-    OnUnitGiven = function(self, unit, newUnit)
+    OnUnitGiven = function(self, oldUnit, newUnit)
         if not self.Active then return end
 
-        self:ReplaceObjectiveUnit(unit, newUnit)
+        self:ReplaceObjectiveUnit(oldUnit, newUnit)
         self:AddUnitTarget(newUnit)
         self:AddObjectiveUnit(self.Args, newUnit)
     end
