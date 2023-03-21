@@ -36,7 +36,7 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
         self.Trash:Add(ForkThread(self.WatchAreaThread, self))
 
         if args.ShowProgress then
-            self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Required))
+            self:UpdateProgressUI(self.Count, self.Required)
         end
     end,
 
@@ -59,7 +59,7 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
                 self.Count = cnt
 
                 if args.ShowProgress then
-                    self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Required))
+                    self:UpdateProgressUI(self.Count, self.Required)
                 end
                 self:OnProgress(self.Count, self.Required)
             end
@@ -81,7 +81,7 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
         self.Total = self.Total - 1
 
         if self.Args.ShowProgress then
-            self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Required))
+            self:UpdateProgressUI(self.Count, self.Required)
         end
         self:OnProgress(self.Count, self.Required)
 
@@ -93,7 +93,7 @@ SpecificUnitsInAreaObjective = Class(KillObjective)
     ---Called when all required amount of units reached objective area
     ---@param self SpecificUnitsInAreaObjective
     ---@param units Unit[]
-    OnUnitsReached = function (self, units)
+    OnUnitsReached = function(self, units)
         self:Success(units)
     end,
 

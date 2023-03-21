@@ -43,7 +43,7 @@ KillObjective = Class(CountObjective)
             self:AddObjectiveUnit(args, unit)
         end
 
-        self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Total))
+        self:UpdateProgressUI(self.Count, self.Total)
     end,
 
     ---Adds unit markers and triggers
@@ -104,7 +104,7 @@ KillObjective = Class(CountObjective)
 
         self.Count = self.Count + 1
 
-        self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Total))
+        self:UpdateProgressUI(self.Count, self.Total)
         self:OnProgress(self.Count, self.Total)
 
         if self.Count == self.Total then

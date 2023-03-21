@@ -45,7 +45,7 @@ CaptureObjective = Class(KillObjective)
     PostCreate = function(self, args)
         KillObjective.PostCreate(self, args)
 
-        self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Required))
+        self:UpdateProgressUI(self.Count, self.Required)
     end,
 
     ---@param self CaptureObjective
@@ -65,7 +65,7 @@ CaptureObjective = Class(KillObjective)
 
         self.Count = self.Count + 1
 
-        self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Required))
+        self:UpdateProgressUI(self.Count, self.Required)
         self:OnProgress(self.Count, self.Required)
 
         if self.Count >= self.Required then

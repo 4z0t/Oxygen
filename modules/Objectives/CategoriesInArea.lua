@@ -54,7 +54,7 @@ CategoriesInAreaObjective = Class(IObjective)
             requirement.CompareFunc = ObjectiveHandlers.GetCompareFunc(requirement.CompareOp)
         end
 
-        self:_UpdateUI('Progress', ('0/%d'):format(table.getn(args.Requirements)))
+        self:UpdateProgressUI(0, table.getn(args.Requirements))
         self.Trash:Add(ForkThread(self.WatchAreaThread, self))
     end,
 
@@ -97,7 +97,7 @@ CategoriesInAreaObjective = Class(IObjective)
             end
 
             if lastReqsMet ~= reqsMet then
-                self:_UpdateUI('Progress', ("%s/%s"):format(reqsMet, totalReqs))
+                self:UpdateProgressUI(reqsMet, totalReqs)
                 lastReqsMet = reqsMet
             end
 
@@ -111,7 +111,7 @@ CategoriesInAreaObjective = Class(IObjective)
 
     ---Called when all requirements are met
     ---@param self CategoriesInAreaObjective
-    OnRequirementsMet = function (self)
+    OnRequirementsMet = function(self)
         self:Success()
     end
 }

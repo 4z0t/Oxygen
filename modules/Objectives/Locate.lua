@@ -31,7 +31,7 @@ LocateObjective = Class(CountObjective)
             self.UnitLocatedTrigger:Add(unit)
         end
 
-        self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Total))
+        self:UpdateProgressUI(self.Count, self.Total)
     end,
 
     ---@param self LocateObjective
@@ -43,7 +43,7 @@ LocateObjective = Class(CountObjective)
 
         self.Count = self.Count + 1
 
-        self:_UpdateUI('Progress', ("%s/%s"):format(self.Count, self.Total))
+        self:UpdateProgressUI(self.Count, self.Total)
         self:OnProgress(self.Count, self.Total)
 
         if self.Count == self.Total then
