@@ -3,6 +3,12 @@ local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 local ScenarioFramework = import('/lua/ScenarioFramework.lua')
 local Triggers = import("TriggerManager.lua")
 
+---@type TimerTrigger
+local delayClearIntel = Triggers
+    .TimerTrigger(ScenarioFramework.ClearIntel)
+    :Delay(0.1)
+
+
 ---@type table<string, VisionHandler>
 local visionMarkers = {}
 
@@ -34,9 +40,7 @@ VisionHandler = ClassSimple
     ---@param clearIntel? boolean
     Destroy = function(self, clearIntel)
         if clearIntel then
-            Triggers.TimerTrigger(ScenarioFramework.ClearIntel)
-                :Delay(0.1)
-                :Run(Vector(self._marker.X, 0, self._marker.Z), self._marker.Radius + 10)
+            delayClearIntel:Run(Vector(self._marker.X, 0, self._marker.Z), self._marker.Radius + 10)
         end
         self._marker:Destroy()
         self._marker = nil
