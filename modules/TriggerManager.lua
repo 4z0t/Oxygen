@@ -54,6 +54,21 @@ local function DelayedCallbackThreadFunction(callback, delay, ...)
     callback(unpack(arg))
 end
 
+---Callback function with ticking on second passed
+---@param callback ThreadFunction
+---@param onTickSecond fun(second : integer)
+---@param delay number
+---@param ... any
+local function TickingCallbackThreadFunction(callback, onTickSecond, delay, ...)
+    local second = 0
+    while second <= delay do
+        second = second + 1
+        WaitSeconds(1)
+        onTickSecond(second)
+    end
+    callback(unpack(arg))
+end
+
 ---@class TimerTrigger : BasicTrigger
 ---@field _delay number
 TimerTrigger = Class(BasicTrigger)
@@ -78,6 +93,32 @@ TimerTrigger = Class(BasicTrigger)
         self._threadFunc = DelayedCallbackThreadFunction
 
         return BasicTrigger.Run(self, callback, self._delay, unpack(arg))
+    end,
+}
+
+---@class TickingTimerTrigger : TimerTrigger
+---@field _onTickSecond fun(second : integer)?
+TickingTimerTrigger = Class(TimerTrigger)
+{
+    ---@param self TickingTimerTrigger
+    ---@param callback ThreadFunction
+    ---@param onTickSecond? fun(second : integer)
+    __init = function(self, callback, onTickSecond)
+        TimerTrigger.__init(self, callback)
+        self._onTickSecond = onTickSecond
+    end,
+
+    ---Runs thread function that was passed into Runnable
+    ---@param self TickingTimerTrigger
+    ---@param ... any
+    Run = function(self, ...)
+        if self._onTickSecond then
+            local callback = self._threadFunc
+            self._threadFunc = TickingCallbackThreadFunction
+            return BasicTrigger.Run(self, callback, self._onTickSecond, self._delay, unpack(arg))
+        else
+            return TimerTrigger.Run(self, unpack(arg))
+        end
     end,
 }
 
