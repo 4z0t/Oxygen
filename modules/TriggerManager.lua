@@ -133,9 +133,14 @@ IUnitTrigger = ClassSimple
 
     ---Removes from units trigger callback
     ---@param self IUnitTrigger
-    ---@param units Unit[]
+    ---@param units Unit[]|Unit
     Remove = function(self, units)
         assert(self._type, "Not specified unit callback type!")
+
+        if IsEntity(units) then
+            units:RemoveCallback(self._callback)
+            return
+        end
 
         for _, unit in units do
             unit:RemoveCallback(self._callback)
