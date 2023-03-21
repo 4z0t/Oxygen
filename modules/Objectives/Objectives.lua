@@ -21,13 +21,3 @@ CategoryStatCompareObjective = Class(IObjective)
 {
     --todo
 }
-
-SpecificUnitsInAreaObjective = Class(IObjective)
-{
-    --todo
-}
-
-LocateObjective = Class(IObjective)
-{
-
-}
