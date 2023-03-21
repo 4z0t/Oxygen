@@ -7,43 +7,51 @@ local ScenarioFramework = import('/lua/ScenarioFramework.lua')
 
 ---@alias ThreadFunction fun(...:any):nil
 
----@class Runnable
+---@class BasicTrigger
 ---@field private _threadFunc ThreadFunction
----@field private _activeThread thread|false
-Runnable = ClassSimple
+BasicTrigger = ClassSimple
 {
     ---Initializes Runnable with passed thread function
-    ---@param self Runnable
+    ---@param self BasicTrigger
     ---@param threadFunc ThreadFunction
     __init = function(self, threadFunc)
         assert(type(threadFunc) == "function", "Function must be passed into constructor for Runnable")
 
         self._threadFunc = threadFunc
-        self._activeThread = false
     end,
 
     ---Runs thread function that was passed into Runnable
-    ---@param self Runnable
+    ---@param self BasicTrigger
     ---@param ... any
     Run = function(self, ...)
-        assert(not self._activeThread, "There is already running thread!")
-
-        self._activeThread = ForkThread(self._threadFunc, unpack(arg))
+        return ForkThread(self._threadFunc, unpack(arg))
     end,
-
-    ---Stops execution of thread function that was passed into Runnable
-    ---@param self Runnable
-    Stop = function(self)
-        assert(self._activeThread, "There is no runnig thread to be stopped!")
-
-        KillThread(self._activeThread)
-        self._activeThread = false
-    end
 }
 
----@class BasicTrigger : Runnable
-BasicTrigger = Class(Runnable) {}
 
+---@class IReplaceThreadTrigger : BasicTrigger
+---@field MainThreadFunction ThreadFunction
+IReplaceThreadTrigger = Class(BasicTrigger)
+{
+    MainThreadFunction = false,
+    ---Replaces thread function with new one, returns old one
+    ---@param self IReplaceThreadTrigger
+    ---@param newFunc ThreadFunction
+    ---@return ThreadFunction
+    ReplaceThreadFunction = function(self, newFunc)
+        local oldFunc = self._threadFunc
+        self._threadFunc = newFunc
+        return oldFunc
+    end,
+
+    ---@param self IReplaceThreadTrigger
+    ---@param ... any
+    Run = function(self, ...)
+        assert(self.MainThreadFunction, "MainThreadFunction want set")
+        local callback = self:ReplaceThreadFunction(self.MainThreadFunction)
+        return BasicTrigger.Run(self, callback, unpack(arg))
+    end
+}
 
 ---Callback function with delay
 ---@param callback ThreadFunction
@@ -59,7 +67,7 @@ end
 ---@param onTickSecond fun(second : integer)
 ---@param delay number
 ---@param ... any
-local function TickingCallbackThreadFunction(callback, onTickSecond, delay, ...)
+local function TickingCallbackThreadFunction(callback, delay, onTickSecond, ...)
     local second = 0
     while second <= delay do
         second = second + 1
@@ -69,10 +77,11 @@ local function TickingCallbackThreadFunction(callback, onTickSecond, delay, ...)
     callback(unpack(arg))
 end
 
----@class TimerTrigger : BasicTrigger
+---@class TimerTrigger : IReplaceThreadTrigger
 ---@field _delay number
-TimerTrigger = Class(BasicTrigger)
+TimerTrigger = Class(IReplaceThreadTrigger)
 {
+    MainThreadFunction = DelayedCallbackThreadFunction,
 
     ---Sets delay in seconds for trigger
     ---@param self TimerTrigger
@@ -89,36 +98,30 @@ TimerTrigger = Class(BasicTrigger)
     Run = function(self, ...)
         assert(self._delay and self._delay > 0, "Delay for TimerTrigger must be specified in seconds!")
 
-        local callback = self._threadFunc
-        self._threadFunc = DelayedCallbackThreadFunction
-
-        return BasicTrigger.Run(self, callback, self._delay, unpack(arg))
+        return IReplaceThreadTrigger.Run(self, self._delay, unpack(arg))
     end,
 }
 
 ---@class TickingTimerTrigger : TimerTrigger
----@field _onTickSecond fun(second : integer)?
+---@field _onTickSecond fun(second : integer)
 TickingTimerTrigger = Class(TimerTrigger)
 {
+    MainThreadFunction = TickingCallbackThreadFunction,
+
     ---@param self TickingTimerTrigger
     ---@param callback ThreadFunction
-    ---@param onTickSecond? fun(second : integer)
+    ---@param onTickSecond fun(second : integer)
     __init = function(self, callback, onTickSecond)
         TimerTrigger.__init(self, callback)
         self._onTickSecond = onTickSecond
+        assert(type(self._onTickSecond) == "function", "onTickSecond must be a function!")
     end,
 
     ---Runs thread function that was passed into Runnable
     ---@param self TickingTimerTrigger
     ---@param ... any
     Run = function(self, ...)
-        if self._onTickSecond then
-            local callback = self._threadFunc
-            self._threadFunc = TickingCallbackThreadFunction
-            return BasicTrigger.Run(self, callback, self._onTickSecond, self._delay, unpack(arg))
-        else
-            return TimerTrigger.Run(self, unpack(arg))
-        end
+        return TimerTrigger.Run(self, self._onTickSecond, unpack(arg))
     end,
 }
 
