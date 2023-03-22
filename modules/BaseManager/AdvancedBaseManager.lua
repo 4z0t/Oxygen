@@ -123,7 +123,7 @@ AdvancedBaseManager = Class(BaseManager)
         }
     end,
 
-    ---comment
+    ---Checks conditions for build groups
     ---@param self AdvancedBaseManager
     ---@param conditions ConditionFuncAndArgs[]
     ---@param conditionType ConditionType
