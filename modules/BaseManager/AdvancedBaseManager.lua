@@ -3,13 +3,9 @@ local unpack = unpack
 local BaseManager = import('/lua/ai/opai/basemanager.lua').BaseManager
 local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 local Factions = import('/lua/factions.lua').Factions
-local BuildingTemplates = import('/lua/BuildingTemplates.lua').BuildingTemplates
-local RebuildStructuresTemplate = import('/lua/BuildingTemplates.lua').RebuildStructuresTemplate
-local StructureUpgradeTemplates = import('/lua/upgradetemplates.lua').StructureUpgradeTemplates
 
 local BMBC = '/lua/editor/BaseManagerBuildConditions.lua'
 local ABMBC = '/mods/Oxygen/modules/BaseManager/AdvancedBaseManagerBuildConditions.lua'
-local BMPT = '/lua/ai/opai/BaseManagerPlatoonThreads.lua'
 
 
 ---@alias ConditionType "ANY" | "ALL"
