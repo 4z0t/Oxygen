@@ -80,10 +80,8 @@ end
 
 local economyFunctions =
 {
-    MassTrend = function(aiBrain) return aiBrain:GetEconomyTrend('MASS') * 10 end,
     EnergyTrend = function(aiBrain) return aiBrain:GetEconomyTrend('ENERGY') * 10 end,
-    MassStorageRatio = function(aiBrain) return aiBrain:GetEconomyStoredRatio('MASS') end,
-    EnergyStorageRatio = function(aiBrain) return aiBrain:GetEconomyStoredRatio('ENERGY') end,
+    MassTrend = function(aiBrain) return aiBrain:GetEconomyTrend('MASS') * 10 end,
     EnergyIncome = function(aiBrain) return aiBrain:GetEconomyIncome('ENERGY') * 10 end,
     MassIncome = function(aiBrain) return aiBrain:GetEconomyIncome('MASS') * 10 end,
     EnergyUsage = function(aiBrain) return aiBrain:GetEconomyUsage('ENERGY') * 10 end,
@@ -92,6 +90,8 @@ local economyFunctions =
     MassRequested = function(aiBrain) return aiBrain:GetEconomyRequested('MASS') * 10 end,
     EnergyStorage = function(aiBrain) return aiBrain:GetEconomyStored('ENERGY') end,
     MassStorage = function(aiBrain) return aiBrain:GetEconomyStored('MASS') end,
+    EnergyStorageRatio = function(aiBrain) return aiBrain:GetEconomyStoredRatio('ENERGY') end,
+    MassStorageRatio = function(aiBrain) return aiBrain:GetEconomyStoredRatio('MASS') end,
 }
 
 ---Returns true if given target brains are having active or building units with given category satisfying compare operation

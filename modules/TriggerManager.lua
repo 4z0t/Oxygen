@@ -15,7 +15,7 @@ BasicTrigger = ClassSimple
     ---@param self BasicTrigger
     ---@param threadFunc ThreadFunction
     __init = function(self, threadFunc)
-        assert(type(threadFunc) == "function", "Function must be passed into constructor for Runnable")
+        assert(type(threadFunc) == "function", "Function must be passed into constructor for BasicTrigger")
 
         self._threadFunc = threadFunc
     end,

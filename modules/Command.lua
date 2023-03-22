@@ -9,7 +9,7 @@ local unpack = unpack
 ---@class Command
 ---@field [1] FileName
 ---@field [2] FunctionName
----@field [3] table
+---@field [3] table @arguments
 Command = ClassSimple
 {
     __init = function(self, args)
