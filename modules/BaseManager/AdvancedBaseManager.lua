@@ -184,12 +184,16 @@ AdvancedBaseManager = Class(BaseManager)
     ---Loads platoons into base manager
     ---@param self AdvancedBaseManager
     ---@param platoons PlatoonSpecTable[]
-    LoadPlatoons = function(self, platoons)
+    ---@param deepcopy? boolean
+    LoadPlatoons = function(self, platoons, deepcopy)
         local location = self.BaseName
         local aiBrain = self.AIBrain
         for _, platoon in platoons do
             if platoon.Difficulty == ScenarioInfo.Options.Difficulty then
-                local _platoon = table.deepcopy(platoon)
+                local _platoon = platoon
+                if deepcopy then
+                    _platoon = table.deepcopy(platoon)
+                end
 
                 --keeping track of platoon's basename
                 _platoon.PlatoonData.BaseName = _platoon.PlatoonData.BaseName or location
