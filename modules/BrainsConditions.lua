@@ -88,8 +88,8 @@ local economyFunctions =
     MassIncome = function(aiBrain) return aiBrain:GetEconomyIncome('MASS') * 10 end,
     EnergyUsage = function(aiBrain) return aiBrain:GetEconomyUsage('ENERGY') * 10 end,
     MassUsage = function(aiBrain) return aiBrain:GetEconomyUsage('MASS') * 10 end,
-    EnergyRequested = function(aiBrain) return aiBrain:GetEconomyRequested('ENERGY') end,
-    MassRequested = function(aiBrain) return aiBrain:GetEconomyRequested('MASS') end,
+    EnergyRequested = function(aiBrain) return aiBrain:GetEconomyRequested('ENERGY') * 10 end,
+    MassRequested = function(aiBrain) return aiBrain:GetEconomyRequested('MASS') * 10 end,
     EnergyStorage = function(aiBrain) return aiBrain:GetEconomyStored('ENERGY') end,
     MassStorage = function(aiBrain) return aiBrain:GetEconomyStored('MASS') end,
 }
