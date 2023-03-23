@@ -62,6 +62,13 @@
 ---@field Aeon UnitId
 ---@field Seraphim UnitId
 
+local combatFighters =
+{
+    "dea0202",
+    "dra0202",
+    "xaa0202",
+    "xsa0202",
+}
 
 ---comment
 ---@param unitId UnitId
@@ -71,7 +78,9 @@ function FactionConvert(unitId, factionIndex)
     unitId = unitId:lower()
     local newID = unitId
 
-    if factionIndex == 2 then
+    if unitId == "dea0202" then
+        newID = combatFighters[factionIndex]
+    elseif factionIndex == 2 then
         if unitId == 'uel0203' then
             newID = 'xal0203'
         elseif unitId == 'xes0204' then
@@ -143,103 +152,45 @@ unitTypes = {
     },
     ['HeavyBots'] = CreateFactionTable("XEL0305"),
     ['MobileFlak'] = CreateFactionTable("UEL0205"),
-    ['MobileHeavyArtillery'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
+    ['MobileHeavyArtillery'] = CreateFactionTable("UEL0304"),
     ['MobileStealth'] = {
-
         Cybran = "",
-
+    },
+    ['MobileBombs'] = {
+        Cybran = "",
     },
     ['SiegeBots'] = CreateFactionTable("UEL0303"),
-    ['MobileBombs'] = {
-
-        Cybran = "",
-
-    },
-    ['RangeBots'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
+    ['RangeBots'] = CreateFactionTable("DEL0204"),
     ['LightArtillery'] = CreateFactionTable("UEL0103"),
-    ['AmphibiousTanks'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
+    ['AmphibiousTanks'] = CreateFactionTable("UEL0203"),
     ['LightTanks'] = CreateFactionTable("UEL0201"),
     ['HeavyMobileAntiAir'] = CreateFactionTable("DELK002"),
     ['MobileMissiles'] = CreateFactionTable("UEL0111"),
     ['HeavyTanks'] = CreateFactionTable("UEL0202"),
-    ['MobileAntiAir'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
+    ['MobileAntiAir'] = CreateFactionTable("UEL0104"),
     ['LightBots'] = CreateFactionTable("UEL0106"),
-    ['Interceptors'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
+    ['Interceptors'] = CreateFactionTable("UEA0102"),
     ['LightGunships'] = {
-
         Cybran = "",
-
     },
     ['Bombers'] = CreateFactionTable("UEA0103"),
-    ['TorpedoBombers'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
+    ['TorpedoBombers'] = CreateFactionTable("UEA0204"),
     ['GuidedMissiles'] = {
-        UEF = "",
-        Cybran = "",
         Aeon = "",
-        Seraphim = "",
     },
     ['Gunships'] = CreateFactionTable("UEA0203"),
-    ['CombatFighters'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
+    ['CombatFighters'] = CreateFactionTable("DEA0202"),
     ['StratBombers'] = CreateFactionTable("UEA0304"),
     ['AirSuperiority'] = CreateFactionTable("UEA0303"),
     ['HeavyGunships'] = CreateFactionTable("UEA0305"),
     ['HeavyTorpedoBombers'] = {
-        UEF = "",
-        Cybran = "",
         Aeon = "",
-        Seraphim = "",
     },
     ['T3Transports'] = {
         UEF = "",
-
     },
-    ['T2Transports'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
-    ['T1Transports'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
+    ['T2Transports'] = CreateFactionTable("UEA0104"),
+    ['T1Transports'] = CreateFactionTable("UEA0107"),
     ['T3Engineers'] = {
         UEF = "",
         Cybran = "",
