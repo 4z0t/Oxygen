@@ -217,7 +217,7 @@ unitTypes = {
     },
     ['StratBombers'] = CreateFactionTable("UEA0304"),
     ['AirSuperiority'] = CreateFactionTable("UEA0303"),
-    ['HeavyGunships'] = CreateFactionTable("XEA0305"),
+    ['HeavyGunships'] = CreateFactionTable("UEA0305"),
     ['HeavyTorpedoBombers'] = {
         UEF = "",
         Cybran = "",
@@ -365,6 +365,8 @@ function FactionUnitParser(faction)
     ---@param unitType UnitType
     ---@return UnitId
     return function(unitType)
-        return unitTypes[unitType][faction]
+        local unit = unitTypes[unitType][faction]
+        assert(unit, "UNIT " .. unitType .. " of " .. faction .. " DOES NOT EXIST")
+        return unit
     end
 end

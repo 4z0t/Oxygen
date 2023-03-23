@@ -505,7 +505,7 @@ local idsToNames = {
 
 }
 
-FactionParse = import("UnitTypeFactionParser")
+FactionParse = import("UnitTypeFactionParser.lua")
 
 
 local namesToIds = {}
