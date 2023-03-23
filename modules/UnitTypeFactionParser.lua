@@ -78,9 +78,7 @@ function FactionConvert(unitId, factionIndex)
     unitId = unitId:lower()
     local newID = unitId
 
-    if unitId == "dea0202" then
-        newID = combatFighters[factionIndex]
-    elseif factionIndex == 2 then
+    if factionIndex == 2 then
         if unitId == 'uel0203' then
             newID = 'xal0203'
         elseif unitId == 'xes0204' then
@@ -179,7 +177,13 @@ unitTypes = {
         Aeon = "",
     },
     ['Gunship'] = CreateFactionTable("UEA0203"),
-    ['CombatFighter'] = CreateFactionTable("DEA0202"),
+    ['CombatFighter'] =
+    {
+        UEF = "dea0202",
+        Cybran = "dra0202",
+        Aeon = "xaa0202",
+        Seraphim = "xsa0202",
+    },
     ['StratBomber'] = CreateFactionTable("UEA0304"),
     ['AirSuperiority'] = CreateFactionTable("UEA0303"),
     ['HeavyGunship'] = CreateFactionTable("UEA0305"),
