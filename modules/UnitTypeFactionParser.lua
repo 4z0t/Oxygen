@@ -1,58 +1,58 @@
 ---@alias UnitType
---- | 'T3Transports'
---- | 'MobileMissilePlatforms'
---- | 'MobileShields'
---- | 'HeavyBots'
+--- | 'T3Transport'
+--- | 'MobileMissilePlatform'
+--- | 'MobileShield'
+--- | 'HeavyBot'
 --- | 'MobileFlak'
 --- | 'MobileHeavyArtillery'
 --- | 'MobileStealth'
---- | 'SiegeBots'
---- | 'MobileBombs'
---- | 'RangeBots'
+--- | 'SiegeBot'
+--- | 'MobileBomb'
+--- | 'RangeBot'
 --- | 'LightArtillery'
---- | 'AmphibiousTanks'
---- | 'LightTanks'
+--- | 'AmphibiousTank'
+--- | 'LightTank'
 --- | 'HeavyMobileAntiAir'
---- | 'MobileMissiles'
---- | 'HeavyTanks'
+--- | 'MobileMissile'
+--- | 'HeavyTank'
 --- | 'MobileAntiAir'
---- | 'LightBots'
---- | 'T1Transports'
---- | 'T2Transports'
---- | 'Interceptors'
---- | 'LightGunships'
---- | 'Bombers'
---- | 'TorpedoBombers'
---- | 'GuidedMissiles'
---- | 'Gunships'
---- | 'CombatFighters'
---- | 'StratBombers'
+--- | 'LightBot'
+--- | 'T1Transport'
+--- | 'T2Transport'
+--- | 'Interceptor'
+--- | 'LightGunship'
+--- | 'Bomber'
+--- | 'TorpedoBomber'
+--- | 'GuidedMissile'
+--- | 'Gunship'
+--- | 'CombatFighter'
+--- | 'StratBomber'
 --- | 'AirSuperiority'
---- | 'HeavyGunships'
---- | 'HeavyTorpedoBombers'
---- | 'T3Transports'
---- | 'T2Transports'
---- | 'T1Transports'
---- | 'T3Engineers'
---- | 'T2Engineers'
---- | 'CombatEngineers'
---- | 'T1Engineers'
---- | 'MobileShields'
---- | 'Battleships'
---- | 'Destroyers'
---- | 'Cruisers'
+--- | 'HeavyGunship'
+--- | 'HeavyTorpedoBomber'
+--- | 'T3Transport'
+--- | 'T2Transport'
+--- | 'T1Transport'
+--- | 'T3Engineer'
+--- | 'T2Engineer'
+--- | 'CombatEngineer'
+--- | 'T1Engineer'
+--- | 'MobileShield'
+--- | 'Battleship'
+--- | 'Destroyer'
+--- | 'Cruiser'
 --- | 'Frigate'
---- | 'Submarines'
---- | 'Frigates'
---- | 'T2Submarines'
---- | 'UtilityBoats'
---- | 'Carriers'
---- | 'NukeSubmarines'
---- | 'AABoats'
---- | 'MissileShips'
---- | 'T3Submarines'
---- | 'TorpedoBoats'
---- | 'BattleCruisers'
+--- | 'Submarine'
+--- | 'Frigate'
+--- | 'T2Submarine'
+--- | 'UtilityBoat'
+--- | 'Carrier'
+--- | 'NukeSubmarine'
+--- | 'AABoat'
+--- | 'MissileShip'
+--- | 'T3Submarine'
+--- | 'TorpedoBoat'
+--- | 'BattleCruiser'
 
 
 
@@ -142,90 +142,96 @@ end
 
 ---@type table<UnitType, FactionUnitIds>
 unitTypes = {
-    ['MobileMissilePlatforms'] = {
+    ['MobileMissilePlatform'] = {
         UEF = "",
     },
-    ['MobileShields'] = {
+    ['MobileShield'] = {
         UEF = "",
         Aeon = "",
         Seraphim = "",
     },
-    ['HeavyBots'] = CreateFactionTable("XEL0305"),
+    ['HeavyBot'] = CreateFactionTable("XEL0305"),
     ['MobileFlak'] = CreateFactionTable("UEL0205"),
     ['MobileHeavyArtillery'] = CreateFactionTable("UEL0304"),
     ['MobileStealth'] = {
         Cybran = "",
     },
-    ['MobileBombs'] = {
+    ['MobileBomb'] = {
         Cybran = "",
     },
-    ['SiegeBots'] = CreateFactionTable("UEL0303"),
-    ['RangeBots'] = CreateFactionTable("DEL0204"),
+    ['SiegeBot'] = CreateFactionTable("UEL0303"),
+    ['RangeBot'] = CreateFactionTable("DEL0204"),
     ['LightArtillery'] = CreateFactionTable("UEL0103"),
-    ['AmphibiousTanks'] = CreateFactionTable("UEL0203"),
-    ['LightTanks'] = CreateFactionTable("UEL0201"),
+    ['AmphibiousTank'] = CreateFactionTable("UEL0203"),
+    ['LightTank'] = CreateFactionTable("UEL0201"),
     ['HeavyMobileAntiAir'] = CreateFactionTable("DELK002"),
-    ['MobileMissiles'] = CreateFactionTable("UEL0111"),
-    ['HeavyTanks'] = CreateFactionTable("UEL0202"),
+    ['MobileMissile'] = CreateFactionTable("UEL0111"),
+    ['HeavyTank'] = CreateFactionTable("UEL0202"),
     ['MobileAntiAir'] = CreateFactionTable("UEL0104"),
-    ['LightBots'] = CreateFactionTable("UEL0106"),
-    ['Interceptors'] = CreateFactionTable("UEA0102"),
-    ['LightGunships'] = {
+    ['LightBot'] = CreateFactionTable("UEL0106"),
+    ['Interceptor'] = CreateFactionTable("UEA0102"),
+    ['LightGunship'] = {
         Cybran = "",
     },
-    ['Bombers'] = CreateFactionTable("UEA0103"),
-    ['TorpedoBombers'] = CreateFactionTable("UEA0204"),
-    ['GuidedMissiles'] = {
+    ['Bomber'] = CreateFactionTable("UEA0103"),
+    ['TorpedoBomber'] = CreateFactionTable("UEA0204"),
+    ['GuidedMissile'] = {
         Aeon = "",
     },
-    ['Gunships'] = CreateFactionTable("UEA0203"),
-    ['CombatFighters'] = CreateFactionTable("DEA0202"),
-    ['StratBombers'] = CreateFactionTable("UEA0304"),
+    ['Gunship'] = CreateFactionTable("UEA0203"),
+    ['CombatFighter'] = CreateFactionTable("DEA0202"),
+    ['StratBomber'] = CreateFactionTable("UEA0304"),
     ['AirSuperiority'] = CreateFactionTable("UEA0303"),
-    ['HeavyGunships'] = CreateFactionTable("UEA0305"),
-    ['HeavyTorpedoBombers'] = {
+    ['HeavyGunship'] = CreateFactionTable("UEA0305"),
+    ['HeavyTorpedoBomber'] = {
         Aeon = "",
     },
-    ['T3Transports'] = {
+    ['T3Transport'] = {
         UEF = "",
     },
-    ['T2Transports'] = CreateFactionTable("UEA0104"),
-    ['T1Transports'] = CreateFactionTable("UEA0107"),
-    ['T3Engineers'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
-    ['T2Engineers'] = {
+    ['T2Transport'] = CreateFactionTable("UEA0104"),
+    ['T1Transport'] = CreateFactionTable("UEA0107"),
+    ['T3Engineer'] = {
         UEF = "",
         Cybran = "",
         Aeon = "",
         Seraphim = "",
     },
-    ['CombatEngineers'] = {
+    ['T2Engineer'] = {
+        UEF = "",
+        Cybran = "",
+        Aeon = "",
+        Seraphim = "",
+    },
+    ['CombatEngineer'] = {
         UEF = "",
 
     },
-    ['T1Engineers'] = {
+    ['T1Engineer'] = {
         UEF = "",
         Cybran = "",
         Aeon = "",
         Seraphim = "",
     },
-    ['Battleships'] = {
+    ['Battleship'] = {
         UEF = "",
         Cybran = "",
         Aeon = "",
         Seraphim = "",
     },
-    ['Destroyers'] = {
+    ['Destroyer'] = {
         UEF = "",
         Cybran = "",
         Aeon = "",
         Seraphim = "",
     },
-    ['Cruisers'] = {
+    ['Cruiser'] = {
+        UEF = "",
+        Cybran = "",
+        Aeon = "",
+        Seraphim = "",
+    },
+    ['Submarine'] = {
         UEF = "",
         Cybran = "",
         Aeon = "",
@@ -237,71 +243,51 @@ unitTypes = {
         Aeon = "",
         Seraphim = "",
     },
-    ['Submarines'] = {
+    ['T2Submarine'] = {
         UEF = "",
         Cybran = "",
         Aeon = "",
         Seraphim = "",
     },
-    ['Frigates'] = {
+    ['UtilityBoat'] = {
         UEF = "",
         Cybran = "",
         Aeon = "",
         Seraphim = "",
     },
-    ['T2Submarines'] = {
+    ['Carrier'] = {
+        Cybran = "",
+        Aeon = "",
+        Seraphim = "",
+    },
+    ['NukeSubmarine'] = {
+        UEF = "",
+        Cybran = "",
+        Aeon = "",
+    },
+    ['AABoat'] = {
         UEF = "",
         Cybran = "",
         Aeon = "",
         Seraphim = "",
     },
-    ['UtilityBoats'] = {
+    ['MissileShip'] = {
+        Aeon = "",
+    },
+    ['T3Submarine'] = {
         UEF = "",
         Cybran = "",
         Aeon = "",
         Seraphim = "",
     },
-    ['Carriers'] = {
+    ['TorpedoBoat'] = {
         UEF = "",
         Cybran = "",
         Aeon = "",
         Seraphim = "",
     },
-    ['NukeSubmarines'] = {
+    ['BattleCruiser'] = {
         UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
-    ['AABoats'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
-    ['MissileShips'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
-    ['T3Submarines'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
-    ['TorpedoBoats'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
-    ['BattleCruisers'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
     },
 }
 
