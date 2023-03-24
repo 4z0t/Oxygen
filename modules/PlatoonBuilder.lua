@@ -130,6 +130,7 @@ local BC = import("BuildConditions.lua")
 ---@field _conditions BuildCondition
 ---@field _buildTimeout integer
 ---@field _difficulty DifficultyLevel
+---@field _allowNoPriority boolean
 PlatoonBuilder = ClassSimple
 {
     ---Uses given UnitGroup for all new Platoons
@@ -236,6 +237,16 @@ PlatoonBuilder = ClassSimple
     ---@return PlatoonTemplateBuilder
     Priority = function(self, priority)
         self._priority = priority
+        return self
+    end,
+
+
+    ---Makes priority to be set by build manager during loading
+    ---@param self PlatoonTemplateBuilder
+    ---@param value boolean
+    ---@return PlatoonTemplateBuilder
+    UseOrderPriority = function (self, value)
+        self._allowNoPriority = value
         return self
     end,
 
@@ -413,7 +424,7 @@ PlatoonBuilder = ClassSimple
     ---@param self PlatoonTemplateBuilder
     _Verify = function(self)
         assert(self._name, "Platoon Spec must have a name!")
-        assert(self._priority, "Priority Spec must be a number")
+        assert(self._priority or self._allowNoPriority, "Priority Spec must be a number")
         assert(self._template, "Platoon Spec must have a unit template!")
         assert(self._type or self._useType, "Platoon Spec must have specified type!")
         assert(self._function or self._useFunction, "Platoon Spec must have AI function!")
