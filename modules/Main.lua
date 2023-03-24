@@ -79,6 +79,8 @@ _G.Oxygen = {
         Expansion = "/mods/Oxygen/modules/PlatoonAIs/Expansion.lua",
     },
 
+    Platoons = import("Platoons.lua"),
+
     ---Use this table for intellisence support:
     ---```lua
     ---Oxygen.Brains.Aeon = ArmyBrains[2]

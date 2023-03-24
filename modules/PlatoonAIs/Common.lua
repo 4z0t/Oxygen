@@ -39,3 +39,12 @@ function PatrolChainPickerThread(platoon)
     ScenarioFramework.PlatoonPatrolRoute(platoon, positions)
 
 end
+
+---@param platoon Platoon
+function PlatoonSetTargetPriorities(platoon)
+    local units = platoon:GetPlatoonUnits()
+    local categories = platoon.PlatoonData.CategoryPriorities
+    for _, unit in units do
+        unit:SetTargetPriorities(categories)
+    end
+end
