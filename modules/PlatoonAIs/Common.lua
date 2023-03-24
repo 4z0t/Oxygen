@@ -7,6 +7,10 @@ local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
 local NavGenerator = import('/lua/sim/NavGenerator.lua')
 local NavUtils = import('/lua/sim/NavUtils.lua')
 
+if not NavGenerator.IsGenerated() then
+    NavGenerator.Generate()
+end
+
 
 
 function OffsetVector(v, offset)
@@ -59,10 +63,6 @@ function PlatoonNavigateToPosition(platoon)
 
     assert(destination, "PlatoonNavigateToPosition: PlatoonData.Destination wasnt specified")
     assert(layer, "PlatoonNavigateToPosition: PlatoonData.Layer wasnt specified")
-
-    if not NavGenerator.IsGenerated() then
-        NavGenerator.Generate()
-    end
 
     local pos = platoon:GetPlatoonPosition()
     local path, n, length = NavUtils.PathTo(layer, pos, ScenarioUtils.MarkerToPosition(destination))
