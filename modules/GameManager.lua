@@ -2,7 +2,8 @@ local ScenarioFramework = import('/lua/ScenarioFramework.lua')
 local Utils = import("Utils.lua")
 local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 
-Armies = import("ArmyManager.lua")
+Armies            = import("ArmyManager.lua")
+BuildRestrictions = import("BuildRestrictions.lua")
 
 ---Sets playable area. if voFlag is true game informs about expansion with voice over (defaults to true)
 ---@type fun(area: Area | Rectangle, voFlag?: boolean)
