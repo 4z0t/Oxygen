@@ -221,6 +221,15 @@ PlatoonBuilder = ClassSimple
         return self
     end,
 
+    ---Merges passed data into data or use data table
+    ---@param self PlatoonTemplateBuilder
+    ---@param data PlatoonDataTable
+    ---@return PlatoonTemplateBuilder
+    MergeData = function(self, data)
+        self._data = table.merged(data, self._data or self._useData)
+        return self
+    end,
+
     ---comment
     ---@param self PlatoonTemplateBuilder
     ---@param priority number
