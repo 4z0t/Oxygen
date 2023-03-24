@@ -6,7 +6,7 @@ function TargettingPriorities(categories)
     return function(platoonBuilder)
         platoonBuilder
             :AddCompleteCallback(Oxygen.PlatoonAI.Common, 'PlatoonSetTargetPriorities')
-            :Data
+            :MergeData
             {
                 CategoryPriorities = categories
             }

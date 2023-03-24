@@ -16,7 +16,7 @@ function ExpansionOf(expansionName)
             :AIFunction(Oxygen.PlatoonAI.Expansion, 'ExpansionPlatoon')
             :AddCondition { BMBC, 'BaseActive', { expansionName } }
             :AddCondition { BMBC, 'BaseManagerNeedsEngineers', { expansionName } }
-            :Data
+            :MergeData
             {
                 ExpansionData = {
                     BaseName = expansionName
