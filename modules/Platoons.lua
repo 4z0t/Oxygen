@@ -12,3 +12,19 @@ function TargettingPriorities(categories)
             }
     end
 end
+
+---@param marker Marker
+---@param layer? NavLayers
+---@return fun(platoonBuilder: PlatoonTemplateBuilder)
+function NavigateTo(marker, layer)
+    ---@param platoonBuilder PlatoonTemplateBuilder
+    return function(platoonBuilder)
+        platoonBuilder
+            :AIFunction(Oxygen.PlatoonAI.Common, 'PlatoonNavigateToPosition')
+            :MergeData
+            {
+                Destination = marker,
+                Layer = layer or 'Land'
+            }
+    end
+end
