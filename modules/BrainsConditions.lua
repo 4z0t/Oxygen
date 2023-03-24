@@ -74,12 +74,30 @@ end
 --- | "MassRequested"
 --- | "EnergyStorage"
 --- | "MassStorage"
+--- | "AvgEnergyIncome"
+--- | "AvgMassIncome"
 
-
-
+local samplesCount = 10
+local Samples = import("AvgValues.lua").Samples
 
 local economyFunctions =
 {
+    AvgEnergyIncome = function(aiBrain)
+        ---@type Samples
+        aiBrain.EnergyIncomeSamples = aiBrain.EnergyIncomeSamples or Samples(samplesCount)
+        local samples = aiBrain.EnergyIncomeSamples
+        samples:Add(aiBrain:GetEconomyIncome('ENERGY'))
+        return samples:Average() * 10
+    end,
+
+    AvgMassIncome = function(aiBrain)
+        ---@type Samples
+        aiBrain.MassIncomeSamples = aiBrain.MassIncomeSamples or Samples(samplesCount)
+        local samples = aiBrain.MassIncomeSamples
+        samples:Add(aiBrain:GetEconomyIncome('MASS'))
+        return samples:Average() * 10
+    end,
+
     EnergyTrend = function(aiBrain) return aiBrain:GetEconomyTrend('ENERGY') * 10 end,
     MassTrend = function(aiBrain) return aiBrain:GetEconomyTrend('MASS') * 10 end,
     EnergyIncome = function(aiBrain) return aiBrain:GetEconomyIncome('ENERGY') * 10 end,
