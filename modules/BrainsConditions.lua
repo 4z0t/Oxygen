@@ -77,7 +77,7 @@ end
 --- | "AvgEnergyIncome"
 --- | "AvgMassIncome"
 
-local samplesCount = 8
+local samplesCount = 16
 local Samples = import("AvgValues.lua").Samples
 
 local economyFunctions =
