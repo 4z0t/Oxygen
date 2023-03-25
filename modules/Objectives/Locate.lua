@@ -4,7 +4,7 @@ local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 
 
 ---@class LocateObjective : CountObjective
----@field UnitLocatedTrigger PlayerIntelTrigger
+---@field UnitLocatedTrigger PlayerUnitIntelTrigger
 ---@field Located table<Unit, true>
 LocateObjective = Class(CountObjective)
 {
@@ -15,7 +15,7 @@ LocateObjective = Class(CountObjective)
         CountObjective.OnCreate(self)
         self.Located = {}
 
-        self.UnitLocatedTrigger = Oxygen.Triggers.PlayerIntelTrigger(
+        self.UnitLocatedTrigger = Oxygen.Triggers.PlayerUnitIntelTrigger(
             function(unit)
                 self:OnUnitLocated(unit)
             end

@@ -1,7 +1,7 @@
 local Cinematics = import('/lua/cinematics.lua')
 local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 local ScenarioFramework = import('/lua/ScenarioFramework.lua')
-local Triggers = import("TriggerManager.lua")
+local Triggers = import("Triggers.lua")
 
 ---@type TimerTrigger
 local delayClearIntel = Triggers
