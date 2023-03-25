@@ -103,7 +103,6 @@ AdvancedBaseManager = Class(BaseManager)
             assert(bc[1] and bc[2],
                 "AdvancedBaseManager.AddBuildStructures: BuildCondition must contain a reference to a function!")
 
-            bc = Oxygen.BuildConditions.RemoveDefaultBrain(bc)
             local func = import(bc[1])[ bc[2] ]
 
             assert(func ~= nil,

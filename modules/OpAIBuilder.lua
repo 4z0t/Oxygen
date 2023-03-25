@@ -139,9 +139,6 @@ OpAIBuilder = ClassSimple
     ---@param buildCondition BuildCondition
     ---@return OpAIBuilder
     BuildCondition = function(self, buildCondition)
-        if self._unitGroup then
-            buildCondition = BC.RemoveDefaultBrain(buildCondition)
-        end
         self._buildCondition = buildCondition
         return self
     end,

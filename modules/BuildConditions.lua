@@ -11,7 +11,7 @@ function ArmiesCategoryCondition(armies, category, compareOp, value)
     return {
         '/lua/editor/otherarmyunitcountbuildconditions.lua',
         "BrainsCompareNumCategory",
-        { "default_brain", armies, value, category, compareOp }
+        { armies, value, category, compareOp }
     }
 end
 
@@ -45,7 +45,7 @@ function ArmiesBuiltOrActiveCategoryCondition(armies, category, compareOp, value
     return {
         OBC,
         "FocusBrainBeingBuiltOrActiveCategoryCompare",
-        { "default_brain", armies, value, category, compareOp }
+        { armies, value, category, compareOp }
     }
 end
 
@@ -78,7 +78,7 @@ function ArmiesEconomyCondition(armies, econStat, compareOp, value)
     return {
         OBC,
         "BrainsCompareEconomyStats",
-        { "default_brain", armies, value, econStat, compareOp }
+        { armies, value, econStat, compareOp }
     }
 end
 
@@ -101,7 +101,6 @@ function HumansEconomyCondition(econStat, compareOp, value)
     return ArmyEconomyCondition("HumanPlayers", econStat, compareOp, value)
 end
 
-
 ---Creates condition for matching economy of a brain
 ---@param econStat EconStat
 ---@param compareOp CompareOp
@@ -111,7 +110,7 @@ function BrainEconomyCondition(econStat, compareOp, value)
     return {
         OBC,
         "BrainCompareEconomy",
-        { "default_brain",  value, econStat, compareOp }
+        { value, econStat, compareOp }
     }
 end
 
@@ -125,16 +124,6 @@ function BrainCategoryCondition(category, compareOp, value)
     return {
         OBC,
         "BrainCompareNumCategory",
-        { "default_brain",  value, category, compareOp }
+        { value, category, compareOp }
     }
-end
-
----Removes default brain from conditions arguments
----@param condition BuildCondition
----@return BuildCondition
-function RemoveDefaultBrain(condition)
-    if condition[3][1] == "default_brain" then
-        table.remove(condition[3], 1)
-    end
-    return condition
 end
