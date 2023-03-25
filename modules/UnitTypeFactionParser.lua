@@ -53,6 +53,12 @@
 --- | 'T3Submarine'
 --- | 'TorpedoBoat'
 --- | 'BattleCruiser'
+--- | "SACU"
+--- | "SACU_RAS"
+--- | "SACU_COMBAT"
+--- | "SACU_RAMBO"
+--- | "SACU_ENGINEER"
+--- | "SACU"
 
 
 
@@ -140,22 +146,21 @@ end
 
 ---@type table<UnitType, FactionUnitIds>
 unitTypes = {
-    ['MobileMissilePlatform'] = {
-        UEF = "",
+    ['MobileMissilePlatform'] =
+    {
+        UEF = "xel0306",
     },
-    ['MobileShield'] = {
-        UEF = "",
-        Aeon = "",
-        Seraphim = "",
-    },
+    ['MobileShield'] = CreateFactionTable("UEL0307"),
     ['HeavyBot'] = CreateFactionTable("XEL0305"),
     ['MobileFlak'] = CreateFactionTable("UEL0205"),
     ['MobileHeavyArtillery'] = CreateFactionTable("UEL0304"),
-    ['MobileStealth'] = {
-        Cybran = "",
+    ['MobileStealth'] =
+    {
+        Cybran = "url0306",
     },
-    ['MobileBomb'] = {
-        Cybran = "",
+    ['MobileBomb'] =
+    {
+        Cybran = "xrl0302",
     },
     ['SiegeBot'] = CreateFactionTable("UEL0303"),
     ['RangeBot'] = CreateFactionTable("DEL0204"),
@@ -167,14 +172,18 @@ unitTypes = {
     ['HeavyTank'] = CreateFactionTable("UEL0202"),
     ['MobileAntiAir'] = CreateFactionTable("UEL0104"),
     ['LightBot'] = CreateFactionTable("UEL0106"),
+
+    --Air
     ['Interceptor'] = CreateFactionTable("UEA0102"),
-    ['LightGunship'] = {
-        Cybran = "",
+    ['LightGunship'] =
+    {
+        Cybran = "xra0105",
     },
     ['Bomber'] = CreateFactionTable("UEA0103"),
     ['TorpedoBomber'] = CreateFactionTable("UEA0204"),
-    ['GuidedMissile'] = {
-        Aeon = "",
+    ['GuidedMissile'] =
+    {
+        Aeon = "daa0206",
     },
     ['Gunship'] = CreateFactionTable("UEA0203"),
     ['CombatFighter'] =
@@ -187,36 +196,35 @@ unitTypes = {
     ['StratBomber'] = CreateFactionTable("UEA0304"),
     ['AirSuperiority'] = CreateFactionTable("UEA0303"),
     ['HeavyGunship'] = CreateFactionTable("UEA0305"),
-    ['HeavyTorpedoBomber'] = {
-        Aeon = "",
+    ['HeavyTorpedoBomber'] =
+    {
+        Aeon = "xaa0306",
     },
-    ['T3Transport'] = {
-        UEF = "",
+    ['T3Transport'] =
+    {
+        UEF = "xea0306",
     },
     ['T2Transport'] = CreateFactionTable("UEA0104"),
     ['T1Transport'] = CreateFactionTable("UEA0107"),
-    ['T3Engineer'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
-    ['T2Engineer'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
-    ['CombatEngineer'] = {
-        UEF = "",
 
+    --Engineers
+    ['T3Engineer'] = CreateFactionTable("UEL0309"),
+    ['T2Engineer'] = CreateFactionTable("UEL0208"),
+    ['CombatEngineer'] = {
+        UEF = "xel0209",
     },
-    ['T1Engineer'] = {
-        UEF = "",
-        Cybran = "",
-        Aeon = "",
-        Seraphim = "",
-    },
+    ['T1Engineer'] = CreateFactionTable("UEL0105"),
+
+    ["SACU"] = CreateFactionTable("UEL0301"),
+    ["SACU_ENGINEER"] = CreateFactionTable("UEL0301_ENGINEER"),
+    ["SACU_RAMBO"] = CreateFactionTable("UEL0301_RAMBO"),
+    ["SACU_COMBAT"] = CreateFactionTable("UEL0301_COMBAT"),
+    ["SACU_RAS"] = CreateFactionTable("UEL0301_RAS"),
+
+
+
+
+    -- Naval
     ['Battleship'] = {
         UEF = "",
         Cybran = "",
