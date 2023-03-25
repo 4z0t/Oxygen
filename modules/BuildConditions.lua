@@ -7,6 +7,7 @@ local OBC = '/mods/Oxygen/modules/BrainsConditions.lua'
 ---@param value number
 ---@return BuildCondition
 function ArmiesCategoryCondition(armies, category, compareOp, value)
+    assert(not EntityCategoryEmpty(category), "Detected empty category! Condition won't be met!")
     return {
         '/lua/editor/otherarmyunitcountbuildconditions.lua',
         "BrainsCompareNumCategory",
@@ -40,6 +41,7 @@ end
 ---@param value number
 ---@return BuildCondition
 function ArmiesBuiltOrActiveCategoryCondition(armies, category, compareOp, value)
+    assert(not EntityCategoryEmpty(category), "Detected empty category! Condition won't be met!")
     return {
         OBC,
         "FocusBrainBeingBuiltOrActiveCategoryCompare",
@@ -119,6 +121,7 @@ end
 ---@param value number
 ---@return BuildCondition
 function BrainCategoryCondition(category, compareOp, value)
+    assert(not EntityCategoryEmpty(category), "Detected empty category! Condition won't be met!")
     return {
         OBC,
         "BrainCompareNumCategory",
