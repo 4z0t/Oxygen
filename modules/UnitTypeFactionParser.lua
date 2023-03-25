@@ -68,13 +68,6 @@
 ---@field Aeon UnitId
 ---@field Seraphim UnitId
 
-local combatFighters =
-{
-    "dea0202",
-    "dra0202",
-    "xaa0202",
-    "xsa0202",
-}
 
 ---comment
 ---@param unitId UnitId
