@@ -71,3 +71,12 @@ function PlatoonNavigateToPosition(platoon)
 
     ScenarioFramework.PlatoonPatrolRoute(platoon, path)
 end
+
+---@param platoon Platoon
+function PlatoonEnableJamming(platoon)
+    for _, unit in platoon:GetPlatoonUnits() do
+        if not unit.Dead and unit:TestToggleCaps('RULEUTC_JammingToggle') then
+            unit:SetScriptBit('RULEUTC_JammingToggle', false)
+        end
+    end
+end

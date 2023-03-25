@@ -245,7 +245,7 @@ PlatoonBuilder = ClassSimple
     ---@param self PlatoonTemplateBuilder
     ---@param value boolean
     ---@return PlatoonTemplateBuilder
-    UseOrderPriority = function (self, value)
+    UseOrderPriority = function(self, value)
         self._allowNoPriority = value
         return self
     end,
@@ -419,6 +419,13 @@ PlatoonBuilder = ClassSimple
     ---@return PlatoonTemplateBuilder
     EnableStealth = function(self)
         return self:AddCompleteCallback('/lua/scenarioplatoonai.lua', 'PlatoonEnableStealth')
+    end,
+    
+    ---Enables jamming on platoon units
+    ---@param self PlatoonTemplateBuilder
+    ---@return PlatoonTemplateBuilder
+    EnableJamming = function(self)
+        return self:AddCompleteCallback(Oxygen.PlatoonAI.Common, 'PlatoonEnableJamming')
     end,
 
     ---@param self PlatoonTemplateBuilder
