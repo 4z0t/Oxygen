@@ -106,6 +106,23 @@ local Utils = import("Utils.lua")
 
 ---@alias PlayersData table<ArmyName,PlayerSpawnData>
 
+
+
+local function MapPlayerNameToIndex()
+    local armies = ScenarioInfo.Configurations.standard.teams[1].armies
+
+    local map = {}
+    local i = 1
+    for iArmy, strArmy in armies do
+        if StringStartsWith(strArmy, "Player") then
+            map[strArmy] = i
+            i = i + 1
+        end
+    end
+    reprsl(map)
+    return map
+end
+
 ---@class CommonPlayersData
 ---@field enhancements FactionEnhancementMap?
 
@@ -121,9 +138,11 @@ PlayersManager = ClassSimple
     Init = function(self, players)
         self._players = {}
         local tblArmy = ListArmies()
-        local i = 1
+        local map = MapPlayerNameToIndex()
+
         for iArmy, strArmy in pairs(tblArmy) do
-            if StringStartsWith(strArmy, "Player") then
+            local i = map[strArmy]
+            if i then
                 local faction = Factions[GetArmyBrain(strArmy):GetFactionIndex()].FactionInUnitBp
                 local enhancements = nil
                 if players[i].color then
@@ -146,7 +165,6 @@ PlayersManager = ClassSimple
                     delay = players[i].delay,
                     faction = faction
                 }
-                i = i + 1
             end
         end
         return self._players
