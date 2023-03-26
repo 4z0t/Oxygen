@@ -131,6 +131,7 @@ local BC = import("BuildConditions.lua")
 ---@field _buildTimeout integer
 ---@field _difficulty DifficultyLevel
 ---@field _allowNoPriority boolean
+---@field _conditionType ConditionType
 PlatoonBuilder = ClassSimple
 {
     ---Uses given UnitGroup for all new Platoons
@@ -182,6 +183,7 @@ PlatoonBuilder = ClassSimple
         self._difficulty = nil
         self._addFunctions = nil
         self._startFunctions = nil
+        self._conditionType = nil
     end,
 
     ---Starts creation of new Platoon
@@ -312,7 +314,19 @@ PlatoonBuilder = ClassSimple
         return self
     end,
 
+    ---Sets condition type:
     ---
+    --- "ALL" - all conditions must be met (default)
+    ---
+    --- "ANY" - any of conditions must be met
+    ---@param self PlatoonTemplateBuilder
+    ---@param cType ConditionType
+    ---@return PlatoonTemplateBuilder
+    ConditionType = function(self, cType)
+        self._conditionType = cType
+        return self
+    end,
+
     ---@param self PlatoonTemplateBuilder
     ---@param condition BuildCondition
     ---@return PlatoonTemplateBuilder
@@ -420,7 +434,7 @@ PlatoonBuilder = ClassSimple
     EnableStealth = function(self)
         return self:AddCompleteCallback('/lua/scenarioplatoonai.lua', 'PlatoonEnableStealth')
     end,
-    
+
     ---Enables jamming on platoon units
     ---@param self PlatoonTemplateBuilder
     ---@return PlatoonTemplateBuilder
@@ -447,6 +461,9 @@ PlatoonBuilder = ClassSimple
             fn(self)
         end
         self:_Verify()
+        if self._conditions then
+            self._conditions.Type = self._conditionType or "ALL"
+        end
 
         ---@type PlatoonSpecTable
         local result = {

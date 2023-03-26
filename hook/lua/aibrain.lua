@@ -10,7 +10,7 @@ AIBrain = Class(AIBrain) {
     PBMCheckBuildConditions = function(self, bCs, index)
 
         local PBMBuildConditionsTable = self.PBM.BuildConditionsTable
-        local condidionType = bCs.Type or "ALL"
+        local isAll = (bCs.Type or "ALL") == "ALL"
 
         for k, v in bCs do
             if k == "Type" then
@@ -73,7 +73,7 @@ AIBrain = Class(AIBrain) {
 
             local result = PBMBuildConditionsTable[lookupNumber].CachedVal[index]
 
-            if condidionType == "ALL" then
+            if isAll then
                 if not result then
                     return false
                 end
@@ -81,6 +81,6 @@ AIBrain = Class(AIBrain) {
                 return true
             end
         end
-        return condidionType == "ALL"
+        return isAll
     end
 }
