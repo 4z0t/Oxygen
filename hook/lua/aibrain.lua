@@ -51,18 +51,16 @@ AIBrain = Class(AIBrain) {
                 end
             end
 
-            local lookupNumber = v.LookupNumber[index]
+            local conditions = PBMBuildConditionsTable[ v.LookupNumber[index] ]
 
-            if not PBMBuildConditionsTable[lookupNumber].Cached[index] then
-                if not PBMBuildConditionsTable[lookupNumber].Cached then
-                    PBMBuildConditionsTable[lookupNumber].Cached = {}
-                    PBMBuildConditionsTable[lookupNumber].CachedVal = {}
+            if not conditions.Cached[index] then
+                if not conditions.Cached then
+                    conditions.Cached = {}
+                    conditions.CachedVal = {}
                 end
-                PBMBuildConditionsTable[lookupNumber].Cached[index] = true
-
-                local d = PBMBuildConditionsTable[lookupNumber]
-                PBMBuildConditionsTable[lookupNumber].CachedVal[index] = import(d[1])[ d[2] ](self,
-                    unpack(d[3]))
+                
+                conditions.Cached[index] = true
+                conditions.CachedVal[index] = import(conditions[1])[ conditions[2] ](self, unpack(conditions[3]))
 
                 self.BCFuncCalls = self.BCFuncCalls or 0
 
@@ -71,7 +69,7 @@ AIBrain = Class(AIBrain) {
                 end
             end
 
-            local result = PBMBuildConditionsTable[lookupNumber].CachedVal[index]
+            local result = conditions.CachedVal[index]
 
             if isAll then
                 if not result then
