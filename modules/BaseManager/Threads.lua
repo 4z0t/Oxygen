@@ -9,7 +9,8 @@ local BMBC = import("/lua/editor/basemanagerbuildconditions.lua")
 local MIBC = import("/lua/editor/miscbuildconditions.lua")
 local BaseManagerThreads = import("/lua/ai/opai/BaseManagerPlatoonThreads.lua")
 
-
+---@type UnitDeathTrigger
+local engineerDeathTrigger = Oxygen.Triggers.UnitDeathTrigger(BaseManagerThreads.BaseManagerSingleDestroyed)
 
 
 --- Split the platoon into single unit platoons
@@ -45,7 +46,7 @@ function BaseManagerEngineerPlatoonSplit(platoon)
 
                     -- Only add death callback if it hasnt been set yet
                     if not v.Subtracted then
-                        TriggerFile.CreateUnitDeathTrigger(BaseManagerThreads.BaseManagerSingleDestroyed, v)
+                        engineerDeathTrigger:Add(v)
                     end
 
                     -- If the base is building engineers, subtract one from the amount being built
