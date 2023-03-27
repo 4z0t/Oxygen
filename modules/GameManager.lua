@@ -39,7 +39,6 @@ function GetHumanUnits(category, area)
                 end
             end
         end
-
     else
         for _, player in ScenarioInfo.HumanPlayers do
             local armyUnits = ArmyBrains[player]:GetListOfUnits(category, false)

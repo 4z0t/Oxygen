@@ -188,21 +188,21 @@ AdvancedBaseManager = Class(BaseManager)
         local location = self.BaseName
         local aiBrain = self.AIBrain
         for i, platoon in platoons do
-            if platoon.Difficulty == ScenarioInfo.Options.Difficulty then
-                ---@type PlatoonSpecTable
-                local _platoon = platoon
-                if deepcopy then
-                    _platoon = table.deepcopy(platoon)
-                end
-                
-                _platoon.Priority = _platoon.Priority or i * 100
+            if platoon.Difficulty ~= ScenarioInfo.Options.Difficulty then continue end
 
-                --keeping track of platoon's basename
-                _platoon.PlatoonData.BaseName = _platoon.PlatoonData.BaseName or location
-
-                _platoon.LocationType = location
-                aiBrain:PBMAddPlatoon(_platoon)
+            ---@type PlatoonSpecTable
+            local _platoon = platoon
+            if deepcopy then
+                _platoon = table.deepcopy(platoon)
             end
+
+            _platoon.Priority = _platoon.Priority or i * 100
+
+            --keeping track of platoon's basename
+            _platoon.PlatoonData.BaseName = _platoon.PlatoonData.BaseName or location
+
+            _platoon.LocationType = location
+            aiBrain:PBMAddPlatoon(_platoon)
         end
     end,
 

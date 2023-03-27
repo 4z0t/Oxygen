@@ -180,12 +180,16 @@ end
 ---@param strArmy string
 ---@param groupName string
 ---@param useDifficulty? boolean @flag for using difficulty based army group division
----@return Unit[]|nil
-function CreateArmyGroup(strArmy, groupName, useDifficulty)
+---@return Unit[]
+function CreateGroup(strArmy, groupName, useDifficulty)
     if useDifficulty then
         groupName = groupName .. '_D' .. ScenarioInfo.Options.Difficulty
     end
-    return ScenarioUtils.CreateArmyGroup(strArmy, groupName, false)
+    local units = ScenarioUtils.CreateArmyGroup(strArmy, groupName, false)
+
+    assert(units, "Units of " .. strArmy .. " named " .. groupName .. " not found!")
+
+    return units
 end
 
 ---creates unit of army which is defined on map

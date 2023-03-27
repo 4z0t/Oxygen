@@ -62,11 +62,7 @@ UnitsController = ClassSimple
     ---@param name UnitGroup
     ---@return UnitsController
     FromMapArmyUnit = function(self, army, name)
-        local unit = ScenarioUtils.CreateArmyUnit(army, name)
-
-        assert(unit, "Unit of " .. army .. " named " .. name .. " not found!")
-
-        return self:Unit(unit)
+        return self:Unit(Oxygen.Game.Armies.CreateUnit(army, name))
     end,
 
     ---Creates units for army defined on the map
@@ -75,11 +71,7 @@ UnitsController = ClassSimple
     ---@param name UnitGroup
     ---@return UnitsController
     FromMapArmyUnits = function(self, army, name)
-        local units = ScenarioUtils.CreateArmyGroup(army, name)
-
-        assert(units, "Units of " .. army .. " named " .. name .. " not found!")
-
-        return self:Units(units)
+        return self:Units(Oxygen.Game.Armies.CreateGroup(army, name))
     end,
 
     ---Assigns units from army units with given categories
