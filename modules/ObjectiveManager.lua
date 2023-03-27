@@ -12,6 +12,7 @@ local useActionInFunc = {
 ---@class ObjectiveManager
 ---@field _objectives table<string, ObjectiveTable>
 ---@field _activeObjectives table<string, IObjective>
+---@field _timerTrigger TimerTrigger
 ---@overload fun():ObjectiveManager
 ObjectiveManager = ClassSimple
 {
@@ -21,6 +22,11 @@ ObjectiveManager = ClassSimple
     __init = function(self)
         self._objectives = {}
         self._activeObjectives = {}
+        self._timerTrigger = Oxygen.Triggers.TimerTrigger(
+            function(nextObj)
+                self:Start(nextObj)
+            end
+        )
     end,
 
 
@@ -140,10 +146,12 @@ ObjectiveManager = ClassSimple
         self._activeObjectives[objTable.name] = obj
 
         --Expansion timer
-        if ScenarioInfo.Options.Expansion and objTable.expansionTimer ~= nil and nextObj then
-            ScenarioFramework.CreateTimerTrigger(function()
-                self:Start(nextObj)
-            end, objTable.expansionTimer)
+        if ScenarioInfo.Options.Expansion and objTable.expansionTimer ~= nil then
+            if objTable.nextExpansion then
+                self._timerTrigger:Delay(objTable.expansionTimer):Run(objTable.nextExpansion)
+            elseif nextObj then
+                self._timerTrigger:Delay(objTable.expansionTimer):Run(nextObj)
+            end
         end
     end,
 

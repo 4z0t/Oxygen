@@ -154,6 +154,7 @@ end
 ---@field onStartFunc fun():ObjectiveTarget?
 ---@field onProgressFunc fun()
 ---@field next string | string[]
+---@field nextExpansion string | string[]
 ---@field expansionTimer integer
 ---@field class IObjective
 
@@ -173,6 +174,7 @@ end
 ---@field _onProgressFunc fun()
 ---@field _onStartFunc fun():ObjectiveTarget?
 ---@field _next string | string[]
+---@field _nextExpansion string | string[]
 ---@field _expansionTimer integer
 ---@field _class IObjective
 ---@overload fun():ObjectiveBuilder
@@ -368,6 +370,15 @@ ObjectiveBuilder = ClassSimple
         return self
     end,
 
+    ---Sets next objectives after expansion timer runs out
+    ---@param self ObjectiveBuilder
+    ---@param nextObj string | string[]
+    ---@return ObjectiveBuilder
+    NextExpansion = function(self, nextObj)
+        self._nextExpansion = nextObj
+        return self
+    end,
+
     ---Sets function which will be called each time objective progresses
     ---@param self ObjectiveBuilder
     ---@param onProgressFunc fun()
@@ -419,6 +430,7 @@ ObjectiveBuilder = ClassSimple
             action = self._action,
             target = self._target,
             next = self._next,
+            nextExpansion = self._nextExpansion,
             startDelay = self._startDelay,
             delay = self._delay,
             onStartFunc = self._onStartFunc,

@@ -142,30 +142,31 @@ PlayersManager = ClassSimple
 
         for iArmy, strArmy in pairs(tblArmy) do
             local i = map[strArmy]
-            if i then
-                local faction = Factions[GetArmyBrain(strArmy):GetFactionIndex()].FactionInUnitBp
-                local enhancements = nil
-                if players[i].color then
-                    ScenarioFramework.SetArmyColor(iArmy, Utils.UnpackColor(players[i].color))
-                end
-                local unit = players[i].units[faction]
-                if unit == nil then
-                    faction, unit = next(players[i].units)
-                end
-                if players[i].enhancements then
-                    enhancements = players[i].enhancements[faction]
-                elseif players.enhancements then
-                    enhancements = players.enhancements[faction]
-                end
-                self._players[strArmy] = {
-                    color = players[i].color,
-                    unit = unit,
-                    enhancements = enhancements,
-                    name = players[i].name,
-                    delay = players[i].delay,
-                    faction = faction
-                }
+            if not i then continue end
+            
+            local faction = Factions[GetArmyBrain(strArmy):GetFactionIndex()].FactionInUnitBp
+            local enhancements = nil
+            if players[i].color then
+                ScenarioFramework.SetArmyColor(iArmy, Utils.UnpackColor(players[i].color))
             end
+            local unit = players[i].units[faction]
+            if unit == nil then
+                faction, unit = next(players[i].units)
+            end
+            if players[i].enhancements then
+                enhancements = players[i].enhancements[faction]
+            elseif players.enhancements then
+                enhancements = players.enhancements[faction]
+            end
+            self._players[strArmy] = {
+                color = players[i].color,
+                unit = unit,
+                enhancements = enhancements,
+                name = players[i].name,
+                delay = players[i].delay,
+                faction = faction
+            }
+
         end
         return self._players
     end,
