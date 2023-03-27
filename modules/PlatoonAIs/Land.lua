@@ -60,13 +60,9 @@ function PlatoonAttackWithTransportsThreadReturnToPool(platoon, landingChain, at
     if not instant then return end
 
     IssueMove(transports, startPos)
-    local tPool = aiBrain:GetPlatoonUniquelyNamed('TransportPool')
-    if not tPool then
-        tPool = aiBrain:MakePlatoon('', '')
-        tPool:UniquelyNamePlatoon('TransportPool')
-    end
-    aiBrain:AssignUnitsToPlatoon('TransportPool', transports, 'Unassigned', 'None')
 
+    local tPool = aiBrain:GetPlatoonUniquelyNamedOrMake('TransportPool')
+    aiBrain:AssignUnitsToPlatoon(tPool, transports, 'Unassigned', 'None')
 end
 
 ---@param platoon Platoon

@@ -1,16 +1,3 @@
----retuns existing platoon with name ot makes it
----@param aiBrain AIBrain
----@param name string
----@return Platoon
-local function GetPlatoonUniquelyNamedOrMake(aiBrain, name)
-    local platoon = aiBrain:GetPlatoonUniquelyNamed(name)
-    if not platoon then
-        platoon = aiBrain:MakePlatoon('', '')
-        platoon:UniquelyNamePlatoon(name)
-    end
-    return platoon
-end
-
 ---@param platoon Platoon
 function TransportPool(platoon)
     ---@type AIBrain
@@ -26,7 +13,7 @@ function TransportPool(platoon)
         end
     end
 
-    GetPlatoonUniquelyNamedOrMake(aiBrain, poolName)
+    aiBrain:GetPlatoonUniquelyNamedOrMake(poolName)
 
     if data.TransportMoveLocation then
         if type(data.TransportMoveLocation) == 'string' then
@@ -116,7 +103,7 @@ function GetTransportsThread(platoon)
         poolName = baseName .. '_TransportPool'
     end
 
-    local pool = GetPlatoonUniquelyNamedOrMake(aiBrain, poolName)
+    local pool = aiBrain:GetPlatoonUniquelyNamedOrMake(poolName)
 
     while transportsNeeded do
         neededTable = GetNumTransports(platoon)

@@ -1,6 +1,7 @@
 local TableGetn = table.getn
 local unpack = unpack
 
+---@class AIBrain
 AIBrain = Class(AIBrain) {
 
     ---@param self AIBrain
@@ -58,7 +59,7 @@ AIBrain = Class(AIBrain) {
                     conditions.Cached = {}
                     conditions.CachedVal = {}
                 end
-                
+
                 conditions.Cached[index] = true
                 conditions.CachedVal[index] = import(conditions[1])[ conditions[2] ](self, unpack(conditions[3]))
 
@@ -80,5 +81,13 @@ AIBrain = Class(AIBrain) {
             end
         end
         return isAll
+    end,
+
+    ---Returns existing platoon with name or makes it
+    ---@param self AIBrain
+    ---@param name string
+    ---@return Platoon
+    GetPlatoonUniquelyNamedOrMake = function(self, name)
+        return self:GetPlatoonUniquelyNamed(name) or self:MakePlatoon(name, '')
     end
 }
