@@ -18,6 +18,7 @@ Command = ClassSimple
 
     ---Executes command
     ---@param self Command
+    ---@return any
     Execute = function(self)
         return import(self[1])[ self[2] ](unpack(self[3]))
     end
