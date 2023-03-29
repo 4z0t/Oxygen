@@ -303,6 +303,7 @@ unitTypes = {
 --- | "Seraphim"
 
 ---@param faction FactionName
+---@return fun(unitType: UnitType):UnitId
 function FactionUnitParser(faction)
     ---@param unitType UnitType
     ---@return UnitId
