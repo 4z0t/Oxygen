@@ -88,6 +88,11 @@ AIBrain = Class(AIBrain) {
     ---@param name string
     ---@return Platoon
     GetPlatoonUniquelyNamedOrMake = function(self, name)
-        return self:GetPlatoonUniquelyNamed(name) or self:MakePlatoon(name, '')
+        local platoon = self:GetPlatoonUniquelyNamed(name)
+        if not platoon then
+            platoon = self:MakePlatoon("", "")
+            platoon:UniquelyNamePlatoon(name)
+        end
+        return platoon
     end
 }
