@@ -2,24 +2,24 @@ local IObjective = import("IObjective.lua").IObjective
 local Triggers = Oxygen.Triggers
 
 
----@class ObjectiveWithTriggers : IObjective
+---@class ObjectiveWithUnitTriggers : IObjective
 ---@field UnitGivenTrigger IUnitTrigger?
 ---@field UnitReclaimedTrigger IUnitTrigger?
 ---@field UnitKilledTrigger IUnitTrigger?
 ---@field UnitCapturedTrigger IUnitTrigger?
-ObjectiveWithTriggers = Class(IObjective)
+ObjectiveWithUnitTriggers = Class(IObjective)
 {
     UnitGivenTriggerType = Triggers.UnitGivenTrigger,
     UnitReclaimedTriggerType = Triggers.UnitReclaimedTrigger,
     UnitKilledTriggerType = Triggers.UnitDeathTrigger,
     UnitCapturedTriggerType = Triggers.UnitCapturedNewTrigger,
 
-    ---@param self ObjectiveWithTriggers
+    ---@param self ObjectiveWithUnitTriggers
     OnCreate = function(self)
         self:CreateTriggers()
     end,
 
-    ---@param self ObjectiveWithTriggers
+    ---@param self ObjectiveWithUnitTriggers
     CreateTriggers = function(self)
         if self.UnitGivenTriggerType then
             self.UnitGivenTrigger = self.UnitGivenTriggerType(
@@ -52,7 +52,7 @@ ObjectiveWithTriggers = Class(IObjective)
         end
     end,
 
-    ---@param self ObjectiveWithTriggers
+    ---@param self ObjectiveWithUnitTriggers
     ---@param unit Unit
     AddTriggersToUnit = function(self, unit)
         if self.UnitGivenTrigger then
@@ -70,24 +70,24 @@ ObjectiveWithTriggers = Class(IObjective)
     end,
 
 
-    ---@param self ObjectiveWithTriggers
+    ---@param self ObjectiveWithUnitTriggers
     ---@param unit Unit
     ---@param captor Unit
     OnUnitCaptured = function(self, unit, captor)
     end,
 
-    ---@param self ObjectiveWithTriggers
+    ---@param self ObjectiveWithUnitTriggers
     ---@param unit Unit
     OnUnitKilled = function(self, unit)
     end,
 
-    ---@param self ObjectiveWithTriggers
+    ---@param self ObjectiveWithUnitTriggers
     ---@param oldUnit Unit
     ---@param newUnit Unit
     OnUnitGiven = function(self, oldUnit, newUnit)
     end,
 
-    ---@param self ObjectiveWithTriggers
+    ---@param self ObjectiveWithUnitTriggers
     ---@param unit Unit
     OnUnitReclaimed = function(self, unit, reclaimer)
     end
