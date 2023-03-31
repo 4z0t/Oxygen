@@ -54,6 +54,24 @@ ObjectiveWithTriggers = Class(IObjective)
 
     ---@param self ObjectiveWithTriggers
     ---@param unit Unit
+    AddTriggersToUnit = function(self, unit)
+        if self.UnitGivenTrigger then
+            self.UnitGivenTrigger:Add(unit)
+        end
+        if self.UnitReclaimedTrigger then
+            self.UnitReclaimedTrigger:Add(unit)
+        end
+        if self.UnitKilledTrigger then
+            self.UnitKilledTrigger:Add(unit)
+        end
+        if self.UnitCapturedTrigger then
+            self.UnitCapturedTrigger:Add(unit)
+        end
+    end,
+
+
+    ---@param self ObjectiveWithTriggers
+    ---@param unit Unit
     ---@param captor Unit
     OnUnitCaptured = function(self, unit, captor)
     end,
