@@ -37,7 +37,6 @@ KillObjective = Class(CountObjective)
     ---@param self KillObjective
     ---@param args ObjectiveArgs
     PostCreate = function(self, args)
-        assert(args.Units, self.Title .. " :Objective requires Units in Target specified!")
 
         for _, unit in args.Units do
             self:AddObjectiveUnit(args, unit)

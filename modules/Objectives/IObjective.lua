@@ -314,6 +314,8 @@ CountObjective = Class(IObjective)
 {
     ---@param self CountObjective
     OnCreate = function(self)
+        assert(self.Args.Units, self.Title .. " :Objective requires Units in Target specified!")
+        
         self.Count = 0
         self.Total = table.getn(self.Args.Units)
     end,
