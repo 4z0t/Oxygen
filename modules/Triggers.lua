@@ -216,6 +216,8 @@ UnitVeteranTrigger = Class(IUnitTrigger) { _type = 'OnVeteran' }
 UnitFailedToBuildTrigger = Class(IUnitTrigger) { _type = 'OnFailedToBuild' }
 ---@class UnitDeathTrigger : IUnitTrigger
 UnitDeathTrigger = Class(IUnitTrigger) { _type = 'OnKilled' }
+---@class UnitReclaimedTrigger : IUnitTrigger
+UnitReclaimedTrigger = Class(IUnitTrigger) { _type = 'OnReclaimed' }
 ---@class UnitDestroyedTrigger : IUnitTrigger
 UnitDestroyedTrigger = Class(IUnitTrigger) { _type = { 'OnReclaimed', 'OnCaptured', 'OnKilled' } }
 ---@class UnitCapturedNewTrigger : IUnitTrigger
