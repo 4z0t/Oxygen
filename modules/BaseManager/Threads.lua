@@ -1,12 +1,4 @@
-local AIUtils = import("/lua/ai/aiutilities.lua")
-local AMPlatoonHelperFunctions = import("/lua/editor/amplatoonhelperfunctions.lua")
-local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
-local ScenarioPlatoonAI = import("/lua/scenarioplatoonai.lua")
-local SUtils = import("/lua/ai/sorianutilities.lua")
-local TriggerFile = import("/lua/scenariotriggers.lua")
 local Buff = import("/lua/sim/buff.lua")
-local BMBC = import("/lua/editor/basemanagerbuildconditions.lua")
-local MIBC = import("/lua/editor/miscbuildconditions.lua")
 local BaseManagerThreads = import("/lua/ai/opai/BaseManagerPlatoonThreads.lua")
 
 ---@type UnitDeathTrigger

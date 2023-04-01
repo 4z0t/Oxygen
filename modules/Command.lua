@@ -1,5 +1,4 @@
-local import = import
-local unpack = unpack
+local import, unpack = import, unpack
 
 ---Command represents a table with such structure:
 ---

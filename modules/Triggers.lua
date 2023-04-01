@@ -1,7 +1,5 @@
-local ForkThread = ForkThread
-local KillThread = KillThread
-local unpack = unpack
-local assert = assert
+local ForkThread, KillThread = ForkThread, KillThread
+local unpack, assert = unpack, assert
 
 local ScenarioFramework = import('/lua/ScenarioFramework.lua')
 
@@ -347,7 +345,7 @@ PlayerIntelTrigger = Class(BasicIntelTrigger)
 }
 
 ---@class PlayerUnitIntelTrigger : PlayerIntelTrigger, BasicUnitIntelTrigger
-PlayerUnitIntelTrigger = Class(PlayerIntelTrigger, BasicUnitIntelTrigger){}
+PlayerUnitIntelTrigger = Class(PlayerIntelTrigger, BasicUnitIntelTrigger) {}
 
 ---@class PlayerCategoryIntelTrigger : PlayerIntelTrigger, BasicCategoryIntelTrigger
-PlayerCategoryIntelTrigger = Class(PlayerIntelTrigger, BasicCategoryIntelTrigger){}
+PlayerCategoryIntelTrigger = Class(PlayerIntelTrigger, BasicCategoryIntelTrigger) {}

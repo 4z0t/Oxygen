@@ -197,7 +197,6 @@ UnitsController = ClassSimple
         return self
     end,
 
-
     ---Orders units to attack-move to given marker
     ---@param self UnitsController
     ---@param marker Marker
@@ -215,7 +214,6 @@ UnitsController = ClassSimple
         IssueReclaim(self.units, unit)
         return self
     end,
-
 
     ---Orders units to move to given marker
     ---@param self UnitsController

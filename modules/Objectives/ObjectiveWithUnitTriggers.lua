@@ -1,7 +1,6 @@
 local IObjective = import("IObjective.lua").IObjective
 local Triggers = Oxygen.Triggers
 
-
 ---@class ObjectiveWithUnitTriggers : IObjective
 ---@field UnitGivenTrigger IUnitTrigger?
 ---@field UnitReclaimedTrigger IUnitTrigger?

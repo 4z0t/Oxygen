@@ -37,8 +37,9 @@ ProtectObjective = Class(KillObjective, TimerObjective)
 
         if self.Args.ShowProgress then
             self:UpdateProgressUI(self.Total, self.Required)
-        -- elseif self.Args.PercentProgress then
-        --     self:_UpdateUI('Progress', ('(%s%%)'):format(math.ceil(self.Total / max * 100)))
+            -- TODO
+            -- elseif self.Args.PercentProgress then
+            --     self:_UpdateUI('Progress', ('(%s%%)'):format(math.ceil(self.Total / max * 100)))
         end
 
         if self.Total < self.Required then

@@ -1,11 +1,5 @@
-local IObjective = import("IObjective.lua").IObjective
-local ObjectiveHandlers = import("ObjectiveHandlers.lua")
-local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
-local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
-
 local CountObjective = import("IObjective.lua").CountObjective
 local KillObjective = import("Kill.lua").KillObjective
-
 
 ---@class CaptureObjective : KillObjective
 ---@field UnitCapturedTrigger UnitCapturedNewTrigger
@@ -32,7 +26,6 @@ CaptureObjective = Class(KillObjective)
                 self:OnUnitGiven(oldUnit, newUnit)
             end
         )
-
         self.UnitCapturedTrigger = Oxygen.Triggers.UnitCapturedNewTrigger(
             function(unit, captor)
                 self:OnUnitCaptured(unit, captor)
@@ -84,6 +77,4 @@ CaptureObjective = Class(KillObjective)
             self:Fail()
         end
     end
-
-
 }

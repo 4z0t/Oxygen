@@ -4,8 +4,6 @@ local ObjectiveHandlers = import("ObjectiveHandlers.lua")
 local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 local ScenarioUtils = import("/lua/sim/scenarioutilities.lua")
 
-
-
 ---@param armies string[]
 ---@return table<integer, boolean>
 local function CreateArmiesList(armies)

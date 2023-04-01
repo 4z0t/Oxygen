@@ -22,7 +22,6 @@ local difficulty
 function ParseDifficulty(diffData)
     difficulty = difficulty or ScenarioInfo.Options.Difficulty or 1
 
-
     if type(diffData) == "string" then
         return diffDataToLevel[diffData]
     end
@@ -36,12 +35,12 @@ function ParseDifficulty(diffData)
     return 0 -- didnt match any
 end
 
-local diffucltyValuesRegister = {}
+local difficultyValuesRegister = {}
 
 
 function Add(key, value)
     difficulty = difficulty or ScenarioInfo.Options.Difficulty or 1
-    diffucltyValuesRegister[key] = value
+    difficultyValuesRegister[key] = value
 end
 
 function Extend(tbl)
@@ -52,17 +51,17 @@ end
 
 ---@deprecated
 function Get(key)
-    return diffucltyValuesRegister[key][difficulty]
+    return difficultyValuesRegister[key][difficulty]
 end
 
 local difficultyMetaTable = {
     __index = function(tbl, key)
-        return diffucltyValuesRegister[key][difficulty]
+        return difficultyValuesRegister[key][difficulty]
     end,
 
     __newindex = function(tbl, key, value)
         difficulty = difficulty or ScenarioInfo.Options.Difficulty or 1
-        diffucltyValuesRegister[key] = value
+        difficultyValuesRegister[key] = value
     end
 }
 
@@ -72,17 +71,17 @@ values = setmetatable({}, difficultyMetaTable)
 
 if __debug then
     function Add(key, value)
-        if diffucltyValuesRegister[key] ~= nil then
+        if difficultyValuesRegister[key] ~= nil then
             error(debug.traceback("Difficulty value " .. key .. " already exists, attempt to overwrite!"))
         end
         difficulty = difficulty or ScenarioInfo.Options.Difficulty or 1
-        diffucltyValuesRegister[key] = value
+        difficultyValuesRegister[key] = value
     end
 
     function Get(key)
-        if diffucltyValuesRegister[key] == nil then
+        if difficultyValuesRegister[key] == nil then
             error(debug.traceback("Attempt to get difficulty value that doesnt exist!"))
         end
-        return diffucltyValuesRegister[key][difficulty]
+        return difficultyValuesRegister[key][difficulty]
     end
 end

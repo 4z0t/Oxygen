@@ -141,9 +141,6 @@ PlatoonController = ClassSimple
         return self
     end,
 
-
-
-
     ---Orders to platoon to attack with transports with specified landing and attack chains
     ---@param self PlatoonController
     ---@param landingChain MarkerChain

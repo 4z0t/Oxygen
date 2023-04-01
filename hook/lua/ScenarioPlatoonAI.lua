@@ -3,9 +3,7 @@ function TransportPool(platoon)
     ---@type AIBrain
     local aiBrain = platoon:GetBrain()
     local data = platoon.PlatoonData
-
     local poolName = 'TransportPool'
-
     do
         local baseName = data.BaseName
         if baseName then
@@ -39,9 +37,7 @@ function ReturnTransportsToPool(platoon, data)
 
     if table.empty(transports) then return end
 
-
     local poolName = 'TransportPool'
-
     do
         local baseName = data.BaseName
         if baseName then
@@ -50,7 +46,6 @@ function ReturnTransportsToPool(platoon, data)
     end
 
     aiBrain:AssignUnitsToPlatoon(poolName, transports, 'Scout', 'None')
-
 
     -- If a route or chain was given, reverse it on return
     if data.TransportRoute then

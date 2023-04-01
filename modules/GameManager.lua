@@ -1,5 +1,4 @@
 local ScenarioFramework = import('/lua/ScenarioFramework.lua')
-local Utils = import("Utils.lua")
 local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 
 Armies            = import("ArmyManager.lua")
@@ -10,8 +9,6 @@ BuildRestrictions = import("BuildRestrictions.lua")
 SetPlayableArea = ScenarioFramework.SetPlayableArea
 
 CreateVisibleAreaAtLocation = ScenarioFramework.CreateVisibleAreaLocation
-
-
 
 ---returns human units of specified category in area
 ---@param category EntityCategory
@@ -28,7 +25,6 @@ function GetHumanUnits(category, area)
         local entities = GetUnitsInRect(area)
 
         if not entities then return result end
-
 
         local filteredList = EntityCategoryFilterDown(category, entities)
 

@@ -5,5 +5,5 @@ local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 
 CategoryStatCompareObjective = Class(IObjective)
 {
-    --todo
+    --Todo
 }

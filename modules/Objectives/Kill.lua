@@ -2,7 +2,6 @@ local CountObjective = import("IObjective.lua").CountObjective
 local ObjectiveHandlers = import("ObjectiveHandlers.lua")
 local ObjectiveArrow = import("/lua/objectivearrow.lua").ObjectiveArrow
 
-
 ---@class KillObjective : CountObjective
 ---@field UnitDeathTrigger UnitDestroyedTrigger
 ---@field UnitGivenTrigger UnitGivenTrigger

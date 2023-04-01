@@ -13,6 +13,7 @@ function PlatoonNukeAI(platoon)
     aiBrain:AssignUnitsToPlatoon(platoon, nukes, "Attack", "None")
     platoon:ForkAIThread(platoon.NukeAI)
 
+    -- TODO
     -- ---@type AIBrain
     -- local aiBrain = platoon:GetBrain()
     -- local data = platoon.PlatoonData

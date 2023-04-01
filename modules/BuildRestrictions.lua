@@ -1,7 +1,4 @@
 local ScenarioFramework = import('/lua/ScenarioFramework.lua')
-local Utils = import("Utils.lua")
-local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
-
 
 Add = ScenarioFramework.AddRestriction
 Remove = ScenarioFramework.RemoveRestriction

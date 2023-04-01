@@ -1,5 +1,4 @@
-local TableGetn = table.getn
-local unpack = unpack
+local TableGetn, unpack = table.getn, unpack
 
 ---@class AIBrain
 AIBrain = Class(AIBrain) {
@@ -9,7 +8,6 @@ AIBrain = Class(AIBrain) {
     ---@param index number
     ---@return boolean
     PBMCheckBuildConditions = function(self, bCs, index)
-
         local PBMBuildConditionsTable = self.PBM.BuildConditionsTable
         local isAll = (bCs.Type or "ALL") == "ALL"
 

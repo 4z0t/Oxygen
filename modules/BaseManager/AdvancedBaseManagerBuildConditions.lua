@@ -29,7 +29,6 @@ function NeedTransports(aiBrain, baseName)
     local bManager = aiBrain.BaseManagers[baseName]
     if not bManager then return false end
 
-
     local transportPool = aiBrain:GetPlatoonUniquelyNamed(baseName .. "_TransportPool")
     if not transportPool then return true end
 
@@ -39,7 +38,6 @@ function NeedTransports(aiBrain, baseName)
 
     local globalPool = aiBrain:GetPlatoonUniquelyNamed("TransportPool")
     if not globalPool then return true end
-
 
     local counter = 0
 

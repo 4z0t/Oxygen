@@ -8,7 +8,6 @@ local BMPT = '/lua/ai/opai/BaseManagerPlatoonThreads.lua'
 ---@param expansionName string
 ---@return fun(platoonBuilder:PlatoonTemplateBuilder)
 function ExpansionOf(expansionName)
-
     ---Makes platoon to be an expansion one
     ---@param platoonBuilder PlatoonTemplateBuilder
     return function(platoonBuilder)
@@ -23,5 +22,4 @@ function ExpansionOf(expansionName)
                 }
             }
     end
-
 end

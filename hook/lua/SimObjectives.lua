@@ -1,3 +1,4 @@
+---@deprecated
 ---@param Type ObjectiveType        # Type of objective, used for the strategic icon in the UI
 ---@param Complete ObjectiveStatus  # Completion status, usually this is 'incomplete' unless the player already completed it by chance
 ---@param Title string              # Title of the objective, supports strings with LOC
