@@ -181,12 +181,12 @@ ObjectiveManager = ClassSimple
     ---Ends game with given success state, callback and safety to given units
     ---@param self ObjectiveManager
     ---@param success boolean
-    ---@param callback fun()?
-    ---@param safety boolean?
-    ---@param units Unit[]?
+    ---@param callback? fun()
+    ---@param safety? boolean
+    ---@param units? Unit[]
     EndGame = function(self, success, callback, safety, units)
 
-        if safety and units then
+        if safety then
             ScenarioFramework.EndOperationSafety(units)
         end
         if callback then
