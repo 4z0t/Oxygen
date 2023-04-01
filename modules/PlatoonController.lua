@@ -11,7 +11,7 @@ PlatoonController = ClassSimple
 
     ---Initializes the platoon controller
     ---@param self PlatoonController
-    ---@param platoon Platoon?
+    ---@param platoon? Platoon
     __init = function(self, platoon)
         if platoon then
             self:Platoon(platoon)
@@ -34,8 +34,7 @@ PlatoonController = ClassSimple
     ---@param platoon Platoon
     ---@return PlatoonController
     Platoon = function(self, platoon)
-        assert(platoon ~= nil, "platoon cant be nil!")
-        self.platoon = platoon
+        self.platoon = assert(platoon)
         return self
     end,
 
@@ -46,7 +45,6 @@ PlatoonController = ClassSimple
         return self.platoon
     end,
 
-
     ---Creates platoon from unit group defined in map and uses it
     ---@param self PlatoonController
     ---@param armyName ArmyName
@@ -56,8 +54,6 @@ PlatoonController = ClassSimple
     FromUnitGroup = function(self, armyName, unitGroup, formation)
         return self:Platoon(ScenarioUtils.CreateArmyGroupAsPlatoon(armyName, unitGroup, formation or 'NoFormation'))
     end,
-
-
 
     ---Creates platoon from unit group defined in map and uses it
     ---@param self PlatoonController
@@ -106,10 +102,6 @@ PlatoonController = ClassSimple
     AddUnit = function(self, unit, squad, formation)
         return self:AddUnits({ unit }, squad, formation)
     end,
-
-
-
-
 
     ---Orders platoon to move along the chain
     ---@param self PlatoonController
@@ -164,15 +156,6 @@ PlatoonController = ClassSimple
         PlatoonAIsLand.AttackWithTransportsReturnToPool(self.platoon, landingChain, attackChain, instant, moveChain)
         return self
     end,
-
-
-
-
-
-
-
-
-
-
-
+    
+    -- TODO
 }
