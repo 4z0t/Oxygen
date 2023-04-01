@@ -206,6 +206,7 @@ AdvancedBaseManager = Class(BaseManager)
         end
     end,
 
+    ---@deprecated
     ---Loads OpAIs into base manager
     ---@param self AdvancedBaseManager
     ---@param opAIs OpAITable[]

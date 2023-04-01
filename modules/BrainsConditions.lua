@@ -82,6 +82,8 @@ local Samples = import("AvgValues.lua").Samples
 
 local economyFunctions =
 {
+    ---@param aiBrain AIBrain
+    ---@return number
     AvgEnergyIncome = function(aiBrain)
         ---@type Samples
         aiBrain.EnergyIncomeSamples = aiBrain.EnergyIncomeSamples or Samples(samplesCount)
