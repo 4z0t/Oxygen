@@ -11,25 +11,43 @@ local useActionInFunc = {
 
 ---@class ObjectiveManager
 ---@field _objectives table<string, ObjectiveTable>
----@field _activeObjectives table<string, Objective>
+---@field _activeObjectives table<string, IObjective>
+---@field _timerTrigger TimerTrigger
 ---@overload fun():ObjectiveManager
 ObjectiveManager = ClassSimple
 {
+
+
+    ---@param self ObjectiveManager
+    __init = function(self)
+        self._objectives = {}
+        self._activeObjectives = {}
+        self._timerTrigger = Oxygen.Triggers.TimerTrigger(
+            function(nextObj)
+                self:Start(nextObj)
+            end
+        )
+    end,
+
 
     ---Inits ObjectiveManager with table of given objectives
     ---@param self ObjectiveManager
     ---@param objectives table<string, ObjectiveTable>
     ---@return ObjectiveManager
     Init = function(self, objectives)
-        self._objectives = {}
-        self._activeObjectives = {}
         for _, obj in objectives do
-            self._objectives[obj.name] = obj
+            self:Add(obj)
         end
         return self
     end,
+
+    ---Adds objective table into ObjectiveManager for further use
+    ---@param self ObjectiveManager
+    ---@param obj ObjectiveTable
     Add = function(self, obj)
-        return self
+        assert(self._objectives[obj.name] == nil, "Objective " .. obj.name .. " already presents in Objectives Manager!")
+
+        self._objectives[obj.name] = obj
     end,
 
     _Validate = function(self)
@@ -75,7 +93,16 @@ ObjectiveManager = ClassSimple
         end
         ---@type Objective
         local obj
-        if useActionInFunc[objTable.func] then
+        if objTable.class then
+            obj = objTable.class(
+                objTable.type,
+                objTable.complete,
+                objTable.title,
+                objTable.description,
+                target,
+                objTable.action
+            )
+        elseif useActionInFunc[objTable.func] then
             obj = Objectives[objTable.func](
                 objTable.type,
                 objTable.complete,
@@ -99,16 +126,14 @@ ObjectiveManager = ClassSimple
             local onSuccessFunc = objTable.onSuccessFunc
             local onFailFunc = objTable.onFailFunc
             obj:AddResultCallback(
-                function(success)
+                function(success, ...)
                     if success then
-                        ForkThread(onSuccessFunc)
+                        ForkThread(onSuccessFunc, unpack(arg))
                         if nextObj then
                             self:Start(nextObj)
                         end
-                    else
-                        if onFailFunc then
-                            ForkThread(onFailFunc)
-                        end
+                    elseif onFailFunc then
+                        ForkThread(onFailFunc, unpack(arg))
                     end
                 end
             )
@@ -121,17 +146,19 @@ ObjectiveManager = ClassSimple
         self._activeObjectives[objTable.name] = obj
 
         --Expansion timer
-        if ScenarioInfo.Options.Expansion and objTable.expansionTimer ~= nil and nextObj then
-            ScenarioFramework.CreateTimerTrigger(function()
-                self:Start(nextObj)
-            end, objTable.expansionTimer)
+        if ScenarioInfo.Options.Expansion and objTable.expansionTimer ~= nil then
+            if objTable.nextExpansion then
+                self._timerTrigger:Delay(objTable.expansionTimer):Run(objTable.nextExpansion)
+            elseif nextObj then
+                self._timerTrigger:Delay(objTable.expansionTimer):Run(nextObj)
+            end
         end
     end,
 
     ---Returns active objective by its name
     ---@param self ObjectiveManager
     ---@param name string
-    ---@return Objective|boolean
+    ---@return IObjective|boolean
     Get = function(self, name)
         return self._activeObjectives[name]
     end,
@@ -143,7 +170,7 @@ ObjectiveManager = ClassSimple
     CheckComplete = function(self, objType)
         for name, objTable in self._objectives do
             if objTable.type == objType then
-                if not Objectives.IsComplete(self._activeObjectives[name]) then
+                if not self._activeObjectives[name].Complete then
                     return false
                 end
             end
@@ -154,12 +181,12 @@ ObjectiveManager = ClassSimple
     ---Ends game with given success state, callback and safety to given units
     ---@param self ObjectiveManager
     ---@param success boolean
-    ---@param callback fun()?
-    ---@param safety boolean?
-    ---@param units Unit[]?
+    ---@param callback? fun()
+    ---@param safety? boolean
+    ---@param units? Unit[]
     EndGame = function(self, success, callback, safety, units)
 
-        if safety and units then
+        if safety then
             ScenarioFramework.EndOperationSafety(units)
         end
         if callback then
@@ -170,7 +197,7 @@ ObjectiveManager = ClassSimple
             success,
             self:CheckComplete('primary'),
             self:CheckComplete('secondary'),
-            self:CheckComplete('Bonus')
+            self:CheckComplete('bonus')
         )
     end
 }

@@ -1,4 +1,4 @@
-local Utils = import("Utils.lua")
+local BC = import("BuildConditions.lua")
 
 
 ---@class PlatoonTemplateName : string
@@ -21,8 +21,17 @@ local Utils = import("Utils.lua")
 ---@field [1] UnitId
 ---@field [2] integer
 ---@field [3] integer @ quantity
----@field [4] OrderType
+---@field [4] PlatoonSquadType
 ---@field [5] FormationType
+
+
+---@class UnitEntry
+---@field [1] UnitId
+---@field [2] integer @ quantity
+---@field [3] PlatoonSquadType
+---@field [4] FormationType
+
+
 
 ---@alias StructureType
 --- |
@@ -39,16 +48,31 @@ local Utils = import("Utils.lua")
 ---@field BuildClose boolean
 ---@field BuildStructures StructureType[]
 
----@class PlatoonDataTable
----@field PatrolChains MarkerChain[]?
----@field PatrolChain MarkerChain?
+---@class Transporting_PlatoonDataTable
+---@field TransportReturn Marker? @Location for transports to return to (they will attack with land units if this isn't set)
+---@field UseTransports boolean?
+---@field TransportRoute  Marker[]?
+---@field TransportChain MarkerChain?
+---@field LandingLocation Marker
+
+
+---@class StartBaseEngineerThread_PlatoonDataTable: Transporting_PlatoonDataTable
+
+
+
+---@class LandAssaultWithTransports_PlatoonDataTable:Transporting_PlatoonDataTable
+---@field TransportChain MarkerChain?
+---@field AssaultChains MarkerChain[]?
 ---@field AttackChain MarkerChain?
 ---@field LandingChain MarkerChain?
----@field MovePath MarkerChain?
----@field TransportReturn Marker?
----@field LandingList MarkerChain?
+---@field LandingList Marker[]? @List of possible locations for transports to unload units
+---@field RandomPatrol boolean?
+---@field PatrolChain MarkerChain?
+
+---@class PlatoonDataTable : LandAssaultWithTransports_PlatoonDataTable, StartBaseEngineerThread_PlatoonDataTable
+---@field PatrolChains MarkerChain[]?
+---@field PatrolChain MarkerChain?
 ---@field LocationChain MarkerChain?
----@field MoveRoute MarkerChain?
 ---@field CategoryList EntityCategory[]?
 ---@field Location Marker?
 ---@field High boolean?
@@ -69,7 +93,7 @@ local Utils = import("Utils.lua")
 ---@field [2] FunctionName
 
 
----@class PlatoonTable
+---@class PlatoonSpecTable
 ---@field public BuilderName string
 ---@field public PlatoonTemplate PlatoonTemplateTable
 ---@field public InstanceCount integer
@@ -77,28 +101,16 @@ local Utils = import("Utils.lua")
 ---@field public PlatoonType PlatoonType
 ---@field public RequiresConstruction boolean
 ---@field public LocationType UnitGroup
----@field public PlatoonAIFunction PlatoonAIFunctionTable
+---@field public PlatoonBuildCallbacks PlatoonAIFunctionTable[] @Callbacks when platoon starts to build
+---@field public PlatoonAddFunctions PlatoonAIFunctionTable[] @Callbacks when platoon is complete
+---@field public PlatoonAIFunction PlatoonAIFunctionTable @ Main Platoon AI function
 ---@field public PlatoonData PlatoonDataTable
 ---@field public BuildConditions BuildCondition?
 ---@field public BuildTimeOut integer
-
--- Platoon Spec
--- {
---       PlatoonBuildCallbacks = {FunctionsToCallBack when the platoon starts to build}
---       PlatoonAddFunctions = {<other threads to be forked on this platoon>}
---       PlatoonData = {
---           Construction = {
---               BaseTemplate = basetemplates, must contain templates for all 3 factions it will be viewed by faction index,
---               BuildingTemplate = building templates, contain templates for all 3 factions it will be viewed by faction index,
---               BuildClose = true/false do I follow the table order or do build the best spot near me?
---               BuildRelative = true/false are the build coordinates relative to the starting location or absolute coords?,
---               BuildStructures = {List of structure types and the order to build them.}
---          }
---      }
---  },
+---@field public Difficulty DifficultyLevel
 
 
----@class PlatoonBuilder
+---@class PlatoonTemplateBuilder
 ---@field _useFunction PlatoonAIFunctionTable
 ---@field _useType PlatoonType
 ---@field _useLocation UnitGroup
@@ -111,14 +123,19 @@ local Utils = import("Utils.lua")
 ---@field _requiresconstruction boolean
 ---@field _location UnitGroup
 ---@field _function PlatoonAIFunctionTable
+---@field _addFunctions PlatoonAIFunctionTable[]
+---@field _startFunctions PlatoonAIFunctionTable[]
 ---@field _data PlatoonDataTable
 ---@field _conditions BuildCondition
 ---@field _buildTimeout integer
+---@field _difficulty DifficultyLevel
+---@field _allowNoPriority boolean
+---@field _conditionType ConditionType
 PlatoonBuilder = ClassSimple
 {
     ---Uses given UnitGroup for all new Platoons
     ---@param location UnitGroup
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     UseLocation = function(self, location)
         self._useLocation = location
         return self
@@ -127,7 +144,7 @@ PlatoonBuilder = ClassSimple
     ---Uses given FileName and FunctionName for all new Platoons
     ---@param fileName FileName
     ---@param functionName FunctionName
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     UseAIFunction = function(self, fileName, functionName)
         self._useFunction = { fileName, functionName }
         return self
@@ -135,21 +152,22 @@ PlatoonBuilder = ClassSimple
 
     ---Uses given PlatoonType for all new Platoons
     ---@param platoonType PlatoonType
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     UseType = function(self, platoonType)
         self._useType = platoonType
         return self
     end,
 
     ---Uses given PlatoonDataTable for all new Platoons
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param data PlatoonDataTable
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     UseData = function(self, data)
         self._useData = data
         return self
     end,
 
+    ---@param self PlatoonTemplateBuilder
     _Clear = function(self)
         self._name = nil
         self._conditions = nil
@@ -161,119 +179,156 @@ PlatoonBuilder = ClassSimple
         self._instanceCount = nil
         self._data = nil
         self._buildTimeout = nil
+        self._difficulty = nil
+        self._addFunctions = nil
+        self._startFunctions = nil
+        self._conditionType = nil
     end,
 
     ---Starts creation of new Platoon
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param name string
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     New = function(self, name)
         self:_Clear()
         self._name = name
-        return self
-    end,
-
-    ---Starts creation of new land Platoon with default
-    ---PlatoonTemplate with NoPlan
-    ---InstanceCount = 1
-    ---RequiresConstruction = true
-    ---@param self PlatoonBuilder
-    ---@param name string
-    ---@return PlatoonBuilder
-    NewDefault = function(self, name)
-        self:New(name)
         self._instanceCount = 1
         self._template = {
             name .. 'template',
             'NoPlan',
         }
-        self._type = 'Land'
+        self._type = self._useType
         return self
     end,
 
-    ---comment
-    ---@param self PlatoonBuilder
+    ---@deprecated
+    ---Starts creation of new land Platoon with default
+    ---PlatoonTemplate with NoPlan
+    ---InstanceCount = 1
+    ---RequiresConstruction = true
+    ---@param self PlatoonTemplateBuilder
+    ---@param name string
+    ---@return PlatoonTemplateBuilder
+    NewDefault = function(self, name)
+        self:New(name)
+        return self
+    end,
+
+    ---Sets PlatoonData of platoon template, merges if alreay presents
+    ---@param self PlatoonTemplateBuilder
     ---@param data PlatoonDataTable
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     Data = function(self, data)
-        self._data = data
+        self._data = table.merged(self._data, data)
+        return self
+    end,
+
+    ---Merges passed data into data or use data table
+    ---@param self PlatoonTemplateBuilder
+    ---@param data PlatoonDataTable
+    ---@return PlatoonTemplateBuilder
+    MergeData = function(self, data)
+        self._data = table.merged(data, self._data or self._useData)
         return self
     end,
 
     ---comment
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param priority number
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     Priority = function(self, priority)
         self._priority = priority
         return self
     end,
+
+
+    ---Makes priority to be set by build manager during loading
+    ---@param self PlatoonTemplateBuilder
+    ---@param value boolean
+    ---@return PlatoonTemplateBuilder
+    UseOrderPriority = function(self, value)
+        self._allowNoPriority = value
+        return self
+    end,
+
     ---comment
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param location UnitGroup
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     Location = function(self, location)
         self._location = location
         return self
     end,
     ---comment
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param pType PlatoonType
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     Type = function(self, pType)
         self._type = pType
         return self
     end,
 
     ---comment
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param fileName FileName
     ---@param functionName FunctionName
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     AIFunction = function(self, fileName, functionName)
         self._function = { fileName, functionName }
         return self
     end,
+
     ---comment
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param count integer
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     InstanceCount = function(self, count)
         self._instanceCount = count
         return self
     end,
 
     ---Adds new unit into template
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param unitId UnitId
-    ---@param quantity integer
-    ---@param orderType OrderType
-    ---@param formationType FormationType
-    ---@return PlatoonBuilder
-    AddUnit = function(self, unitId, quantity, orderType, formationType)
-        if self._template == nil then
-            error "PlatoonTemplate wasnt initialized"
-        end
-        table.insert(self._template, { unitId, 1, quantity, orderType, formationType })
+    ---@param quantity? integer @defaults to 1
+    ---@param squad? PlatoonSquadType @defaults to 'Attack'
+    ---@param formationType? FormationType @defaults to 'AttackFormation'
+    ---@return PlatoonTemplateBuilder
+    AddUnit = function(self, unitId, quantity, squad, formationType)
+        if quantity == 0 then return self end
+        assert(self._template, "PlatoonTemplate wasnt initialized")
+        table.insert(self._template,
+            { unitId, 1, quantity or 1, squad or 'Attack', formationType or 'AttackFormation' })
         return self
     end,
 
-    ---Adds default unit into template with OrderType as Attack and FormationType as GrowthFormation
-    ---@param self PlatoonBuilder
-    ---@param unitId UnitId
-    ---@param quantity integer?
-    ---@return PlatoonBuilder
-    AddUnitDefault = function(self, unitId, quantity)
-        if quantity == 0 then
-            return self
+    ---Adds units to platoon template
+    ---@param self PlatoonTemplateBuilder
+    ---@param units UnitEntry[]
+    ---@return PlatoonTemplateBuilder
+    AddUnits = function(self, units)
+        for _, unitDef in units do
+            self:AddUnit(unpack(unitDef))
         end
-        return self:AddUnit(unitId, quantity or 1, 'Attack', 'GrowthFormation')
+        return self
     end,
 
+    ---Sets condition type:
     ---
-    ---@param self PlatoonBuilder
-    ---@param condition {[1]: FileName,[2]: FunctionName, [3]:any }
-    ---@return PlatoonBuilder
+    --- "ALL" - all conditions must be met (default)
+    ---
+    --- "ANY" - any of conditions must be met
+    ---@param self PlatoonTemplateBuilder
+    ---@param cType ConditionType
+    ---@return PlatoonTemplateBuilder
+    ConditionType = function(self, cType)
+        self._conditionType = cType
+        return self
+    end,
+
+    ---@param self PlatoonTemplateBuilder
+    ---@param condition BuildCondition
+    ---@return PlatoonTemplateBuilder
     AddCondition = function(self, condition)
         if not self._conditions then
             self._conditions = {}
@@ -287,84 +342,146 @@ PlatoonBuilder = ClassSimple
     ---``` lua
     ---:AddHumansCategoryCondition(categories.LAND * categories.MOBILE, ">=", 20)
     ---```
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param category EntityCategory
     ---@param compareOp CompareOp
     ---@param value number
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     AddHumansCategoryCondition = function(self, category, compareOp, value)
         return self:AddArmyCategoryCondition("HumanPlayers", category, compareOp, value)
     end,
 
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param army ArmyName
     ---@param category EntityCategory
     ---@param compareOp CompareOp
     ---@param value number
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     AddArmyCategoryCondition = function(self, army, category, compareOp, value)
         return self:AddArmiesCategoryCondition({ army }, category, compareOp, value)
     end,
 
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param armies ArmyName[]
     ---@param category EntityCategory
     ---@param compareOp CompareOp
     ---@param value number
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     AddArmiesCategoryCondition = function(self, armies, category, compareOp, value)
-        return self:AddCondition
-        {
-            '/lua/editor/otherarmyunitcountbuildconditions.lua',
-            "BrainsCompareNumCategory",
-            { 'default_brain', armies, value, category, compareOp }
-        }
+        return self:AddCondition(BC.ArmiesCategoryCondition(armies, category, compareOp, value))
     end,
 
     ---comment
-    ---@param self PlatoonBuilder
+    ---@param self PlatoonTemplateBuilder
     ---@param time integer
-    ---@return PlatoonBuilder
+    ---@return PlatoonTemplateBuilder
     BuildTimeOut = function(self, time)
         self._buildTimeout = time
         return self
     end,
 
-    _Verify = function(self)
-        if self._name ~= nil and
-            self._location ~= nil and
-            self._priority ~= nil and
-            self._template ~= nil and
-            self._type ~= nil and
-            self._function ~= nil and
-            self._instanceCount ~= nil and
-            self._data ~= nil
-        then
-            return
-        end
-        error(debug.traceback "Incomplete Platoon")
+    ---Makes platoon to be built only on listed difficulty
+    ---@param self PlatoonTemplateBuilder
+    ---@param difficulty DifficultyStrings
+    ---@return PlatoonTemplateBuilder
+    Difficulty = function(self, difficulty)
+        self._difficulty = Oxygen.DifficultyValue.ParseDifficulty(difficulty)
+        return self
     end,
 
-    ---comment
-    ---@param self PlatoonBuilder
-    ---@return PlatoonTable
-    Create = function(self)
-        ---@type PlatoonTable
+    ---Makes platoon to be built only on listed difficulties
+    ---@param self PlatoonTemplateBuilder
+    ---@param difficulties DifficultyStrings[]
+    ---@return PlatoonTemplateBuilder
+    Difficulties = function(self, difficulties)
+        self._difficulty = Oxygen.DifficultyValue.ParseDifficulty(difficulties)
+        return self
+    end,
+
+    ---Adds callback when platoon is started being built
+    ---@param self PlatoonTemplateBuilder
+    ---@param fileName FileName
+    ---@param functionName FunctionName
+    ---@return PlatoonTemplateBuilder
+    AddStartCallback = function(self, fileName, functionName)
+        self._startFunctions = self._startFunctions or {}
+        table.insert(self._startFunctions, { fileName, functionName })
+        return self
+    end,
+
+    ---Adds callback when platoon is completed being built
+    ---@param self PlatoonTemplateBuilder
+    ---@param fileName FileName
+    ---@param functionName FunctionName
+    ---@return PlatoonTemplateBuilder
+    AddCompleteCallback = function(self, fileName, functionName)
+        self._addFunctions = self._addFunctions or {}
+        table.insert(self._addFunctions, { fileName, functionName })
+        return self
+    end,
+
+    ---Makes platoon to be built once
+    ---@param self PlatoonTemplateBuilder
+    ---@return PlatoonTemplateBuilder
+    BuildOnce = function(self)
+        return self:AddCompleteCallback('/lua/scenarioplatoonai.lua', 'BuildOnce')
+    end,
+
+    ---Enables stealth on platoon units
+    ---@param self PlatoonTemplateBuilder
+    ---@return PlatoonTemplateBuilder
+    EnableStealth = function(self)
+        return self:AddCompleteCallback('/lua/scenarioplatoonai.lua', 'PlatoonEnableStealth')
+    end,
+
+    ---Enables jamming on platoon units
+    ---@param self PlatoonTemplateBuilder
+    ---@return PlatoonTemplateBuilder
+    EnableJamming = function(self)
+        return self:AddCompleteCallback(Oxygen.PlatoonAI.Common, 'PlatoonEnableJamming')
+    end,
+
+    ---@param self PlatoonTemplateBuilder
+    _Verify = function(self)
+        assert(self._name, "Platoon Spec must have a name!")
+        assert(self._priority or self._allowNoPriority, "Priority Spec must be a number")
+        assert(self._template, "Platoon Spec must have a unit template!")
+        assert(self._type or self._useType, "Platoon Spec must have specified type!")
+        assert(self._function or self._useFunction, "Platoon Spec must have AI function!")
+        assert(self._data or self._useData, "Platoon Spec must have PlatoonData set!")
+    end,
+
+    ---Creates Platoon template. If fn passed, applies that function to platoon builder
+    ---@param self PlatoonTemplateBuilder
+    ---@param fn? fun(platoonBuilder:PlatoonTemplateBuilder)
+    ---@return PlatoonSpecTable
+    Create = function(self, fn)
+        if fn then
+            fn(self)
+        end
+        self:_Verify()
+        if self._conditions then
+            self._conditions.Type = self._conditionType or "ALL"
+        end
+
+        ---@type PlatoonSpecTable
         local result = {
-
-            BuilderName          = self._name,
-            BuildConditions      = self._conditions,
-            LocationType         = self._location or self._useLocation,
-            Priority             = self._priority,
-            PlatoonTemplate      = self._template,
-            PlatoonType          = self._type or self._useType,
-            PlatoonAIFunction    = self._function or self._useFunction,
-            InstanceCount        = self._instanceCount,
-            PlatoonData          = self._data or self._useData,
-            RequiresConstruction = true,
-            BuildTimeOut         = self._buildTimeout
-
+            BuilderName           = self._name,
+            BuildConditions       = self._conditions,
+            LocationType          = self._location or self._useLocation,
+            Priority              = self._priority,
+            PlatoonTemplate       = self._template,
+            PlatoonType           = self._type or self._useType,
+            PlatoonAIFunction     = self._function or self._useFunction,
+            InstanceCount         = self._instanceCount or 1,
+            PlatoonData           = self._data or self._useData,
+            RequiresConstruction  = true,
+            BuildTimeOut          = self._buildTimeout,
+            Difficulty            = self._difficulty or ScenarioInfo.Options.Difficulty,
+            PlatoonAddFunctions   = self._addFunctions,
+            PlatoonBuildCallbacks = self._startFunctions,
         }
+
         return result
     end
 }

@@ -86,13 +86,10 @@
 --- |    "T1 Cybran Artillery"
 --- |    "T1 Cybran Arty"
 --- |
---- |    "Hunter"
---- |    "Cybran LAB"
 --- |
 --- |    "Mantis"
 --- |
 --- |
---- |    "Mole"
 --- |
 --- |    "Fire Beetle"
 --- |    "Beetle"
@@ -101,6 +98,75 @@
 --- |    "T3 Cybran MAA"
 --- |    "Rhino"
 --- |    "Cybran RAS SACU"
+--- |
+--- |    "Mole"
+--- |    "Snoop"
+--- |    "Spirit"
+--- |    "Selen"
+--- |
+--- |    "Mech Marine"
+--- |    "UEF LAB"
+--- |    "Flare"
+--- |    "Aeon LAB"
+--- |    "Hunter"
+--- |    "Cybran LAB"
+--- |     "Striker"
+--- |     "Mantis"
+--- |     "T1 Cybran Tank"
+--- |     "Striker"
+--- |     "T1 UEF Tank"
+--- |     "Aurora"
+--- |     "T1 Aeon Tank"
+--- |     "Thaam"
+--- |     "T1 Sera Tank"
+--- |     "Lobo"
+--- |     "T1 UEF Artillery"
+--- |     "Pillar"
+--- |     "T2 UEF Tank"
+--- |     "T2 UEF MAA"
+--- |     "Sky Boxer"
+--- |     "Parashield"
+--- |     "T2 UEF Mobile Shield"
+--- |     "T2 UEF MML"
+--- |     "Flapjack"
+--- |     "Titan"
+--- |     "T3 UEF Bot"
+--- |     "Cougar"
+--- |     "T3 UEF MAA"
+--- |     "Percival"
+--- |     "T3 UEF Armored Bot"
+--- |     "T2 UEF Field Engineer"
+--- |     "Sparky"
+--- |     "T2 UEF Flak"
+--- |  "Cybran SACU"
+--- |  "Cybran RAS SACU"
+--- |  "Cybran Rambo SACU"
+--- |  "Cybran Combat SACU"
+--- |  "UEF SACU"
+--- |  "UEF RAS SACU"
+--- |  "UEF Rambo SACU"
+--- |  "Scorcher"
+--- |  "T1 UEF Bomber"
+--- |  "Stinger"
+--- |  "T2 UEF Gunship"
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+--- |
+
 
 
 ---@type table<UnitId, UnitName[]>
@@ -247,6 +313,11 @@ local idsToNames = {
         "T1 Cybran Bomber"
     },
 
+    ["UEA0103"] = {
+        "Scorcher",
+        "T1 UEF Bomber"
+    },
+
     ["XRA0305"] = {
         "Wailer",
         "T3 Cybran Gunship"
@@ -259,22 +330,19 @@ local idsToNames = {
         "Renegade",
         "T2 Cybran Gunship"
     },
+
+    ["UEA0203"] = {
+        "Stinger",
+        "T2 UEF Gunship"
+    },
+
     ["URL0103"] = {
         "Medusa",
         "T1 Cybran Artillery",
         "T1 Cybran Arty"
     },
-    ["URL0106"] = {
-        "Hunter",
-        "Cybran LAB"
-    },
-    ["URL0107"] = {
-        "Mantis",
 
-    },
-    ["URL0101"] = {
-        "Mole"
-    },
+
     ["XRL0302"] = {
         "Fire Beetle",
         "Beetle",
@@ -293,14 +361,137 @@ local idsToNames = {
     },
 
 
+    ---SACUS
+    ---Cybran
+    ["URL0301"] = {
+        "Cybran SACU"
+    },
+
     ["URL0301_RAS"] = {
         "Cybran RAS SACU"
     },
-    -- [""] = {},
-    -- [""] = {},
-    -- [""] = {},
-    -- [""] = {},
 
+    ["URL0301_RAMBO"] = {
+        "Cybran Rambo SACU"
+    },
+    ["URL0301_COMBAT"] = {
+        "Cybran Combat SACU"
+    },
+
+    ---UEF
+    ["UEL0301"] = {
+        "UEF SACU"
+    },
+
+    ["UEL0301_RAS"] = {
+        "UEF RAS SACU"
+    },
+
+    ["UEL0301_RAMBO"] = {
+        "UEF Rambo SACU"
+    },
+
+    ["UEL0301_COMBAT"] = {
+        "UEF Combat SACU"
+    },
+
+
+    -- t1 land scouts
+    ["UEL0101"] = {
+        "Snoop"
+    },
+    ["URL0101"] = {
+        "Mole"
+    },
+    ["UAL0101"] = {
+        "Spirit"
+    },
+    ["XSL0101"] = {
+        "Selen"
+    },
+
+    --- labs
+    ["UEL0106"] = {
+        "Mech Marine",
+        "UEF LAB"
+    },
+    ["URL0106"] = {
+        "Hunter",
+        "Cybran LAB"
+    },
+    ["UAL0106"] = {
+        "Flare",
+        "Aeon LAB"
+    },
+
+
+    --- t1 tanks
+
+    ["URL0107"] = {
+        "Mantis",
+        "T1 Cybran Tank"
+    },
+    ["UEL0201"] = {
+        "Striker",
+        "T1 UEF Tank"
+    },
+    ["UAL0201"] = {
+        "Aurora",
+        "T1 Aeon Tank"
+    },
+    ["XSL0201"] = {
+        "Thaam",
+        "T1 Sera Tank"
+    },
+
+
+
+    ["UEL0103"] = {
+        "Lobo",
+        "T1 UEF Artillery"
+    },
+    ["UEL0202"] = {
+        "Pillar",
+        "T2 UEF Tank"
+    },
+    ["UEL0205"] = {
+        "T2 UEF MAA",
+        "T2 UEF Flak",
+        "Sky Boxer"
+    },
+    ["UEL0307"] = {
+        "Parashield",
+        "T2 UEF Mobile Shield"
+    },
+    ["UEL0111"] = {
+        "T2 UEF MML",
+        "Flapjack"
+    },
+    ["UEL0303"] = {
+        "Titan",
+        "T3 UEF Bot"
+    },
+    ["DELK002"] = {
+        "Cougar",
+        "T3 UEF MAA"
+    },
+    ["XEL0305"] = {
+        "Percival",
+        "T3 UEF Armored Bot"
+    },
+    ["XEL0209"] = {
+        "T2 UEF Field Engineer",
+        "Sparky",
+    },
+
+
+    -- TODO
+    -- [""]={},
+    -- [""]={},
+
+    --- t1 maas
+
+    --- t1 arty
 
 
 
@@ -314,6 +505,7 @@ local idsToNames = {
 
 }
 
+FactionParse = import("UnitTypeFactionParser.lua")
 
 
 local namesToIds = {}
@@ -323,11 +515,10 @@ local function Init()
         local id = _id:lower()
         for _, name in names do
             name = name:lower()
-            if namesToIds[name] ~= nil then
-                error(debug.traceback("Attempt to assign same name twice " .. name))
-            else
-                namesToIds[name] = id
-            end
+
+            assert(namesToIds[name] == nil, "Attempt to assign same name twice " .. name)
+
+            namesToIds[name] = id
         end
         namesToIds[id] = id
     end
@@ -343,19 +534,8 @@ Init()
 ---@return UnitId
 function Get(name)
     name = name:lower()
-    return namesToIds[name]
-end
 
-if __debug then
-    ---Returns unit id by nickname
-    ---@see idsToNames
-    ---@param name UnitName
-    ---@return UnitId
-    function Get(name)
-        name = name:lower()
-        if namesToIds[name] == nil then
-            error(debug.traceback("Cant find name " .. name .. "!"))
-        end
-        return namesToIds[name]
-    end
+    assert(namesToIds[name], "There is no unit with name " .. name)
+
+    return namesToIds[name]
 end

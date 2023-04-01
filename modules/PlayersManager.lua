@@ -94,56 +94,81 @@ local Utils = import("Utils.lua")
 ---@field Aeon (AeonEnhancement | ACUEnhancementCommon)[]?
 ---@field Seraphim (SeraphimEnhancement | ACUEnhancementCommon)[]?
 
----@class PlayerData
+
+
+---@class PlayerSpawnData
 ---@field units FactionUnitMap
 ---@field color Color?
 ---@field enhancements FactionEnhancementMap?
 ---@field name string?
 ---@field delay number?
+---@field faction string
+
+---@alias PlayersData table<ArmyName,PlayerSpawnData>
+
+
+
+local function MapPlayerNameToIndex()
+    local armies = ScenarioInfo.Configurations.standard.teams[1].armies
+
+    local map = {}
+    local i = 1
+    for iArmy, strArmy in armies do
+        if StringStartsWith(strArmy, "Player") then
+            map[strArmy] = i
+            i = i + 1
+        end
+    end
+    reprsl(map)
+    return map
+end
 
 ---@class CommonPlayersData
 ---@field enhancements FactionEnhancementMap?
 
 ---@class PlayersManager
----@field _players table
+---@field _players PlayersData
 ---@overload fun():PlayersManager
 PlayersManager = ClassSimple
 {
     ---Inits players with given options
     ---@param self PlayersManager
-    ---@param players PlayerData[]|CommonPlayersData
-    ---@return PlayersManager
+    ---@param players PlayerSpawnData[]|CommonPlayersData
+    ---@return PlayersData
     Init = function(self, players)
         self._players = {}
         local tblArmy = ListArmies()
-        local i = 1
+        local map = MapPlayerNameToIndex()
+
         for iArmy, strArmy in pairs(tblArmy) do
-            if StringStartsWith(strArmy, "Player") then
-                local faction = Factions[GetArmyBrain(strArmy):GetFactionIndex()].FactionInUnitBp
-                local enhancements = nil
-                if players[i].color then
-                    ScenarioFramework.SetArmyColor(iArmy, Utils.UnpackColor(players[i].color))
-                end
-                local unit = players[i].units[faction]
-                if unit == nil then
-                    faction, unit = next(players[i].units)
-                end
-                if players[i].enhancements then
-                    enhancements = players[i].enhancements[faction]
-                elseif players.enhancements then
-                    enhancements = players.enhancements[faction]
-                end
-                self._players[strArmy] = {
-                    color = players[i].color,
-                    unit = unit,
-                    enhancements = enhancements,
-                    name = players[i].name,
-                    delay = players[i].delay
-                }
-                i = i + 1
+            local i = map[strArmy]
+            if not i then continue end
+            
+            local faction = Factions[GetArmyBrain(strArmy):GetFactionIndex()].FactionInUnitBp
+            local enhancements = nil
+            if players[i].color then
+                ScenarioFramework.SetArmyColor(iArmy, Utils.UnpackColor(players[i].color))
             end
+            local unit = players[i].units[faction]
+            if unit == nil then
+                faction, unit = next(players[i].units)
+            end
+            if players[i].enhancements then
+                enhancements = players[i].enhancements[faction]
+            elseif players.enhancements then
+                enhancements = players.enhancements[faction]
+            end
+            self._players[strArmy] = {
+                color = players[i].color,
+                unit = unit,
+                enhancements = enhancements,
+                name = players[i].name,
+                delay = players[i].delay,
+                faction = faction
+            }
+
         end
-        return self
+        return self._players
     end,
 
     ---Spawns players' ACUs and returns list of them

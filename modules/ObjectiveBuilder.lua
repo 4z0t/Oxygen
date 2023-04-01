@@ -15,6 +15,7 @@ local EmptyFunc = function() end
 --- | "Unknown"
 --- | "Basic"
 --- | "ArmyStatCompare"
+--- | "Damage"
 
 ---@alias ObjectiveAction
 --- | "kill"
@@ -28,10 +29,12 @@ local EmptyFunc = function() end
 --- | "locate"
 --- | "group"
 --- | "killorcapture"
+--- | "damage"
 
 
 local actionToFunction =
 {
+    ["damage"] = "Damage",
     ["kill"] = "Kill",
     ["capture"] = "Capture",
     ["build"] = "CategoriesInArea",
@@ -130,6 +133,8 @@ end
 ---@field CompareOp CompareOp?
 ---@field Value integer?
 ---@field Category EntityCategory?
+---@field Amount number? @For "Damage"
+---@field RepeatNum integer? @For "Damage"
 
 
 
@@ -149,7 +154,9 @@ end
 ---@field onStartFunc fun():ObjectiveTarget?
 ---@field onProgressFunc fun()
 ---@field next string | string[]
+---@field nextExpansion string | string[]
 ---@field expansionTimer integer
+---@field class IObjective
 
 ---@class ObjectiveBuilder
 ---@field name string
@@ -167,7 +174,9 @@ end
 ---@field _onProgressFunc fun()
 ---@field _onStartFunc fun():ObjectiveTarget?
 ---@field _next string | string[]
+---@field _nextExpansion string | string[]
 ---@field _expansionTimer integer
+---@field _class IObjective
 ---@overload fun():ObjectiveBuilder
 ObjectiveBuilder = ClassSimple
 {
@@ -190,6 +199,7 @@ ObjectiveBuilder = ClassSimple
         self._onStartFunc = EmptyFunc
         self._onProgressFunc = nil
         self._next = nil
+        self._class = nil
         self.name = name
         return self
     end,
@@ -210,7 +220,7 @@ ObjectiveBuilder = ClassSimple
     ---@return ObjectiveBuilder
     NewBonus = function(self, name)
         self:New(name)
-        self._type = 'Bonus'
+        self._type = 'bonus'
         return self
     end,
 
@@ -233,12 +243,17 @@ ObjectiveBuilder = ClassSimple
     end,
 
     ---Sets given action and function if not specified
+    ---@overload fun(self:ObjectiveBuilder, action:IObjective):ObjectiveBuilder
     ---@param self ObjectiveBuilder
     ---@param action ObjectiveAction
     ---@return ObjectiveBuilder
     To = function(self, action)
-        self._action = action:lower()
-        self._func = self._func or actionToFunction[self._action]
+        if type(action) == "string" then
+            self._action = action:lower()
+            self._func = self._func or actionToFunction[self._action]
+        elseif type(action) == "table" then
+            self._class = action
+        end
         return self
     end,
 
@@ -350,8 +365,17 @@ ObjectiveBuilder = ClassSimple
     ---@param self ObjectiveBuilder
     ---@param seconds integer
     ---@return ObjectiveBuilder
-    ExpansionTimer = function (self, seconds)
+    ExpansionTimer = function(self, seconds)
         self._expansionTimer = seconds
+        return self
+    end,
+
+    ---Sets next objectives after expansion timer runs out
+    ---@param self ObjectiveBuilder
+    ---@param nextObj string | string[]
+    ---@return ObjectiveBuilder
+    NextExpansion = function(self, nextObj)
+        self._nextExpansion = nextObj
         return self
     end,
 
@@ -376,7 +400,7 @@ ObjectiveBuilder = ClassSimple
     ---comment
     ---@param self ObjectiveBuilder
     _Validate = function(self)
-        if self._func ~= nil
+        if (self._func ~= nil or self._class ~= nil)
             and self._complete ~= nil
             and self._type ~= nil
             and self._title ~= nil
@@ -406,13 +430,15 @@ ObjectiveBuilder = ClassSimple
             action = self._action,
             target = self._target,
             next = self._next,
+            nextExpansion = self._nextExpansion,
             startDelay = self._startDelay,
             delay = self._delay,
             onStartFunc = self._onStartFunc,
             onSuccessFunc = self._onSuccessFunc,
             onFailFunc = self._onFailFunc,
             onProgressFunc = self._onProgressFunc,
-            expansionTimer = self._expansionTimer
+            expansionTimer = self._expansionTimer,
+            class = self._class
         }
     end
 }

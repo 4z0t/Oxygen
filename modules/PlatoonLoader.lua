@@ -1,6 +1,7 @@
 ---Creates Platoon loader for given base manager
 ---@alias PlatoonLoaderInit fun(baseManager:BaseManager):PlatoonLoader
 
+---@deprecated
 ---@type PlatoonLoaderInit
 ---@class PlatoonLoader
 ---@field _bm BaseManager
@@ -13,7 +14,7 @@ PlatoonLoader = ClassSimple
 
     ---comment
     ---@param self PlatoonLoader
-    ---@param platoons PlatoonTable[]
+    ---@param platoons PlatoonSpecTable[]
     LoadPlatoons = function(self, platoons)
         local location = self._bm.BaseName
         local aiBrain = self._bm.AIBrain

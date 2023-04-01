@@ -62,8 +62,7 @@ UnitsController = ClassSimple
     ---@param name UnitGroup
     ---@return UnitsController
     FromMapArmyUnit = function(self, army, name)
-        self:Unit(ScenarioUtils.CreateArmyUnit(army, name))
-        return self
+        return self:Unit(Oxygen.Game.Armies.CreateUnit(army, name))
     end,
 
     ---Creates units for army defined on the map
@@ -72,8 +71,7 @@ UnitsController = ClassSimple
     ---@param name UnitGroup
     ---@return UnitsController
     FromMapArmyUnits = function(self, army, name)
-        self:Units(ScenarioUtils.CreateArmyGroup(army, name))
-        return self
+        return self:Units(Oxygen.Game.Armies.CreateGroup(army, name))
     end,
 
     ---Assigns units from army units with given categories
@@ -199,7 +197,6 @@ UnitsController = ClassSimple
         return self
     end,
 
-
     ---Orders units to attack-move to given marker
     ---@param self UnitsController
     ---@param marker Marker
@@ -218,19 +215,37 @@ UnitsController = ClassSimple
         return self
     end,
 
+    ---Orders units to move to given marker
+    ---@param self UnitsController
+    ---@param marker Marker
+    ---@return UnitsController
+    MoveToMarker = function(self, marker)
+        IssueMove(self.units, ScenarioUtils.MarkerToPosition(marker))
+        return self
+    end,
 
+    ---Orders units to selfdestruct
+    ---@param self UnitsController
+    ---@return UnitsController
+    Kill = function(self)
+        IssueKillSelf(self.units)
+        return self
+    end,
 
+    ---Clears all commands issued before
+    ---@param self UnitsController
+    ---@return UnitsController
+    ClearCommands = function(self)
+        IssueClearCommands(self.units)
+        return self
+    end,
 
-
-
-
-
-
-
-
-
-
-
+    ---Immediately kills units
+    ---@param self UnitsController
+    ---@return UnitsController
+    ImmediatelyKill = function(self)
+        return self:ClearCommands():Kill()
+    end,
 
     ---Clears units controller
     ---@param self UnitsController
