@@ -1,14 +1,17 @@
 ---Sets target priorities after being built
----@param categories EntityCategory[]
+---@param targetCategories EntityCategory[]
 ---@return fun(platoonBuilder: PlatoonTemplateBuilder)
-function TargettingPriorities(categories)
+function TargettingPriorities(targetCategories)
+    -- insert allunits category in the end to keep sure units will target something else
+    table.insert(targetCategories, categories.ALLUNITS)
+
     ---@param platoonBuilder PlatoonTemplateBuilder
     return function(platoonBuilder)
         platoonBuilder
             :AddCompleteCallback(Oxygen.PlatoonAI.Common, 'PlatoonSetTargetPriorities')
             :MergeData
             {
-                CategoryPriorities = categories
+                CategoryPriorities = targetCategories
             }
     end
 end
