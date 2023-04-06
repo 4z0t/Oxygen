@@ -98,7 +98,7 @@ local BC = import("BuildConditions.lua")
 ---@field public PlatoonTemplate PlatoonTemplateTable #Units and their setup
 ---@field public InstanceCount integer #Count of instances of this platoon spec
 ---@field public Priority number #Base Manager builds platoons with higher priority first
----@field public PlatoonType PlatoonType #In what factory type build platoon, "ANY" = {"LAND", "SEA", "AIR"}  (used for engineers or with RequiresConstruction = false)
+---@field public PlatoonType PlatoonType #In what factory type build platoon, "Any" = {"Land", "Sea", "Air"}  (used for engineers or with RequiresConstruction = false)
 ---@field public RequiresConstruction boolean #if true then builds platoon units in factiories else tries to form from existing ones
 ---@field public LocationType UnitGroup #Base Manager name
 ---@field public PlatoonBuildCallbacks PlatoonAIFunctionTable[] #Callbacks when platoon starts to build
@@ -197,7 +197,6 @@ PlatoonBuilder = ClassSimple
             name .. 'template',
             'NoPlan',
         }
-        self._type = self._useType
         return self
     end,
 
@@ -446,7 +445,6 @@ PlatoonBuilder = ClassSimple
         assert(self._name, "Platoon Spec must have a name!")
         assert(self._priority or self._allowNoPriority, "Priority Spec must be a number")
         assert(self._template, "Platoon Spec must have a unit template!")
-        assert(self._type or self._useType, "Platoon Spec must have specified type!")
         assert(self._function or self._useFunction, "Platoon Spec must have AI function!")
         assert(self._data or self._useData, "Platoon Spec must have PlatoonData set!")
     end,
@@ -471,7 +469,7 @@ PlatoonBuilder = ClassSimple
             LocationType          = self._location or self._useLocation,
             Priority              = self._priority,
             PlatoonTemplate       = self._template,
-            PlatoonType           = self._type or self._useType,
+            PlatoonType           = self._type or self._useType or "Any",
             PlatoonAIFunction     = self._function or self._useFunction,
             InstanceCount         = self._instanceCount or 1,
             PlatoonData           = self._data or self._useData,
