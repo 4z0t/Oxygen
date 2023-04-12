@@ -1,3 +1,4 @@
+---@declare-global
 if not table.random then
     function table.random(array)
         return array[Random(1, table.getn(array))]
