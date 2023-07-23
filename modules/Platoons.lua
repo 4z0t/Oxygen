@@ -2,8 +2,10 @@
 ---@param targetCategories EntityCategory[]
 ---@return fun(platoonBuilder: PlatoonTemplateBuilder)
 function TargettingPriorities(targetCategories)
-    -- insert allunits category in the end to keep sure units will target something else
-    table.insert(targetCategories, categories.ALLUNITS)
+    if targetCategories[table.getn(targetCategories)] ~= categories.ALLUNITS then
+        -- insert allunits category in the end to keep sure units will target something else
+        table.insert(targetCategories, categories.ALLUNITS)
+    end
 
     ---@param platoonBuilder PlatoonTemplateBuilder
     return function(platoonBuilder)
