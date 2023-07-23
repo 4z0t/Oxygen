@@ -203,3 +203,25 @@ function CreateUnit(strArmy, unitName)
 
     return unit
 end
+
+---Gives units from one army to another of certain categories
+---@param fromArmy AIBrain
+---@param toArmy AIBrain
+---@param categories EntityCategory
+function TransferUnitsToArmy(fromArmy, toArmy, categories)
+
+
+
+    for _, unit in fromArmy:GetListOfUnits(categories, false) do
+        ScenarioFramework.GiveUnitToArmy(unit, toArmy:GetArmyIndex(), false)
+    end
+end
+
+---@param armyId Army
+---@param allianceType AllianceType
+function SetPlayersAlliance(armyId, allianceType)
+    for _, player in ScenarioInfo.HumanPlayers do
+        SetAlliance(player, armyId, allianceType)
+        SetAlliance(armyId, player, allianceType)
+    end
+end
