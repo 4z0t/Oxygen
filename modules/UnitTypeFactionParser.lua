@@ -89,7 +89,7 @@ function FactionConvert(unitId, factionIndex)
         elseif unitId == 'delk002' then
             newID = 'dalk003'
         else
-            newID = string.gsub(unitId, 'ue', 'ua')
+            newID = string.gsub(unitId, 'ue', 'ua', 1)
         end
     elseif factionIndex == 3 then
         if unitId == 'uea0305' then
@@ -107,7 +107,7 @@ function FactionConvert(unitId, factionIndex)
         elseif unitId == 'delk002' then
             newID = 'drlk001'
         else
-            newID = string.gsub(unitId, 'ue', 'ur')
+            newID = string.gsub(unitId, 'ue', 'ur', 1)
         end
     elseif factionIndex == 4 then
         if unitId == 'uel0106' then
@@ -117,7 +117,7 @@ function FactionConvert(unitId, factionIndex)
         elseif unitId == 'delk002' then
             newID = 'dslk004'
         else
-            newID = string.gsub(unitId, 'ue', 'xs')
+            newID = string.gsub(unitId, 'ue', 'xs', 1)
         end
     end
     if __blueprints[newID] then
