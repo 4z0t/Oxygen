@@ -93,9 +93,11 @@ function GetTransportsThread(platoon)
     local transSlotTable = {}
 
     local poolName = 'TransportPool'
-    local baseName = data.BaseName
-    if baseName then
-        poolName = baseName .. '_TransportPool'
+    do
+        local baseName = data.BaseName
+        if baseName then
+            poolName = baseName .. '_TransportPool'
+        end
     end
 
     local pool = aiBrain:GetPlatoonUniquelyNamedOrMake(poolName)
