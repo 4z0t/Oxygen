@@ -12,6 +12,7 @@ local mapFolder
 ---Oxygen is Framework for creating coop missions for Supreme Commander FAF.
 ---Less code -- more Oxygen
 _G.Oxygen = {}
+Oxygen.Callbacks = import("Callbacks.lua")
 Oxygen.Triggers = import("Triggers.lua")
 Oxygen.Utils = import("Utils.lua")
 
