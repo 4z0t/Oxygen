@@ -165,7 +165,7 @@ AdvancedBaseManager = Class(BaseManager)
         end
     end,
 
-     ---Loads platoons from file
+    ---Loads platoons from file
     ---It must have these contents:
     ---```lua
     ---function Land(baseManager)
@@ -218,7 +218,9 @@ AdvancedBaseManager = Class(BaseManager)
         local location = self.BaseName
         local aiBrain = self.AIBrain
         for i, platoon in platoons do
-            if platoon.Difficulty ~= ScenarioInfo.Options.Difficulty then continue end
+            if platoon.Difficulty ~= ScenarioInfo.Options.Difficulty then
+                continue
+            end
 
             ---@type PlatoonSpecTable
             local _platoon = platoon
@@ -233,6 +235,7 @@ AdvancedBaseManager = Class(BaseManager)
 
             _platoon.LocationType = location
             aiBrain:PBMAddPlatoon(_platoon)
+            LOG("Loaded platoon " .. _platoon.BuilderName)
         end
     end,
 
