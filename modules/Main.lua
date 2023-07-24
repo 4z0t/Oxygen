@@ -77,6 +77,7 @@ Oxygen.PlatoonAI = {
     Economy = "/mods/Oxygen/modules/PlatoonAIs/Economy.lua",
     Common = "/mods/Oxygen/modules/PlatoonAIs/Common.lua",
     Expansion = "/mods/Oxygen/modules/PlatoonAIs/Expansion.lua",
+    NavMesh = "/mods/Oxygen/modules/PlatoonAIs/NavMesh.lua",
 }
 
 Oxygen.Platoons = import("Platoons.lua")

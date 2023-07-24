@@ -1,6 +1,6 @@
 local TableGetn, unpack = table.getn, unpack
 
----@class AIBrain
+---@class CampaignAIBrain
 AIBrain = Class(AIBrain) {
 
     ---@param self CampaignAIBrain

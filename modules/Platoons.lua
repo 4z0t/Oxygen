@@ -25,7 +25,7 @@ function NavigateTo(marker, layer)
     ---@param platoonBuilder PlatoonTemplateBuilder
     return function(platoonBuilder)
         platoonBuilder
-            :AIFunction(Oxygen.PlatoonAI.Common, 'PlatoonNavigateToPosition')
+            :AIFunction(Oxygen.PlatoonAI.NavMesh, 'PlatoonNavigateToPosition')
             :MergeData
             {
                 Destination = marker,
