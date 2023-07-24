@@ -194,6 +194,7 @@ PlatoonBuilder = ClassSimple
 
 
     ---Makes priority to be set by build manager during loading
+    ---based on order of items in list
     ---@param self PlatoonTemplateBuilder
     ---@param value boolean
     ---@return PlatoonTemplateBuilder
