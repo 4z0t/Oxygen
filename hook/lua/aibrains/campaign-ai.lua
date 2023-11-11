@@ -1,9 +1,9 @@
 local TableGetn, unpack = table.getn, unpack
 
----@class AIBrain
+---@class CampaignAIBrain
 AIBrain = Class(AIBrain) {
 
-    ---@param self AIBrain
+    ---@param self CampaignAIBrain
     ---@param bCs table
     ---@param index number
     ---@return boolean
@@ -82,7 +82,7 @@ AIBrain = Class(AIBrain) {
     end,
 
     ---Returns existing platoon with name or makes it
-    ---@param self AIBrain
+    ---@param self CampaignAIBrain
     ---@param name string
     ---@return Platoon
     GetPlatoonUniquelyNamedOrMake = function(self, name)

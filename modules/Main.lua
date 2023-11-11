@@ -1,3 +1,4 @@
+---@declare-global
 if not table.random then
     function table.random(array)
         return array[Random(1, table.getn(array))]
@@ -11,6 +12,7 @@ local mapFolder
 ---Oxygen is Framework for creating coop missions for Supreme Commander FAF.
 ---Less code -- more Oxygen
 _G.Oxygen = {}
+Oxygen.Callbacks = import("Callbacks.lua")
 Oxygen.Triggers = import("Triggers.lua")
 Oxygen.Utils = import("Utils.lua")
 
@@ -75,6 +77,7 @@ Oxygen.PlatoonAI = {
     Economy = "/mods/Oxygen/modules/PlatoonAIs/Economy.lua",
     Common = "/mods/Oxygen/modules/PlatoonAIs/Common.lua",
     Expansion = "/mods/Oxygen/modules/PlatoonAIs/Expansion.lua",
+    NavMesh = "/mods/Oxygen/modules/PlatoonAIs/NavMesh.lua",
 }
 
 Oxygen.Platoons = import("Platoons.lua")

@@ -32,54 +32,6 @@ local BC = import("BuildConditions.lua")
 ---@field [4] FormationType
 
 
-
----@alias StructureType
---- |
---- |
---- |
---- | 'T3Artillery'
---- | 'T2Artillery'
---- | 'T2ShieldDefense'
---- | 'T3AADefense'
---- | 'T2GroundDefense'
-
----@class ConstructionTable
----@field BaseTemplate UnitGroup
----@field BuildClose boolean
----@field BuildStructures StructureType[]
-
----@class Transporting_PlatoonDataTable
----@field TransportReturn Marker? @Location for transports to return to (they will attack with land units if this isn't set)
----@field UseTransports boolean?
----@field TransportRoute  Marker[]?
----@field TransportChain MarkerChain?
----@field LandingLocation Marker
-
-
----@class StartBaseEngineerThread_PlatoonDataTable: Transporting_PlatoonDataTable
-
-
-
----@class LandAssaultWithTransports_PlatoonDataTable:Transporting_PlatoonDataTable
----@field TransportChain MarkerChain?
----@field AssaultChains MarkerChain[]?
----@field AttackChain MarkerChain?
----@field LandingChain MarkerChain?
----@field LandingList Marker[]? @List of possible locations for transports to unload units
----@field RandomPatrol boolean?
----@field PatrolChain MarkerChain?
-
----@class PlatoonDataTable : LandAssaultWithTransports_PlatoonDataTable, StartBaseEngineerThread_PlatoonDataTable
----@field PatrolChains MarkerChain[]?
----@field PatrolChain MarkerChain?
----@field LocationChain MarkerChain?
----@field CategoryList EntityCategory[]?
----@field Location Marker?
----@field High boolean?
----@field Construction ConstructionTable
----@field MaintainBaseTemplate UnitGroup
-
-
 ---@class PlatoonTemplateTable
 ---@field [1] PlatoonTemplateName
 ---@field [2] PlatoonPlan
@@ -94,20 +46,20 @@ local BC = import("BuildConditions.lua")
 
 
 ---@class PlatoonSpecTable
----@field public BuilderName string
----@field public PlatoonTemplate PlatoonTemplateTable
----@field public InstanceCount integer
----@field public Priority number
----@field public PlatoonType PlatoonType
----@field public RequiresConstruction boolean
----@field public LocationType UnitGroup
----@field public PlatoonBuildCallbacks PlatoonAIFunctionTable[] @Callbacks when platoon starts to build
----@field public PlatoonAddFunctions PlatoonAIFunctionTable[] @Callbacks when platoon is complete
----@field public PlatoonAIFunction PlatoonAIFunctionTable @ Main Platoon AI function
----@field public PlatoonData PlatoonDataTable
----@field public BuildConditions BuildCondition?
----@field public BuildTimeOut integer
----@field public Difficulty DifficultyLevel
+---@field public BuilderName string #Unique name of platoon spec
+---@field public PlatoonTemplate PlatoonTemplateTable #Units and their setup
+---@field public InstanceCount integer #Count of instances of this platoon spec
+---@field public Priority number #Base Manager builds platoons with higher priority first
+---@field public PlatoonType PlatoonType #In what factory type build platoon, "Any" = {"Land", "Sea", "Air"}  (used for engineers or with RequiresConstruction = false)
+---@field public RequiresConstruction boolean #if true then builds platoon units in factiories else tries to form from existing ones
+---@field public LocationType UnitGroup #Base Manager name
+---@field public PlatoonBuildCallbacks PlatoonAIFunctionTable[] #Callbacks when platoon starts to build
+---@field public PlatoonAddFunctions PlatoonAIFunctionTable[] #Callbacks when platoon is complete
+---@field public PlatoonAIFunction PlatoonAIFunctionTable #Main Platoon AI function
+---@field public PlatoonData PlatoonDataTable #Data that is being passed into AI functions
+---@field public BuildConditions BuildCondition? #Platoon wont be built or formed before conditions met
+---@field public BuildTimeOut integer 
+---@field public Difficulty DifficultyLevel #On what difficulties to build platoon
 
 
 ---@class PlatoonTemplateBuilder
@@ -197,7 +149,6 @@ PlatoonBuilder = ClassSimple
             name .. 'template',
             'NoPlan',
         }
-        self._type = self._useType
         return self
     end,
 
@@ -243,6 +194,7 @@ PlatoonBuilder = ClassSimple
 
 
     ---Makes priority to be set by build manager during loading
+    ---based on order of items in list
     ---@param self PlatoonTemplateBuilder
     ---@param value boolean
     ---@return PlatoonTemplateBuilder
@@ -446,7 +398,6 @@ PlatoonBuilder = ClassSimple
         assert(self._name, "Platoon Spec must have a name!")
         assert(self._priority or self._allowNoPriority, "Priority Spec must be a number")
         assert(self._template, "Platoon Spec must have a unit template!")
-        assert(self._type or self._useType, "Platoon Spec must have specified type!")
         assert(self._function or self._useFunction, "Platoon Spec must have AI function!")
         assert(self._data or self._useData, "Platoon Spec must have PlatoonData set!")
     end,
@@ -471,7 +422,7 @@ PlatoonBuilder = ClassSimple
             LocationType          = self._location or self._useLocation,
             Priority              = self._priority,
             PlatoonTemplate       = self._template,
-            PlatoonType           = self._type or self._useType,
+            PlatoonType           = self._type or self._useType or "Any",
             PlatoonAIFunction     = self._function or self._useFunction,
             InstanceCount         = self._instanceCount or 1,
             PlatoonData           = self._data or self._useData,

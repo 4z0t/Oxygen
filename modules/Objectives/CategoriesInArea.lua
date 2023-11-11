@@ -67,7 +67,7 @@ CategoriesInAreaObjective = Class(IObjective)
 
             for _, requirement in requirements do
                 local units = GetUnitsInRect(requirement.Rect)
-                local cnt = 0
+                local count = 0
                 local armiesList = requirement.ArmiesList
                 if units then
                     for _, unit in units do
@@ -85,11 +85,11 @@ CategoriesInAreaObjective = Class(IObjective)
                                 self:AddUnitTarget(unit)
                                 self.UnitMarkers:Add(ObjectiveArrow { AttachTo = unit })
                             end
-                            cnt = cnt + 1
+                            count = count + 1
                         end
                     end
                 end
-                if requirement.CompareFunc(cnt, requirement.Value) then
+                if requirement.CompareFunc(count, requirement.Value) then
                     reqsMet = reqsMet + 1
                 end
             end
