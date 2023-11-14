@@ -14,15 +14,15 @@ StateMachineBase = ClassSimple
     ---@param self StateMachineBase
     MainThread = function(self, startState)
 
-        self._currentState = self:ProduceState(startState)
-        self._states[startState] = self._currentState
+        local currentState = self:ProduceState(startState)
+        ---self._states[startState] = self._currentState
 
         local stateStack = {}
 
         local status, value
 
         while self:Condition() do
-            status, value = self._currentState:Resume(value)
+            status, value = currentState:Resume(value)
 
             if status == 'exit' then
                 break
@@ -33,22 +33,28 @@ StateMachineBase = ClassSimple
             elseif status == 'waitfor' then
 
             elseif status == 'next' then -- going to the next state
-                self._currentState:Destroy()
-                self._currentState = self:ProduceState(value)
+                currentState:Destroy()
+                currentState = self:ProduceState(value)
                 value = nil
 
             elseif status == 'return' then -- return the value for state that called us
-                self._currentState:Destroy()
-                self._currentState = table.remove(stateStack)
+                currentState:Destroy()
+                currentState = table.remove(stateStack)
 
             elseif status == 'call' then -- calling other state for value
-                table.insert(stateStack, self._currentState)
-                self._currentState = self:ProduceState(value)
+                table.insert(stateStack, currentState)
+                currentState = self:ProduceState(value)
                 value = nil
-                
+
             end
         end
 
+        if currentState then
+            currentState:Destroy()
+        end
+        for _, state in stateStack do
+            state:Destroy()
+        end
         self:Destroy()
     end,
 
@@ -64,6 +70,7 @@ StateMachineBase = ClassSimple
 
     ---@param self StateMachineBase
     ---@param stateName string
+    ---@return StateBase
     ProduceState = function(self, stateName)
         local stateClass = self.States[stateName]
 
