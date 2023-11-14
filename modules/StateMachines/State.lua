@@ -11,11 +11,13 @@ local coroutine = coroutine
 
 ---@class StateBase
 ---@field _state thread | false
+---@field _shared table
 StateBase = ClassSimple
 {
     ---@param self StateBase
-    __init = function(self)
+    __init = function(self, shared)
         self._state = false
+        self._shared = shared
     end,
 
     ---@param self StateBase
@@ -27,7 +29,7 @@ StateBase = ClassSimple
 
         if not self._state then
             self._state = coroutine.create(self.Run)
-            ok, status, value = coroutine.resume(self._state, self)
+            ok, status, value = coroutine.resume(self._state, self, self._shared)
         else
             ok, status, value = coroutine.resume(self._state, arg)
         end

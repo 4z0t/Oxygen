@@ -80,6 +80,12 @@ Oxygen.PlatoonAI = {
     NavMesh = "/mods/Oxygen/modules/PlatoonAIs/NavMesh.lua",
 }
 
+
+Oxygen.StateMachine = {
+    State = import("StateMachines/State.lua").StateBase,
+    StateMachine = import("StateMachines/StateMachine.lua").StateMachineBase,
+}
+
 Oxygen.Platoons = import("Platoons.lua")
 
 ---Use this table for intellisence support:

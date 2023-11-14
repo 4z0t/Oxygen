@@ -1,14 +1,17 @@
 local table = table
+local WaitTicks = WaitTicks
 
 ---@class StateMachineBase
 ---@field _currentState StateBase
 ---@field _states table<string, StateBase>
+---@field shared table
 StateMachineBase = ClassSimple
 {
     ---@param self StateMachineBase
     __init = function(self)
         self._states = {}
         self._currentState = nil
+        self.shared = {}
     end,
 
     ---@param self StateMachineBase
@@ -45,7 +48,6 @@ StateMachineBase = ClassSimple
                 table.insert(stateStack, currentState)
                 currentState = self:ProduceState(value)
                 value = nil
-
             end
         end
 
@@ -78,7 +80,7 @@ StateMachineBase = ClassSimple
             error(stateName .. " does not present in states of state machine")
         end
 
-        return stateClass()
+        return stateClass(self.shared)
     end,
 
     ---@param self StateMachineBase
@@ -87,6 +89,7 @@ StateMachineBase = ClassSimple
             state:Destroy()
         end
         self._states = nil
+        self.shared = nil
     end,
 
     ---@type table<string, StateBase>
