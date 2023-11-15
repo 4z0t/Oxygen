@@ -151,6 +151,23 @@ function PlatoonNukeAI(platoon)
 
 end
 
+--[[
 
---- UI_Lua local t = function() LOG ('a') coroutine.yield(1,2,3) end  ForkThread(function()print(coroutine.resume(coroutine.create(t))) end)
---- UI_Lua local t = function() LOG ('a') coroutine.yield(1,2,3) end  print(coroutine.resume(coroutine.create(t)))
+    UI_Lua local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') end  ForkThread(function()print(coroutine.resume(coroutine.create(t))) end)
+    UI_Lua local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') end  print(coroutine.resume(coroutine.create(t)))
+    UI_Lua local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') end  print(ResumeThread(coroutine.create(t)))
+    UI_Lua local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') end  print(type(coroutine.create(t)))
+    UI_Lua local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') end  print(type(ForkThread(t)))
+    UI_Lua local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') end  print(coroutine.resume(ForkThread(t)))
+    UI_Lua local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') end  print(ForkThread(t))
+    UI_Lua local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') end  print(coroutine.status(ForkThread(t)))
+
+    UI_Lua local yield = function(...) coroutine.yield(unpack(arg)) SuspendCurrentThread() end local t = function() LOG ('a') yield(1,2,3) LOG ('b') yield('f',5,6) LOG('c') end  local th = ForkThread(t) print(coroutine.resume(th)) 
+    UI_Lua local yield = function(...) coroutine.yield(unpack(arg)) SuspendCurrentThread() end local t = function() LOG ('a') yield(1,2,3) LOG ('b') yield('f',5,6) LOG('c') end  local th = ForkThread(t) print(coroutine.resume(th)) print(coroutine.resume(th)) print(coroutine.resume(th))
+    UI_Lua local yield = function(...) coroutine.yield(unpack(arg)) SuspendCurrentThread() end local resume = function(thread, ...) local res =  {coroutine.resume(thread, unpack(arg))} coroutine.resume(thread) return unpack(res) end local t = function() LOG ('a') yield(1,2,3) LOG ('b') yield('f',5,6) LOG('c') end  local th = ForkThread(t) print(resume(th)) print(resume(th)) print(resume(th))
+    UI_Lua local yield = function(...) coroutine.yield(unpack(arg)) SuspendCurrentThread() end local resume = function(thread, ...) local res =  {coroutine.resume(thread, unpack(arg))} coroutine.resume(thread) return unpack(res) end local t = function() LOG ('a') yield(1,2,3) LOG ('b') yield('f',5,6) LOG('c') end  local th = ForkThread(t) print(resume(th))
+
+    UI_Lua local makeThread = function(f) local thread = ForkThread(function() SuspendCurrentThread() f() end ) coroutine.resume(thread) return thread end local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') coroutine.yield('f',5,6) LOG('c') end  local th = makeThread(t) print(coroutine.resume(th))
+    UI_Lua local makeThread = function(f) local thread = ForkThread(function() SuspendCurrentThread() f() end ) coroutine.resume(thread) return thread end local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') coroutine.yield('f',5,6) LOG('c') end  local th = makeThread(t) print(coroutine.resume(th)) print(coroutine.resume(th))
+    UI_Lua local makeThread = function(f) local thread = ForkThread(function() SuspendCurrentThread() f() end ) coroutine.resume(thread) return thread end local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') coroutine.yield('f',5,6) LOG('c') end  local th = makeThread(t) print(coroutine.resume(th)) print(coroutine.resume(th)) print(coroutine.resume(th))
+    ]]
