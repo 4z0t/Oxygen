@@ -151,6 +151,26 @@ function PlatoonNukeAI(platoon)
 
 end
 
+function AHAH()
+    local makeThread = function(f)
+        local thread = ForkThread(function()
+            return f(SuspendCurrentThread())
+        end)
+        coroutine.resume(thread)
+        return thread
+    end
+    local t = function(...)
+        reprsl(arg)
+        LOG(coroutine.yield(1, 2, 3))
+        LOG(coroutine.yield('f', 5, 6))
+    end
+
+    local th = makeThread(t)
+    print(coroutine.resume(th, 'a', 'b', 'c'))
+    print(coroutine.resume(th, 'b'))
+    print(coroutine.resume(th, 'c'))
+end
+
 --[[
 
     UI_Lua local t = function() LOG ('a') coroutine.yield(1,2,3) LOG ('b') end  ForkThread(function()print(coroutine.resume(coroutine.create(t))) end)
@@ -173,5 +193,5 @@ end
     UI_Lua local makeThread = function(f) local thread = ForkThread(function() SuspendCurrentThread() f() end ) coroutine.resume(thread) return thread end local t = function(a) LOG(a) LOG (coroutine.yield(1,2,3)) LOG (coroutine.yield('f',5,6)) end  local th = makeThread(t) 
     UI_Lua local makeThread = function(f) local thread = ForkThread(function() SuspendCurrentThread() f() end ) coroutine.resume(thread) return thread end local t = function(a) LOG(a) LOG (coroutine.yield(1,2,3)) LOG (coroutine.yield('f',5,6)) end  local th = makeThread(t) print(coroutine.resume(th, 'a')) print(coroutine.resume(th, 'b')) print(coroutine.resume(th, 'c'))
 
-    UI_Lua local makeThread = function(f, ...) local thread = ForkThread(function() return f(SuspendCurrentThread()) end ) coroutine.resume(thread, unpack(arg)) return thread end local t = function(...) reprsl(arg) LOG (coroutine.yield(1,2,3)) LOG (coroutine.yield('f',5,6)) end  local th = makeThread(t) print(coroutine.resume(th, 'a', 'b', 'c')) print(coroutine.resume(th, 'b')) print(coroutine.resume(th, 'c'))
+    UI_Lua local makeThread = function(f) local thread = ForkThread(function() return f(SuspendCurrentThread()) end ) coroutine.resume(thread) return thread end local t = function(...) reprsl(arg) LOG (coroutine.yield(1,2,3)) LOG (coroutine.yield('f',5,6)) end  local th = makeThread(t) print(coroutine.resume(th, 'a', 'b', 'c')) print(coroutine.resume(th, 'b')) print(coroutine.resume(th, 'c'))
     ]]
