@@ -8,6 +8,18 @@ local coroutine = coroutine
 --- | 'tick'
 --- | 'call'
 --- | 'next'
+do
+    local SuspendCurrentThread = SuspendCurrentThread
+    local ForkThread = ForkThread
+    local makeThread = function(f)
+        local thread = ForkThread(function()
+            return f(SuspendCurrentThread())
+        end)
+        coroutine.resume(thread)
+        return thread
+    end
+    coroutine.create = makeThread
+end
 
 ---@class StateBase
 ---@field _state thread | false
@@ -52,48 +64,48 @@ StateBase = ClassSimple
     Return = function(self, value)
         return coroutine.yield('return', value)
     end,
-    
+
     ---@param self StateBase
     Continue = function(self)
         return coroutine.yield('continue')
     end,
-    
+
     ---@param self StateBase
     Tick = function(self, ticks)
         return coroutine.yield('tick', ticks or 1)
     end,
-    
+
     ---@param self StateBase
     WaitFor = function(self, stateName)
         return coroutine.yield('waitfor', stateName)
     end,
-    
+
     ---@param self StateBase
     Exit = function(self)
         return coroutine.yield('exit')
     end,
-    
+
     ---@param self StateBase
-    Next = function (self, stateName)
+    Next = function(self, stateName)
         return coroutine.yield('next', stateName)
     end,
-    
+
     ---@param self StateBase
-    Call = function (self, stateName)
+    Call = function(self, stateName)
         return coroutine.yield('call', stateName)
     end,
 
     ---@param self StateBase
-    Clear = function (self)
+    Clear = function(self)
         if self._state then
-            coroutine.close(self._state)
+            KillThread(self._state)
             self._state = nil
         end
     end,
 
     ---@param self StateBase
     Destroy = function(self)
-       self:Clear()
+        self:Clear()
     end
 
 }
