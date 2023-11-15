@@ -49,8 +49,8 @@ local NukeStateMachine = Class(OSM.StateMachine)
     ---@param self NukeStateMachine
     Destroy = function(self)
         OSM.StateMachine.Destroy(self)
-        self._platoon:PlatoonDisband()
         self._platoon = nil
+        LOG("exitting")
     end,
 
     States = {
@@ -71,6 +71,7 @@ local NukeStateMachine = Class(OSM.StateMachine)
                 end
 
                 if not unit then
+                    self._platoon:PlatoonDisband()
                     self:Exit()
                 end
                 unit:SetAutoMode(true)
