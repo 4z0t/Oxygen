@@ -217,6 +217,7 @@ AdvancedBaseManager = Class(BaseManager)
     LoadPlatoons = function(self, platoons, deepcopy)
         local location = self.BaseName
         local aiBrain = self.AIBrain
+        local prevPriority = 0
         for i, platoon in platoons do
             if platoon.Difficulty ~= ScenarioInfo.Options.Difficulty then
                 continue
@@ -228,7 +229,8 @@ AdvancedBaseManager = Class(BaseManager)
                 _platoon = table.deepcopy(platoon)
             end
 
-            _platoon.Priority = _platoon.Priority or i * 100
+            prevPriority = _platoon.Priority or (prevPriority + 100)
+            _platoon.Priority = prevPriority
 
             --keeping track of platoon's basename
             _platoon.PlatoonData.BaseName = _platoon.PlatoonData.BaseName or location
