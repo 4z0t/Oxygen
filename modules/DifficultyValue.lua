@@ -55,11 +55,11 @@ function Get(key)
 end
 
 local difficultyMetaTable = {
-    __index = function(tbl, key)
+    __index = function(self, key)
         return difficultyValuesRegister[key][difficulty]
     end,
 
-    __newindex = function(tbl, key, value)
+    __newindex = function(self, key, value)
         difficulty = difficulty or ScenarioInfo.Options.Difficulty or 1
         difficultyValuesRegister[key] = value
     end
@@ -68,6 +68,28 @@ local difficultyMetaTable = {
 ---@type table<string, any>
 values = setmetatable({}, difficultyMetaTable)
 
+local difficultyValueMetaTable = {
+    __index = function(self, key)
+        local value = self._values[key][difficulty]
+        assert(value, ("Difficulty value '%s' not found."):format(key))
+        return value
+    end,
+
+    __newindex = function(self, key, value)
+        difficulty = difficulty or ScenarioInfo.Options.Difficulty or 1
+        self._values[key] = value
+    end
+}
+
+---@class DifficultyTable
+---@field [1] any
+---@field [2] any
+---@field [3] any
+
+---@return table<string, any>
+function Create()
+    return setmetatable({ _values = {} }, difficultyValueMetaTable)
+end
 
 if __debug then
     function Add(key, value)
